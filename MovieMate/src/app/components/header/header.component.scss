@@ -1,0 +1,38 @@
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 5);
+}
+
+.neon-effect {
+    position: relative;
+    display: inline-block;
+}
+
+.popcorn-icon {
+    width: 6rem;
+    height: auto;
+}
+
+.neon-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: #ff66ff;
+    border-radius: 45px;
+    box-shadow: 0 0 15px #ff66ff, 0 0 30px #ff66ff, 0 0 15px #ff66ff, 0 0 60px #ff66ff, 0 0 75px #ff66ff;
+    animation: neon-glow 3.5s infinite alternate;
+}
+
+@keyframes neon-glow {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+

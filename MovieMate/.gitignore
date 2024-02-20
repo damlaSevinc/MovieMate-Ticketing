@@ -1,42 +1,20 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# Ignore compiled output or build artifacts
+dist/
+out/
+target/
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
+# Ignore IDE/Editor specific files
+.vscode/
 .idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+*.iml
 
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
+# Ignore Angular related files
+.angular/
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Ignore backend related files (assuming backend code is in the `backend` directory)
+backend/target/
+backend/build/
 
-# System files
-.DS_Store
-Thumbs.db
+# Ignore frontend related files (assuming frontend code is in the `frontend` directory)
+frontend/node_modules/
+frontend/dist/

@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class MovieGalleryComponent {
 
+  activeTab: string = "In Theathers"; // initial active tab
+
+  changeTab(tabName: string){
+    this.activeTab = tabName;
+  }
 }

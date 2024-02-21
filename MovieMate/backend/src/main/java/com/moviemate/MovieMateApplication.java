@@ -1,4 +1,4 @@
-package com.example.moviemate;
+package com.moviemate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

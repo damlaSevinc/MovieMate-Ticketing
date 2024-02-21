@@ -1,4 +1,4 @@
-package com.example.moviemate;
+package com.moviemate;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

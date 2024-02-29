@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MovieGalleryComponent } from './components/movie-gallery/movie-gallery.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginRegisterComponent } from './components/login-register/login-register.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginRegisterComponent } from './components/login-register/login-regist
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

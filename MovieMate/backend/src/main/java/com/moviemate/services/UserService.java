@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
 import com.moviemate.entities.User;
@@ -40,5 +41,24 @@ public class UserService {
 
         // I return the created user as Dto due to security concerns
         return userMapper.toUserDto(savedUser);
+    }
+
+    public UserDto login(LoginCredentialsDto loginCredentialsDto){
+
+        // I check, if the user doesn't exist in the database
+        Optional<User> oUser = userRepository.findByEmail(loginCredentialsDto.email());
+        if (!oUser.isPresent()){
+            throw new AppException("There is no such a user", HttpStatus.BAD_REQUEST);
+        }
+
+        // If the user exists, compare two passwords if they match
+        User user = oUser.get();
+        String providedPassword = new String(loginCredentialsDto.password());
+        if (passwordEncoder.matches(providedPassword, user.getPassword())){
+            return userMapper.toUserDto(user);
+        }
+
+        // If the user exists, but the password is wrong
+        throw new AppException("password is wrong", HttpStatus.UNAUTHORIZED);
     }
 }

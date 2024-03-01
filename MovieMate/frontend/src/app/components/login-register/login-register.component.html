@@ -41,18 +41,18 @@
 
         <div id="login" *ngIf="activeTab === 'login'">
             <h1>Welcome Back</h1>
-            <form action="/" method="post">
+            <form (ngSubmit)="loginUser()" method="post">
                 <div class="field-wrap">
                     <label>
                         Email Address <span class="req">*</span>
                     </label>
-                    <input type="email" required autocomplete="off"/>
+                    <input type="email" name="email" [(ngModel)]="user.email" required autocomplete="off"/>
                 </div>
                 <div class="field-wrap">
                     <label>
                         Password <span class="req">*</span>
                     </label>
-                    <input type="password" required autocomplete="off"/>
+                    <input type="password" name="password" [(ngModel)]="user.password" autocomplete="off"/>
                 </div>
                 <button class="button button-block">Log In</button>
             </form>

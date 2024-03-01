@@ -25,4 +25,18 @@ export class LoginRegisterComponent{
     });
   }
 
+  loginUser = () => {
+    axios.post('/login', {
+      email : this.user.email,
+      password : this.user.password
+    })
+    .then(response => {
+      console.log('user logged in successfully')
+      console.log('response is: ', response.data);
+    })
+    .catch(error => {
+      console.error("Error is: ", error);
+    })
+  }
+
 }

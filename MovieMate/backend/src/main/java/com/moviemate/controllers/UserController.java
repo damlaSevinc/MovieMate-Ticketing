@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
 import com.moviemate.services.UserService;
@@ -23,6 +24,14 @@ public class UserController {
     public UserDto registerUser(@RequestBody SignUpDto user) {
         UserDto createdUser = userService.register(user);
         return createdUser;
+    }
+
+    // Login for an existing user
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto loginUser(@RequestBody LoginCredentialsDto user) {
+        UserDto loggedInUser = userService.login(user);
+        return loggedInUser;
     }
 
 }

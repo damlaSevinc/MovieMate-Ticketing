@@ -2,6 +2,9 @@ package com.moviemate.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,4 +37,11 @@ public class UserController {
         return loggedInUser;
     }
 
+    // Get the loggedIn user profile through SecurityContext
+    @GetMapping("/profile")
+    public String getUserProfile() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return "Welcome, " + username;
+    }
 }

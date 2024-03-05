@@ -9,6 +9,7 @@ import { MovieGalleryComponent } from './components/movie-gallery/movie-gallery.
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginRegisterComponent } from './components/login-register/login-register.component';
 import { FormsModule } from '@angular/forms';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     HeaderComponent,
     MovieGalleryComponent,
     FooterComponent,
-    LoginRegisterComponent
+    LoginRegisterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

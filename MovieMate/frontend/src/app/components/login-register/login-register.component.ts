@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { user } from 'src/app/models/user';
 
@@ -9,7 +10,9 @@ import { user } from 'src/app/models/user';
 })
 export class LoginRegisterComponent{
 
-  constructor(){
+  constructor(
+    private router: Router
+  ){
     axios.defaults.baseURL = 'http://localhost:8080/';
   }
   activeTab: string = 'login';
@@ -31,7 +34,8 @@ export class LoginRegisterComponent{
       password : this.user.password
     })
     .then(response => {
-      console.log('user logged in successfully')
+      this.router.navigate(['/profile']);
+      console.log('user logged in successfully');
       console.log('response is: ', response.data);
     })
     .catch(error => {

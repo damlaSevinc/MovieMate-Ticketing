@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
-import { user } from 'src/app/models/user';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-login-register',
@@ -16,7 +16,7 @@ export class LoginRegisterComponent{
     axios.defaults.baseURL = 'http://localhost:8080/';
   }
   activeTab: string = 'login';
-  user: user = { firstName: '', lastName: '', email: '', password: ''};
+  user: User = { firstName: '', lastName: '', email: '', password: ''};
 
   registerUser = () => {
     axios.post('/register', this.user)
@@ -34,7 +34,7 @@ export class LoginRegisterComponent{
       password : this.user.password
     })
     .then(response => {
-      this.router.navigate(['/profile']);
+      // this.router.navigate(['/profile']);
       console.log('user logged in successfully');
       console.log('response is: ', response.data);
     })

@@ -69,7 +69,7 @@ export class AuthService {
   })
   }
 
-  private setLoggedInUser(user: User | null): void {
+  setLoggedInUser(user: User | null): void {
     this.loggedInUserSubject.next(user);
   }
 

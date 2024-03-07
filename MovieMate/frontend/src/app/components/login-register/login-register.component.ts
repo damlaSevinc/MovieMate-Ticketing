@@ -34,7 +34,7 @@ export class LoginRegisterComponent{
       password : this.user.password
     })
     .then(response => {
-      // this.router.navigate(['/profile']);
+      this.router.navigate(['/profile']);
       console.log('user logged in successfully');
       console.log('response is: ', response.data);
     })

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import axios from 'axios';
 export class AuthService {
   private authToken: string = '';
   private loggedInUser: User | null = null;
+  private loggedInUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor() {
     this.initializeUserFromToken();
@@ -36,7 +38,8 @@ export class AuthService {
   }
 
   clearToken(): void {
-    localStorage.removeItem(this.authToken)
+    localStorage.removeItem(this.authToken);
+    this.setLoggedInUser(null);
   }
 
   async getLoggedInUser(): Promise<User | null>{
@@ -48,7 +51,7 @@ export class AuthService {
           .then(response => {
             if(response && response.data) {
               this.loggedInUser = response.data;
-              // this.loggedInUserSubject.next(this.loggedInUser);
+              this.loggedInUserSubject.next(this.loggedInUser);
             } else {
               throw new Error('Unexpected response format');
             }
@@ -64,6 +67,14 @@ export class AuthService {
       reject('No logged in user');
     }
   })
+  }
+
+  private setLoggedInUser(user: User | null): void {
+    this.loggedInUserSubject.next(user);
+  }
+
+  getLoggedInUserOb(): Observable<User | null> {
+    return this.loggedInUserSubject.asObservable();
   }
 
 }

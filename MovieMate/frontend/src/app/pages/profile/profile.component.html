@@ -1,8 +1,7 @@
 <app-header></app-header>
 
 <div class="text-white">
-    <p>profile works!</p>
+    <p> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
 </div>
-
 <router-outlet></router-outlet>
 <app-footer class="fixed-bottom position-static"></app-footer>

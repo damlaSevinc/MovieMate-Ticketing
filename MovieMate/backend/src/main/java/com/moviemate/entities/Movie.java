@@ -19,7 +19,6 @@ public class Movie {
     private Long id;
     private String name;
     private Date date;
-    private int sessions;
     private String image;
 
 }

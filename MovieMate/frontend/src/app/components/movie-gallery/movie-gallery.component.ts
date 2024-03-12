@@ -20,10 +20,8 @@ export class MovieGalleryComponent implements OnInit{
   }
 
   getMovies = () => {
-    axios.get<Movie[]>('/movies')
+    axios.get('/movies')
       .then((response) => {
-        console.log('movies endpoint worked');
-        console.log('response: ', response.data);
         this.movies = response.data;
       })
       .catch(error => {

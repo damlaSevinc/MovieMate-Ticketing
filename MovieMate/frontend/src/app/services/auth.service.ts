@@ -13,6 +13,7 @@ export class AuthService {
   private loggedInUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor() {
+    axios.defaults.baseURL = 'http://localhost:8080/';
     this.initializeUserFromToken();
   }
 
@@ -33,7 +34,9 @@ export class AuthService {
 
   setToken(token: string | null): void {
     if(token !== null){
-      localStorage.setItem(this.authToken, token);
+      return localStorage.setItem(this.authToken, token);
+    } else {
+      localStorage.removeItem(this.authToken);
     }
   }
 
@@ -47,7 +50,7 @@ export class AuthService {
     if(!this.loggedInUser && token){
       try {
         const decodedToken: any = jwtDecode(token);
-        await axios.get('/users/', decodedToken.id)
+        await axios.get(`/profile/${decodedToken.sub}`)
           .then(response => {
             if(response && response.data) {
               this.loggedInUser = response.data;

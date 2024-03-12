@@ -1,12 +1,11 @@
 package com.moviemate.dtos;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter @Getter
+@Data
 public class UserDto {
     private Long id;
     private String firstName;
     private String email;
-
+    private String token;
 }

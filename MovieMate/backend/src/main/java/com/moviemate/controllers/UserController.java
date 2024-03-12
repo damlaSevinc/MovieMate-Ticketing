@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,13 +45,14 @@ public class UserController {
     // Login as an existing user
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-        public UserDto loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
+        public ResponseEntity<UserDto> loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
         UserDto loggedInUser = userService.login(loginCredentialsDto);
-        jwtService.createToken(loggedInUser);
-        return loggedInUser;
+        String token = jwtService.createToken(loggedInUser);
+        loggedInUser.setToken(token);
+        return ResponseEntity.ok(loggedInUser);
     }
 
-    // Get the loggedIn user profile by userId
+    // Get the loggedIn user by userId
     @GetMapping("/profile/{id}")
     public UserDto getUserProfileById(@PathVariable("id") Long id) {
         System.out.println("userid from decoded token is: " + id);

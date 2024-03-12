@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,9 +23,13 @@ public class WebSecurityConfig {
             .cors(cors -> {
                 cors.configurationSource(corsConfigurationSource());
             })
-            // Later, additional security configurations will be here
-            .csrf().disable();
-        return http.build();
+            .csrf().disable()
+            .authorizeHttpRequests((request) -> request
+                .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/profile/*").permitAll()
+                .requestMatchers(HttpMethod.GET, "/movies").permitAll()
+                .anyRequest().authenticated());
+            return http.build();
     }
 
     @Bean

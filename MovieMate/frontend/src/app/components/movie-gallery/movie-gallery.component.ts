@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import axios from 'axios';
 import { Movie } from 'src/app/models/movie';
 
@@ -9,6 +10,9 @@ import { Movie } from 'src/app/models/movie';
 })
 export class MovieGalleryComponent implements OnInit{
 
+  constructor(
+    private router: Router
+  ){}
   movies: Movie[] = [];
   moviesInTheathers: Movie[] = [];
   moviesUpcoming: Movie[] = [];
@@ -40,4 +44,7 @@ export class MovieGalleryComponent implements OnInit{
       })
   }
 
+  getMovieInfo(){
+    this.router.navigate(['/movie-details']);
+  }
 }

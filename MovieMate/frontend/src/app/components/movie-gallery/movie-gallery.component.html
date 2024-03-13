@@ -1,55 +1,29 @@
-<div class="container bg-lightblue p-3">
+<div class="container p-3">
+
     <ul class="d-flex list-unstyled text-secondary">
-        <li class="p-2" [class.active]="activeTab =='In Theathers'" (click)="changeTab('In Theathers')"> In Theathers </li>
-        <li class="p-2" [class.active]="activeTab =='Coming Soon'"(click)="changeTab('Coming Soon')"> Coming Soon </li>
+        <li class="p-2" [class.active]="activeTab =='In Theathers'" (click)="changeTab('In Theathers')"> In Theathers
+        </li>
+        <li class="p-2" [class.active]="activeTab =='Coming Soon'" (click)="changeTab('Coming Soon')"> Coming Soon </li>
     </ul>
+
     <div class="first-tab" *ngIf="activeTab =='In Theathers'">
-        <div class="row text-white">
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1699288064/amc-cdn/production/2/movies/65900/65858/PosterDynamic/160145.jpg">
-                <h2> Wonka </h2>
-                <p> date </p>
-                <p> sessions </p>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1685106965/amc-cdn/production/2/movies/67000/66956/PosterDynamic/152967.jpg">
-                <h2> Oppenheimer </h2>
-                <p> date </p>
-                <p> sessions </p>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1701788151/amc-cdn/production/2/movies/69200/69206/PosterDynamic/161038.jpg">
-                <h2> Bob Marley: One Love </h2>
-                <p> date </p>
-                <p> sessions </p>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1697428147/amc-cdn/production/2/movies/53000/53042/PosterDynamic/159394.jpg">
-                <h2> Migration </h2>
-                <p> date </p>
-                <p> sessions </p>
-            </div>
-        </div>
-    </div>
-    <div class="second-tab" *ngIf="activeTab=='Coming Soon'">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1706150777/amc-cdn/production/2/movies/75700/75739/PosterDynamic/162476.png">
-                <h2> Demon Slayer: Kimetsu No Yaiba - To the Hashira Training </h2>
-                <p> date </p>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-4">
-                <img class="img-fluid"
-                    src="https://amc-theatres-res.cloudinary.com/image/upload/f_auto,fl_lossy,h_465,q_auto,w_310/v1706151768/amc-cdn/production/2/movies/76000/75954/PosterDynamic/162481.jpg">
-                <h2> Dune 2 IMAX </h2>
-                <p> date </p>
-            </div>
-        </div>
+        <ul class="row text-white">
+            <li class="col-lg-3 col-md-6 col-sm-6 mb-4" *ngFor="let movie of moviesInTheathers">
+                <img class="img-fluid" [src]="movie.image" alt="movie image">
+                <h2> {{ movie.name }} </h2>
+                <a> Released Date: {{ movie.date | date: 'MMM d, y' }} </a>
+                <h4> Get Tickets </h4>
+            </li>
+        </ul>
     </div>
 
+    <div class="second-tab" *ngIf="activeTab=='Coming Soon'">
+        <ul class="row text-white ">
+            <li class="col-lg-3 col-md-6 col-sm-6 mb-4 " *ngFor="let movie of moviesUpcoming">
+                <img class="img-fluid" [src]="movie.image" alt="movie image">
+                <h2> {{ movie.name }} </h2>
+                <a> Opening: {{ movie.date | date: 'MMM d, y' }} </a>
+            </li>
+        </ul>
+    </div>
 </div>

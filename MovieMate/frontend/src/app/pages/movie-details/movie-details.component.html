@@ -1,3 +1,18 @@
 <app-header></app-header>
-<p>movie-details works!</p>
-<app-footer class="fixed-bottom"></app-footer>
+<div class="container text-white col-md-8">
+    <div class="row ">
+        <div class="col text-center p-5">
+            Another pic or trailer will be here!
+            <h1> {{ movie?.name }} </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            {{ movie?.duration }}
+        </div>
+        <div class="col-md-8">
+            {{ movie?.details }}
+        </div>
+    </div>
+</div>
+<app-footer class="fixed-bottom py-20"></app-footer>

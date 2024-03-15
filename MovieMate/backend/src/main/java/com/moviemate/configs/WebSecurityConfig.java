@@ -27,7 +27,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests((request) -> request
                 .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/profile/*").permitAll()
-                .requestMatchers(HttpMethod.GET, "/movies").permitAll()
+                .requestMatchers(HttpMethod.GET, "/movies", "/movies/*").permitAll()
                 .anyRequest().authenticated());
             return http.build();
     }

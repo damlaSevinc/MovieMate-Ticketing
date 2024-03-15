@@ -44,7 +44,7 @@ export class MovieGalleryComponent implements OnInit{
       })
   }
 
-  getMovieInfo(){
-    this.router.navigate(['/movie-details']);
+  getMovieInfo(movieId: number): void {
+    this.router.navigate(['/movie-details', movieId]);
   }
 }

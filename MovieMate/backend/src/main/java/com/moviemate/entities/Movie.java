@@ -23,6 +23,8 @@ public class Movie {
 
     @Temporal(TemporalType.DATE)
     private Date date;
+    private String duration;
     private String image;
+    private String details;
 
 }

@@ -11,6 +11,7 @@ import { LoginRegisterComponent } from './components/login-register/login-regist
 import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
+import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MovieDetailsComponent } from './pages/movie-details/movie-details.compo
     FooterComponent,
     LoginRegisterComponent,
     ProfileComponent,
-    MovieDetailsComponent
+    MovieDetailsComponent,
+    ShowtimesComponent
   ],
   imports: [
     BrowserModule,

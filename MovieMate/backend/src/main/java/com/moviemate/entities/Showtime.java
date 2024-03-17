@@ -1,23 +1,25 @@
 package com.moviemate.entities;
 
-import java.time.LocalTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name="sessions")
-public class Session {
+@Table(name="showtimes")
+public class Showtime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalTime startTime;
+    @ManyToOne
+    private Movie movie;
 
+    @ManyToOne
+    private Session session;
 }

@@ -1,0 +1,17 @@
+.session-item {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    margin-right: 5px;
+    transition: background-color 0.3s;
+    border-radius: 0.5rem;
+  }
+
+  .session-item:hover {
+    background-color: #333;
+  }
+
+  .session-item.active {
+    background-color: #333;
+    border-radius: 0.5rem;
+  }

@@ -1,0 +1,21 @@
+<app-header></app-header>
+<div class="container text-white col-md-8 mt-5">
+    <div class="row d-flex justify-content-between">
+        <button class="col-md-2"> back </button>
+        <p class="col-md-2"> Showtimes </p>
+        <button class="col-md-2"> close </button>
+    </div>
+    <div class="row p-5">
+        <img [src]="movie?.image" class="col-md-3">
+        <div class="col align-items-center justify-content-between">
+            <h1> {{ movie?.name }} </h1>
+            <ul class="col list-unstyled d-flex">
+                <li class="p-3 session-item" *ngFor="let showtime of showtimes; let i = index"
+                    [ngClass]="{'active': i === activeIndex}" (click)="setActiveIndex(i)">
+                    {{ showtime.session.startTime | slice: 0:5 }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<app-footer class="fixed-bottom"></app-footer>

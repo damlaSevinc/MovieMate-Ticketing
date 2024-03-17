@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { Movie } from 'src/app/models/movie';
 
@@ -14,6 +14,7 @@ export class MovieDetailsComponent implements OnInit {
   movieId: number = 0;
   constructor(
     private router: ActivatedRoute,
+    private router2: Router
   ) { }
 
   ngOnInit() {
@@ -34,4 +35,7 @@ export class MovieDetailsComponent implements OnInit {
       })
   }
 
+  getShowtimes(movieId: number): void{
+    this.router2.navigate(['/showtimes', movieId])
+  }
 }

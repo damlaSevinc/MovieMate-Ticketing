@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
     LoginRegisterComponent,
     ProfileComponent,
     MovieDetailsComponent,
-    ShowtimesComponent
+    ShowtimesComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

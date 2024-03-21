@@ -1,20 +1,28 @@
 <app-header></app-header>
 <div class="container text-white col-md-8 mt-5">
     <div class="row d-flex justify-content-between">
-        <button class="col-md-2"> back </button>
-        <p class="col-md-2"> Showtimes </p>
-        <button class="col-md-2"> close </button>
+        <button class="col-md-2" (click)="backToMovieDetail()"> Back To Movie </button>
+        <h2 class="col-md-2"> Showtimes </h2>
+        <button class="col-md-2" (click)="closeShowtimes()"> Close </button>
     </div>
     <div class="row p-5">
         <img [src]="movie?.image" class="col-md-3">
         <div class="col align-items-center justify-content-between">
             <h1> {{ movie?.name }} </h1>
             <ul class="col list-unstyled d-flex">
-                <li class="p-3 session-item" *ngFor="let showtime of showtimes; let i = index"
-                    [ngClass]="{'active': i === activeIndex}" (click)="setActiveIndex(i)">
+                <li class="p-3 session-item" *ngFor="let showtime of showtimes"
+                    [ngClass]="{'active': showtime.id === activeShowtimeId}"
+                    (click)="setActiveShowtime(showtime.id)">
                     {{ showtime.session.startTime | slice: 0:5 }}
                 </li>
+                <!-- <select id="dateDropdown" class="form-select" aria-label="Date select" [(ngModel)]="selectedDate"> -->
+                    <select class="form-select" aria-label="Date select" [(ngModel)]="selectedDate">
+                    <option selected> Today </option>
+                    <option *ngFor="let date of dates"> {{ date | date: 'MMM d, y' }} </option>
+                  </select>
             </ul>
+            <div class="col d-flex justify-content-center"
+            (click)="goToCheckout()"> Go To Checkout > </div>
         </div>
     </div>
 </div>

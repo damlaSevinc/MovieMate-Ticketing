@@ -5,6 +5,7 @@ import { LoginRegisterComponent } from './components/login-register/login-regist
 import { ProfileComponent } from './pages/profile/profile.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginRegisterComponent},
   { path: 'profile', component: ProfileComponent},
   { path: 'movie-details/:id', component: MovieDetailsComponent},
-  { path: 'showtimes/:id', component: ShowtimesComponent}
+  { path: 'showtimes/:id', component: ShowtimesComponent},
+  { path: 'checkout/:movieId/:activeShowtimeId/:selectedDate', component: CheckoutComponent}
 ];
 
 @NgModule({

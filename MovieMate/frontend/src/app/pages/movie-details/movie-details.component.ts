@@ -17,7 +17,7 @@ export class MovieDetailsComponent implements OnInit {
     private router2: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.router.params.subscribe(params => {
       this.movieId = +params['id'];
       // added + operator to coerce the number type, even if JS mostly converts it to number implicitly
@@ -25,7 +25,7 @@ export class MovieDetailsComponent implements OnInit {
     })
   }
 
-  getMovieDetails() {
+  getMovieDetails(): void {
     axios.get(`/movies/${this.movieId}`)
       .then(response => {
         this.movie = response.data;
@@ -35,7 +35,7 @@ export class MovieDetailsComponent implements OnInit {
       })
   }
 
-  getShowtimes(movieId: number): void{
-    this.router2.navigate(['/showtimes', movieId])
+  getShowtimes(): void {
+    this.router2.navigate(['/showtimes', this.movieId])
   }
 }

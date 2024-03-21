@@ -1,0 +1,14 @@
+<app-header></app-header>
+<div class="container text-white col-md-8 mt-5">
+    <div class="row d-flex justify-content-between">
+        <button class="col-md-2" (click)="backToShowtimes()"> Back To Showtimes </button>
+        <h2 class="col-md-2"> Checkout </h2>
+        <button class="col-md-2" (click)="closeShowtimes()"> Close </button>
+    </div>
+    <div>
+        MovieId: {{ movieId }}
+        Showtime: {{ activeShowtimeId }}
+        SelectedDate: {{ selectedDate }}
+    </div>
+</div>
+<app-footer class="fixed-bottom"></app-footer>

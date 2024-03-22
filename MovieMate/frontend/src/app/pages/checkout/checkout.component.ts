@@ -13,10 +13,9 @@ export class CheckoutComponent implements OnInit{
 
   movie: Movie | null = null;
   showtime: Showtime | null = null;
-  showtimes: Showtime[] = [];
   selectedDate: string = '';
   movieId: number = 0;
-  activeShowtimeId: number = 0;
+  showtimeId: number = 0;
 
   constructor(
     private router: ActivatedRoute,
@@ -30,22 +29,35 @@ export class CheckoutComponent implements OnInit{
         //// snapshot alternative is static, so it needs to be reload if any params change
         // this.movieId = this.router.snapshot.params['movieId'];
       this.movieId = +params['movieId']
-      this.activeShowtimeId = params['activeShowtimeId']
+      this.showtimeId = params['activeShowtimeId']
       this.selectedDate = params['selectedDate']
       });
-      this.getShowtimes();
+      this.getShowtime();
+      this.getMovieDetails();
   }
 
   backToShowtimes(){
     this.router2.navigate(['/showtimes', this.movieId])
   }
+
   closeShowtimes(){
     this.router2.navigate(['/home'])
   }
-  getShowtimes(){
-    axios.get(`/movies/${this.movieId}/showtimes`)
+
+  getMovieDetails(){
+    axios.get(`/movies/${this.movieId}`)
       .then(response => {
-        this.showtimes = response.data
+        this.movie = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }
+
+  getShowtime(){
+    axios.get(`/movies/${this.movieId}/showtimes/${this.showtimeId}`)
+      .then(response => {
+        this.showtime = response.data
       })
       .catch(error =>
         console.log(error))

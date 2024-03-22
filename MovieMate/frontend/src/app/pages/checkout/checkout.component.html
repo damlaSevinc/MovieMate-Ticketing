@@ -5,10 +5,12 @@
         <h2 class="col-md-2"> Checkout </h2>
         <button class="col-md-2" (click)="closeShowtimes()"> Close </button>
     </div>
-    <div>
-        MovieId: {{ movieId }}
-        Showtime: {{ activeShowtimeId }}
-        SelectedDate: {{ selectedDate }}
+    <div class="row">
+        <div class="col p-5">
+            <h5 class="p-2">{{ movie?.name }} </h5>
+            <h5 class="p-2">{{ showtime?.session?.startTime | slice: 0:5 }}</h5>
+            <h5 class="p-2">{{ selectedDate }}</h5>
+        </div>
     </div>
 </div>
 <app-footer class="fixed-bottom"></app-footer>

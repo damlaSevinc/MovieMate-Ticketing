@@ -1,6 +1,7 @@
 package com.moviemate.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,11 @@ public class ShowtimeService {
     private ShowtimeRepository showtimeRepository;
 
     public List<Showtime> getShowtimesByMovieId(Long movieId){
-        List<Showtime> allShowtimes = showtimeRepository.findAll();
+        List<Showtime> allShowtimes = showtimeRepository.findByMovieId(movieId);
         return allShowtimes;
+    }
+
+    public Optional<Showtime> getShowtimeByShowtimeId(Long showtimeId){
+        return showtimeRepository.findById(showtimeId);
     }
 }

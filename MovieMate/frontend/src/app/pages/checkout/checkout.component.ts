@@ -16,6 +16,9 @@ export class CheckoutComponent implements OnInit{
   selectedDate: string = '';
   movieId: number = 0;
   showtimeId: number = 0;
+  adultCount: number = 0;
+  childCount: number = 0;
+  sum: number = 0;
 
   constructor(
     private router: ActivatedRoute,
@@ -34,6 +37,7 @@ export class CheckoutComponent implements OnInit{
       });
       this.getShowtime();
       this.getMovieDetails();
+      this.totalAmount();
   }
 
   backToShowtimes(){
@@ -61,5 +65,36 @@ export class CheckoutComponent implements OnInit{
       })
       .catch(error =>
         console.log(error))
+  }
+
+  decrementCount(countType: 'adult' | 'child'): void{
+    if(countType === 'adult'){
+      if(this.adultCount == 0){
+        this.totalAmount();
+        return;
+      }
+      this.adultCount--;
+      this.totalAmount();
+    } else if (countType === 'child'){
+      if(this.childCount === 0){
+        return;
+      }
+      this.childCount--;
+      this.totalAmount();
+    }
+  }
+
+  incrementCount(countType: 'adult' | 'child'): void{
+    if(countType === 'adult'){
+      this.adultCount++;
+      this.totalAmount();
+    } else if (countType === 'child'){
+      this.childCount++;
+      this.totalAmount();
+    }
+  }
+
+  totalAmount(){
+    this.sum = this.adultCount*15.99 + this.childCount*11.99
   }
 }

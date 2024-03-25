@@ -5,12 +5,30 @@
         <h2 class="col-md-2"> Checkout </h2>
         <button class="col-md-2" (click)="closeShowtimes()"> Close </button>
     </div>
-    <div class="row">
-        <div class="col p-5">
-            <h5 class="p-2">{{ movie?.name }} </h5>
-            <h5 class="p-2">{{ showtime?.session?.startTime | slice: 0:5 }}</h5>
-            <h5 class="p-2">{{ selectedDate }}</h5>
+    <div class="row text-center p-5">
+        <h5 class="p-2">{{ movie?.name }} | {{ showtime?.session?.startTime | slice: 0:5 }} | {{ selectedDate }}</h5>
+    </div>
+    <div class="row p-3 justify-content-center">
+        <div class="col-md-3">
+            <p> Adult </p>
+            <p> Child </p>
+        </div>
+        <div class="col-md-3">
+            <p> €15.99 </p>
+            <p> €11.99</p>
+        </div>
+        <div class="col-md-3 ">
+            <div><button class="btn btn-dark" (click)="decrementCount('adult')"> - </button> {{ adultCount }}
+                <button class="btn btn-dark" (click)="incrementCount('adult')"> + </button>
+            </div>
+            <div><button class="btn btn-dark" (click)="decrementCount('child')">-</button> {{ childCount }}
+                <button class="btn btn-dark" (click)="incrementCount('child')"> + </button>
+            </div>
         </div>
     </div>
+    <div class="row justify-content-end">
+        <div class="col-md-6"> Total amount to pay:  {{ sum }} </div>
+    </div>
+
 </div>
 <app-footer class="fixed-bottom"></app-footer>

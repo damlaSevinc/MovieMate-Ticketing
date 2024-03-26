@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { Movie } from 'src/app/models/movie';
 import { Showtime } from 'src/app/models/showtime';
+import { Ticket } from 'src/app/models/ticket';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -19,10 +22,12 @@ export class CheckoutComponent implements OnInit{
   adultCount: number = 0;
   childCount: number = 0;
   sum: number = 0;
+  loggedInUser: User | null = null;
 
   constructor(
     private router: ActivatedRoute,
-    private router2: Router
+    private router2: Router,
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
@@ -38,6 +43,9 @@ export class CheckoutComponent implements OnInit{
       this.getShowtime();
       this.getMovieDetails();
       this.totalAmount();
+      this.authService.getLoggedInUserOb().subscribe((User) => {
+        this.loggedInUser = User;})
+
   }
 
   backToShowtimes(){
@@ -94,7 +102,24 @@ export class CheckoutComponent implements OnInit{
     }
   }
 
-  totalAmount(){
+  totalAmount(): void {
     this.sum = this.adultCount*15.99 + this.childCount*11.99
+  }
+
+  buyTicket(): void {
+    const ticket: Ticket = {
+      id: 0, // will be defined on the backend side
+      ticketId: 0, // will be defined on the backend side
+      user: this.loggedInUser!,
+      showtime: this.showtime!,
+      adultCount: this.adultCount,
+      childCount: this.childCount,
+      paidAmount: this.sum
+    }
+    axios.post("/ticket", ticket)
+      .then(response =>
+        console.log("buy ticket successful"))
+      .catch(error =>
+        console.error(error));
   }
 }

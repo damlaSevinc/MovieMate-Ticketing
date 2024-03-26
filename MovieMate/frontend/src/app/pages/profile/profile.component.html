@@ -1,7 +1,7 @@
 <app-header></app-header>
 
-<div class="text-white">
-    <p> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+<div class="row text-white justify-content-end p-5 ">
+    <p class="col"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
 </div>
 <router-outlet></router-outlet>
-<app-footer class="fixed-bottom position-static"></app-footer>
+<app-footer class="fixed-bottom"></app-footer>

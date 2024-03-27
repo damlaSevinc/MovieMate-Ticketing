@@ -116,7 +116,7 @@ export class CheckoutComponent implements OnInit{
       childCount: this.childCount,
       paidAmount: this.sum
     }
-    axios.post("/ticket", ticket)
+    axios.post("/tickets", ticket)
       .then(response =>
         console.log("buy ticket successful"))
       .catch(error =>

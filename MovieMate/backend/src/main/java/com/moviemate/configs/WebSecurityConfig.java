@@ -25,7 +25,7 @@ public class WebSecurityConfig {
             })
             .csrf().disable()
             .authorizeHttpRequests((request) -> request
-                .requestMatchers(HttpMethod.POST, "/login", "/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/login", "/register", "/tickets").permitAll()
                 .requestMatchers(HttpMethod.GET, "/profile/*").permitAll()
                 .requestMatchers(HttpMethod.GET, "/movies", "/movies/*", "/movies/**").permitAll()
                 .anyRequest().authenticated());

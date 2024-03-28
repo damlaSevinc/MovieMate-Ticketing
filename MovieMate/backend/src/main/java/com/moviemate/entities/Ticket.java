@@ -5,10 +5,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "tickets")
 public class Ticket {
 
     @Id
@@ -25,5 +28,14 @@ public class Ticket {
 
     private Long adultCount;
     private Long childCount;
-    private Long paidAmount;
+    private Double paidAmount;
+
+    @PrePersist
+    public void generateContractNumber() {
+        this.ticketId = generateTicketNumber();
+    }
+
+    private Long generateTicketNumber() {
+        return Long.valueOf(System.currentTimeMillis() / 5000);
+    }
 }

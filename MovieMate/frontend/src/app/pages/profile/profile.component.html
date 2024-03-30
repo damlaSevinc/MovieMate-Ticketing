@@ -1,7 +1,13 @@
 <app-header></app-header>
-
-<div class="row text-white justify-content-end p-5 ">
-    <p class="col"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+<div class="container text-white">
+    <div class="row p-5">
+        <p class="col text-end"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+    </div>
+    <div class="row"> Your Tickets
+        <div *ngFor="let ticket of userTickets">
+            {{ ticket.ticketId }} , {{ ticket.showtime.movie.name }} , {{ ticket.showtime.session.startTime | slice: 0:5}}
+        </div>
+    </div>
 </div>
 <router-outlet></router-outlet>
 <app-footer class="fixed-bottom"></app-footer>

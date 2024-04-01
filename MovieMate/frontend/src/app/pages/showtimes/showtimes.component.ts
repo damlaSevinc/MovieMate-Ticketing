@@ -12,11 +12,11 @@ import { Showtime } from 'src/app/models/showtime';
 export class ShowtimesComponent implements OnInit {
 
   showtimes: Showtime[] = [];
-  movieId: number = 0;
+  movieId = 0;
   movie: Movie | null = null;
-  activeShowtimeId: number = 1;
+  activeShowtimeId = 1;
   dates: string[] = [];
-  selectedDate: string = 'Today';
+  selectedDate = 'Today';
 
   constructor(
     private router: ActivatedRoute,
@@ -36,7 +36,7 @@ export class ShowtimesComponent implements OnInit {
         this.showtimes = response.data
       })
       .catch(error =>
-        console.log(error))
+        { console.log(error); })
   }
 
   getMovieDetails(){

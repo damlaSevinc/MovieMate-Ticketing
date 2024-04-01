@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
           .then(response =>
             this.userTickets = response.data)
           .catch(error =>
-            console.error(error))
+            { console.error(error); })
       }
     });
   }

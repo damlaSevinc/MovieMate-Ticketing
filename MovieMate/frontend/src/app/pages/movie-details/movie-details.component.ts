@@ -11,7 +11,7 @@ import { Movie } from 'src/app/models/movie';
 export class MovieDetailsComponent implements OnInit {
 
   movie: Movie | null = null;
-  movieId: number = 0;
+  movieId = 0;
   constructor(
     private router: ActivatedRoute,
     private router2: Router

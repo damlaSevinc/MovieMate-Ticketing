@@ -16,7 +16,7 @@ export class MovieGalleryComponent implements OnInit{
   movies: Movie[] = [];
   moviesInTheathers: Movie[] = [];
   moviesUpcoming: Movie[] = [];
-  activeTab: string = "In Theathers"; // initial active tab
+  activeTab = "In Theathers"; // initial active tab
 
   ngOnInit(): void {
       this.getMovies();

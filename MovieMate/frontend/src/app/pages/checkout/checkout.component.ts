@@ -16,12 +16,12 @@ export class CheckoutComponent implements OnInit{
 
   movie: Movie | null = null;
   showtime: Showtime | null = null;
-  selectedDate: string = '';
-  movieId: number = 0;
-  showtimeId: number = 0;
-  adultCount: number = 0;
-  childCount: number = 0;
-  sum: number = 0;
+  selectedDate = '';
+  movieId = 0;
+  showtimeId = 0;
+  adultCount = 0;
+  childCount = 0;
+  sum = 0;
   loggedInUser: User | null = null;
 
   constructor(
@@ -72,7 +72,7 @@ export class CheckoutComponent implements OnInit{
         this.showtime = response.data
       })
       .catch(error =>
-        console.log(error))
+        { console.log(error); })
   }
 
   decrementCount(countType: 'adult' | 'child'): void{
@@ -118,8 +118,8 @@ export class CheckoutComponent implements OnInit{
     }
     axios.post("/tickets", ticket)
       .then(response =>
-        console.log("buy ticket successful"))
+        { console.log("buy ticket successful"); })
       .catch(error =>
-        console.error(error));
+        { console.error(error); });
   }
 }

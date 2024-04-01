@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private authToken: string = '';
+  private authToken = '';
   private loggedInUser: User | null = null;
   private loggedInUserSubject = new BehaviorSubject<User | null>(null);
 
@@ -34,7 +34,7 @@ export class AuthService {
 
   setToken(token: string | null): void {
     if(token !== null){
-      return localStorage.setItem(this.authToken, token);
+      localStorage.setItem(this.authToken, token); return;
     } else {
       localStorage.removeItem(this.authToken);
     }
@@ -52,7 +52,7 @@ export class AuthService {
         const decodedToken: any = jwtDecode(token);
         await axios.get(`/profile/${decodedToken.sub}`)
           .then(response => {
-            if(response && response.data) {
+            if(response.data) {
               this.loggedInUser = response.data;
               this.loggedInUserSubject.next(this.loggedInUser);
             } else {

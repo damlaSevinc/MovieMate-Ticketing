@@ -19,11 +19,11 @@ export class LoginRegisterComponent implements OnInit{
   }
 
   loggedInUser: User | null = null;
-  activeTab: string = 'login';
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  password: string = '';
+  activeTab = 'login';
+  firstName = '';
+  lastName = '';
+  email = '';
+  password = '';
 
   ngOnInit(): void {
       this.authService.getLoggedInUserOb().subscribe((user) => {

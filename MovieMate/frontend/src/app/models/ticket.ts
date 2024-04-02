@@ -9,4 +9,5 @@ export interface Ticket {
     adultCount: number;
     childCount: number;
     paidAmount: number;
+    selectedDate: string;
 }

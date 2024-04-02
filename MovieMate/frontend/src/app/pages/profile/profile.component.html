@@ -3,9 +3,12 @@
     <div class="row p-5">
         <p class="col text-end"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
     </div>
-    <div class="row"> Your Tickets
+    <div class="row" *ngIf="userTickets.length>0"> Your Tickets
         <div *ngFor="let ticket of userTickets">
-            {{ ticket.ticketId }} , {{ ticket.showtime.movie.name }} , {{ ticket.showtime.session.startTime | slice: 0:5}}
+            {{ ticket.ticketId }},
+            {{ ticket.showtime.movie.name }},
+            {{ ticket.showtime.session.startTime | slice: 0:5 }},
+            {{ ticket.selectedDate }}
         </div>
     </div>
 </div>

@@ -114,7 +114,8 @@ export class CheckoutComponent implements OnInit{
       showtime: this.showtime!,
       adultCount: this.adultCount,
       childCount: this.childCount,
-      paidAmount: this.sum
+      paidAmount: this.sum,
+      selectedDate: this.selectedDate
     }
     axios.post("/tickets", ticket)
       .then(response =>

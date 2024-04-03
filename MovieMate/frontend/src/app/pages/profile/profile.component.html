@@ -1,16 +1,20 @@
 <app-header></app-header>
-<div class="container text-white">
-    <div class="row p-5">
-        <p class="col text-end"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
-    </div>
-    <div class="row" *ngIf="userTickets.length>0"> Your Tickets
-        <div *ngFor="let ticket of userTickets">
-            {{ ticket.ticketId }},
-            {{ ticket.showtime.movie.name }},
-            {{ ticket.showtime.session.startTime | slice: 0:5 }},
-            {{ ticket.selectedDate }}
+<div class="container p-5 text-white">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="text-center p-3 border-bottom"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+            <ul class="list-group">
+                <li class="list-group-item border-0 bg-black text-white text-center" routerLink="/profile/personal-info"> My personal info </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center" routerLink="/profile/tickets"> Your tickets </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center"> My means of payment </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center"> Need help? </li>
+            </ul>
+        </div>
+        <div class="col-md-8 d-flex align-items-center justify-content-center">
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-<router-outlet></router-outlet>
-<app-footer class="fixed-bottom"></app-footer>
+
+
+<app-footer></app-footer>

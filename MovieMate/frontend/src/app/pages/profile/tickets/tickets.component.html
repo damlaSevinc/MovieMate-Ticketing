@@ -1,0 +1,8 @@
+<div class="row p-5" *ngIf="userTickets.length>0"> Your Tickets
+    <div *ngFor="let ticket of userTickets">
+        {{ ticket.ticketId }},
+        {{ ticket.showtime.movie.name }},
+        {{ ticket.showtime.session.startTime | slice: 0:5 }},
+        {{ ticket.selectedDate }}
+    </div>
+</div>

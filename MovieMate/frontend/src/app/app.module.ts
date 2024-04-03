@@ -13,6 +13,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { TicketsComponent } from './pages/profile/tickets/tickets.component';
+import { PersonalInfoComponent } from './pages/profile/personal-info/personal-info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
     ProfileComponent,
     MovieDetailsComponent,
     ShowtimesComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    TicketsComponent,
+    PersonalInfoComponent
   ],
   imports: [
     BrowserModule,

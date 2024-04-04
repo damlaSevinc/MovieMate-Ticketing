@@ -10,4 +10,5 @@ export interface Ticket {
     childCount: number;
     paidAmount: number;
     selectedDate: string;
+    isExpanded: boolean;
 }

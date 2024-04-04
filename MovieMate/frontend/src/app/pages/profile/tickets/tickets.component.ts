@@ -35,4 +35,8 @@ export class TicketsComponent {
       }
     });
   }
+
+  toggleExpand(ticket: Ticket): void {
+    ticket.isExpanded = !ticket.isExpanded;
+  }
 }

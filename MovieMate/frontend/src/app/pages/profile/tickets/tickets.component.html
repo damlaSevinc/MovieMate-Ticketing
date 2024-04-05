@@ -1,24 +1,27 @@
-<div class="row p-5">
+<div class="container">
     <div *ngIf="userTickets.length > 0">
         <h4 class="pb-2"> Your Tickets </h4>
-        <div class="bg-dark p-4" *ngFor="let ticket of userTickets">
-            <div class="row p-3">
-                <div class="col-md-3 fw-bold"> Ticket Id:
+        <div class="bg-dark p-4 mb-1" *ngFor="let ticket of userTickets">
+            <div class="row p-3 ">
+                <div class="col-md-3 col-sm-6 fw-bold"> Ticket Id:
                     <div> {{ ticket.ticketId }} </div>
                 </div>
-                <div class="col-md-3"> Order Date:
+                <div class="col-md-3 col-sm-6 "> Order Date:
                     <div> {{ ticket.orderDate | date: 'MMM d, y' }} </div>
                 </div>
-                <div class="col-md-3"> Movie:
+                <div class="col-md-3 col-sm-6 "> Movie:
                     <div> {{ ticket.showtime.movie.name }} </div>
                 </div>
-                <div class="col-md-2"> Total: {{ ticket.paidAmount }} € </div>
+                <div class="col-md-2 col-sm-6 "> Total: {{ ticket.paidAmount }} € </div>
                 <button class="col-md-1 btn btn-link text-white" (click)="toggleExpand(ticket)"> Details </button>
             </div>
             <div class="row p-3 text-center" *ngIf="ticket.isExpanded">
                 <div class="col-md-6"> Showtime: {{ ticket.showtime.session.startTime | slice: 0:5 }}
                     {{ ticket.selectedDate | date: 'MMM d, y' }} </div>
-                <div class="col-md-6"> {{ ticket.adultCount }} Adult, {{ ticket.childCount }} Child </div>
+                <div class="col-md-6">
+                    {{ ticket.adultCount !==0 ? ticket.adultCount + ' Adult ' : ''}}
+                    {{ ticket.childCount !==0 ? ticket.childCount + (ticket.childCount >1 ? ' Children ' : ' Child '): ''}}
+                </div>
             </div>
         </div>
     </div>

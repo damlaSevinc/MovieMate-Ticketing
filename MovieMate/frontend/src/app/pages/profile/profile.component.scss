@@ -1,3 +1,8 @@
 .list-group-item {
     cursor: pointer;
 }
+
+.list-group-item.active {
+    background-color:rgba(33, 37, 41, var(--bs-bg-opacity)) !important;
+    // To override !important on the main style sheet, had to put this. Later will be changed.
+}

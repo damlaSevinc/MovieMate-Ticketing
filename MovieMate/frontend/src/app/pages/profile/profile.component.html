@@ -2,15 +2,19 @@
 <div class="container p-5 text-white">
     <div class="row">
         <div class="col-md-3">
-            <p class="text-center p-3 border-bottom"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+            <p class="text-center mb-5 p-3 border-bottom" > Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
             <ul class="list-group">
-                <li class="list-group-item border-0 bg-black text-white text-center" routerLink="/profile/personal-info"> My personal info </li>
-                <li class="list-group-item border-0 border-top bg-black text-white text-center" routerLink="/profile/tickets"> Your tickets </li>
-                <li class="list-group-item border-0 border-top bg-black text-white text-center"> My means of payment </li>
-                <li class="list-group-item border-0 border-top bg-black text-white text-center"> Need help? </li>
+                <li class="list-group-item border-0 bg-black text-white text-center p-3"
+                    routerLink="/profile/personal-info" routerLinkActive="active">
+                    My personal info </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"
+                    routerLink="/profile/tickets" routerLinkActive="active"> Your tickets </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"> My means of payment
+                </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"> Need help? </li>
             </ul>
         </div>
-        <div class="col-md-8 d-flex align-items-center justify-content-center">
+        <div class="col-md-9 d-flex align-items-center justify-content-center">
             <router-outlet></router-outlet>
         </div>
     </div>

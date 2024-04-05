@@ -30,6 +30,7 @@ public class Ticket {
     private Long childCount;
     private Double paidAmount;
     private String selectedDate;
+    private String orderDate;
 
     @PrePersist
     public void generateContractNumber() {

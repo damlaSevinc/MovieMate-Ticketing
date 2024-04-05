@@ -10,5 +10,6 @@ export interface Ticket {
     childCount: number;
     paidAmount: number;
     selectedDate: string;
+    orderDate: string;
     isExpanded: boolean;
 }

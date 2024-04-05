@@ -23,6 +23,7 @@ export class CheckoutComponent implements OnInit{
   childCount = 0;
   sum = 0;
   loggedInUser: User | null = null;
+  orderDate: Date = new Date();
 
   constructor(
     private router: ActivatedRoute,
@@ -116,11 +117,14 @@ export class CheckoutComponent implements OnInit{
       childCount: this.childCount,
       paidAmount: this.sum,
       selectedDate: this.selectedDate,
-      isExpanded: false
+      isExpanded: false,
+      orderDate: this.orderDate.toISOString()
     }
     axios.post("/tickets", ticket)
       .then(response =>
-        { console.log("buy ticket successful"); })
+        { console.log("buy ticket successful");
+        this.router2.navigate(['/profile/tickets']);
+      })
       .catch(error =>
         { console.error(error); });
   }

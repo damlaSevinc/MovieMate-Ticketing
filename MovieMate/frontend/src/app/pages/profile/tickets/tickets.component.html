@@ -12,7 +12,11 @@
                 <div class="col-md-3 col-sm-6 "> Movie:
                     <div> {{ ticket.showtime.movie.name }} </div>
                 </div>
-                <div class="col-md-2 col-sm-6 "> Total: {{ ticket.paidAmount }} € </div>
+                <div class="col-md-2 col-sm-6 "> Total:
+                    <div>
+                        € {{ ticket.paidAmount }}
+                    </div>
+                </div>
                 <button class="col-md-1 btn btn-link text-white" (click)="toggleExpand(ticket)"> Details </button>
             </div>
             <div class="row p-3 text-center" *ngIf="ticket.isExpanded">

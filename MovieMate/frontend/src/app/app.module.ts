@@ -15,6 +15,9 @@ import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { TicketsComponent } from './pages/profile/tickets/tickets.component';
 import { PersonalInfoComponent } from './pages/profile/personal-info/personal-info.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { PersonalInfoComponent } from './pages/profile/personal-info/personal-in
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    MatMenuModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

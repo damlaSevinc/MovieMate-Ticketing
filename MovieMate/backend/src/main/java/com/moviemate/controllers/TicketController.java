@@ -28,12 +28,18 @@ public class TicketController {
         return createdTicket;
     }
 
-    @GetMapping("/users/{userId}/tickets")
+    @GetMapping("/users/{userId}/tickets/asc")
     @ResponseStatus(HttpStatus.OK)
-    public List<Ticket> getTicket(@PathVariable Long userId){
-        // Optional<Ticket> optionalUser
-        List<Ticket> userTickets = ticketService.getTicketsByUser(userId);
-        return userTickets;
+    public List<Ticket> getTicketsAsc(@PathVariable Long userId){
+        List<Ticket> userTicketsAsc = ticketService.getTicketsAscByUser(userId);
+        return userTicketsAsc;
+    }
+
+    @GetMapping("/users/{userId}/tickets/desc")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Ticket> getTicketsDesc(@PathVariable Long userId){
+        List<Ticket> userTicketsDesc = ticketService.getTicketsDescByUser(userId);
+        return userTicketsDesc;
     }
 }
 

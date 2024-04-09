@@ -32,8 +32,14 @@ public class TicketService {
         return savedTicket;
     }
 
-    public List<Ticket> getTicketsByUser(Long userId){
-        List<Ticket> userTickets = ticketRepository.findAllByUserId(userId);
+    public List<Ticket> getTicketsAscByUser(Long userId){
+        List<Ticket> userTickets = ticketRepository.findByUserIdOrderByOrderDateAsc(userId);
         return userTickets;
     }
+    public List<Ticket> getTicketsDescByUser(Long userId){
+        List<Ticket> userTickets = ticketRepository.findByUserIdOrderByOrderDateDesc(userId);
+        return userTickets;
+    }
+
+
 }

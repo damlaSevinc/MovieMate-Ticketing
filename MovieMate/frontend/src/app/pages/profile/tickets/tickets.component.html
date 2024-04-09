@@ -2,11 +2,11 @@
     <div *ngIf="userTickets.length > 0">
         <div class="row">
             <h4 class="col-md-6 py-3 px-4"> Your Tickets </h4>
-            <div class="col-md-6 p-3 dropdown text-end">
-                <button  class="btn btn-secondary dropdown-toggle" mat-button [matMenuTriggerFor]="beforeMenu">Sort by</button>
-                <mat-menu #beforeMenu="matMenu" xPosition="before">
-                  <button mat-menu-item>Order Date</button>
-                  <button mat-menu-item>Movie Name</button>
+            <div class="col-md-6 py-3 dropdown text-end">
+                <button  class="btn btn-dark dropdown-toggle" mat-button [matMenuTriggerFor]="sortingMenu"> Sort: {{ selectedSortingOption }}</button>
+                <mat-menu #sortingMenu="matMenu" xPosition="before">
+                  <button mat-menu-item (click)="selectSortingOption('Newest')">Newest</button>
+                  <button mat-menu-item (click)="selectSortingOption('Oldest')">Oldest</button>
                 </mat-menu>
             </div>
         </div>
@@ -31,8 +31,7 @@
                     {{ ticket.selectedDate | date: 'MMM d, y' }} </div>
                 <div class="col-md-6">
                     {{ ticket.adultCount !==0 ? ticket.adultCount + ' Adult ' : ''}}
-                    {{ ticket.childCount !==0 ? ticket.childCount + (ticket.childCount >1 ? ' Children ' : ' Child '):
-                    ''}}
+                    {{ ticket.childCount !==0 ? ticket.childCount + (ticket.childCount >1 ? ' Children ' : ' Child '): ''}}
                 </div>
             </div>
         </div>

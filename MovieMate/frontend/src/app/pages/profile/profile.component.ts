@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
-import { Ticket } from 'src/app/models/ticket';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -12,7 +11,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ProfileComponent implements OnInit {
 
   loggedInUser: User | null = null;
-  userTickets: Ticket[] = [];
   constructor(
     private authService: AuthService
   ) { }
@@ -28,11 +26,6 @@ export class ProfileComponent implements OnInit {
           .catch(error => {
             console.error('Error:', error);
           });
-        axios.get(`/users/${this.loggedInUser.id}/tickets`)
-          .then(response =>
-            this.userTickets = response.data)
-          .catch(error =>
-            { console.error(error); })
       }
     });
   }

@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class TicketsComponent {
   loggedInUser: User | null = null;
   userTickets: Ticket[] = [];
+  selectedSortingOption: string = 'Newest';
   constructor(
     private authService: AuthService
   ) { }
@@ -27,16 +28,37 @@ export class TicketsComponent {
           .catch(error => {
             console.error('Error:', error);
           });
-        axios.get(`/users/${this.loggedInUser.id}/tickets`)
-          .then(response =>
-            this.userTickets = response.data)
-          .catch(error =>
-            { console.error(error); })
+        this.getNewestTickets();
       }
     });
   }
 
   toggleExpand(ticket: Ticket): void {
     ticket.isExpanded = !ticket.isExpanded;
+  }
+
+  selectSortingOption(option: string): void {
+    this.selectedSortingOption = option;
+    if (option == 'Newest'){
+      this.getNewestTickets();
+    } else {
+      this.getOldestTickets();
+    }
+  }
+
+  getNewestTickets(){
+    axios.get(`/users/${this.loggedInUser!.id}/tickets/desc`)
+    .then(response =>
+      this.userTickets = response.data)
+    .catch(error =>
+      { console.error(error); })
+  }
+
+  getOldestTickets(){
+    axios.get(`/users/${this.loggedInUser!.id}/tickets/asc`)
+    .then(response =>
+      this.userTickets = response.data)
+    .catch(error =>
+      { console.error(error); })
   }
 }

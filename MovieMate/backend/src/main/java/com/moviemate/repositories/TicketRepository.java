@@ -11,4 +11,9 @@ import com.moviemate.entities.Ticket;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByUserId(Long userId);
+
+    List<Ticket> findByUserIdOrderByOrderDateAsc(Long userId);
+
+    List<Ticket> findByUserIdOrderByOrderDateDesc(Long userId);
+
 }

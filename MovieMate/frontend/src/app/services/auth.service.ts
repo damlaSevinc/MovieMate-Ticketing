@@ -50,7 +50,7 @@ export class AuthService {
     if(!this.loggedInUser && token){
       try {
         const decodedToken: any = jwtDecode(token);
-        await axios.get(`/profile/${decodedToken.sub}`)
+        await axios.get(`/users/${decodedToken.sub}`)
           .then(response => {
             if(response.data) {
               this.loggedInUser = response.data;

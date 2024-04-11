@@ -15,6 +15,7 @@ import com.moviemate.exceptions.AppException;
 import com.moviemate.mappers.UserMapper;
 import com.moviemate.repositories.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -60,5 +61,15 @@ public class UserService {
 
         // If the user exists, but the password is wrong
         throw new AppException("password is wrong", HttpStatus.UNAUTHORIZED);
+    }
+
+    @Transactional
+    public User updateUser(Long userId, User updatedUser){
+        User existingUser = userRepository.findById(userId).
+            orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
+            existingUser.setFirstName(updatedUser.getFirstName());
+            existingUser.setLastName(updatedUser.getLastName());
+            existingUser.setEmail(updatedUser.getEmail());
+            return userRepository.save(existingUser);
     }
 }

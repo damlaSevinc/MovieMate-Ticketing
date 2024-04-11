@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,7 +54,7 @@ public class UserController {
     }
 
     // Get the loggedIn user by userId
-    @GetMapping("/profile/{id}")
+    @GetMapping("/users/{id}")
     public UserDto getUserProfileById(@PathVariable("id") Long id) {
         System.out.println("userid from decoded token is: " + id);
         Optional<User> optionalUser = userRepository.findById(id);
@@ -64,5 +65,15 @@ public class UserController {
         } else {
             throw new AppException("User not found with id: " + id, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    // Edit the existing user's info
+    @PutMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserDto> updateUser(
+        @PathVariable("id") Long id, @RequestBody User user) {
+        User existingUser = userService.updateUser(id, user);
+        UserDto updatedUserDto = userMapper.toUserDto(existingUser);
+        return ResponseEntity.ok(updatedUserDto);
     }
 }

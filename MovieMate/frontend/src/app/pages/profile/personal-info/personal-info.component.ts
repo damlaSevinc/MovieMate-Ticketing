@@ -20,7 +20,7 @@ export class PersonalInfoComponent {
       this.loggedInUser = User;
     });
     if (this.loggedInUser) {
-      axios.get(`/profile/${this.loggedInUser.id}`)
+      axios.get(`/users/${this.loggedInUser.id}`)
         .then(response => {
           console.log("Profile of the user:", response.data);
         })
@@ -37,7 +37,7 @@ export class PersonalInfoComponent {
       email: this.loggedInUser?.email
     }
     console.log("formdata: ", formData);
-    axios.put(`/profile/${this.loggedInUser!.id}`, formData)
+    axios.put(`/users/${this.loggedInUser!.id}`, formData)
       .then(response => {
         console.log("put request worked")
       })

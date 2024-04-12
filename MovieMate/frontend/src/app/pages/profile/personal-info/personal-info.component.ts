@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -12,7 +13,8 @@ export class PersonalInfoComponent {
 
   loggedInUser: User | null = null;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private toast: NgToastService
   ) { }
 
   ngOnInit(): void {
@@ -32,17 +34,18 @@ export class PersonalInfoComponent {
 
   submitForm() {
     const formData = {
-      firstName: this.loggedInUser?.firstName,
-      lastName: this.loggedInUser?.lastName,
-      email: this.loggedInUser?.email
+      firstName: this.loggedInUser!.firstName,
+      lastName: this.loggedInUser!.lastName,
+      email: this.loggedInUser!.email
     }
     console.log("formdata: ", formData);
     axios.put(`/users/${this.loggedInUser!.id}`, formData)
       .then(response => {
-        console.log("put request worked")
+        this.toast.success({detail:"SUCCESS", summary:'You edited your info successfully.', duration:4000})
       })
       .catch(error => {
       console.error(error);
+      this.toast.error({detail:"ERROR", summary:'An error occured during edit.', sticky:true})
       })
   }
 

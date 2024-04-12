@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
 import { Showtime } from 'src/app/models/showtime';
 import { Ticket } from 'src/app/models/ticket';
@@ -28,7 +29,8 @@ export class CheckoutComponent implements OnInit{
   constructor(
     private router: ActivatedRoute,
     private router2: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toast: NgToastService
   ){}
 
   ngOnInit(): void {
@@ -124,8 +126,10 @@ export class CheckoutComponent implements OnInit{
       .then(response =>
         { console.log("buy ticket successful");
         this.router2.navigate(['/profile/tickets']);
+        this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000})
       })
       .catch(error =>
         { console.error(error); });
+        this.toast.error({detail:"ERROR", summary:'An error occured during payment.', sticky:true})
   }
 }

@@ -18,6 +18,7 @@ import { PersonalInfoComponent } from './pages/profile/personal-info/personal-in
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     BrowserAnimationsModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    NgToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

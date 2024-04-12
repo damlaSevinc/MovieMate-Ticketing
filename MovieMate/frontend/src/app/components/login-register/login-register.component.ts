@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -13,7 +14,8 @@ export class LoginRegisterComponent implements OnInit{
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toast: NgToastService
   ){
     axios.defaults.baseURL = 'http://localhost:8080/';
   }
@@ -54,10 +56,12 @@ export class LoginRegisterComponent implements OnInit{
     .then(response => {
       this.authService.setLoggedInUser(response.data);
       this.authService.setToken(response.data.token);
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/home']);
+      this.toast.success({detail:"SUCCESS", summary:'Logged in successfully.', duration:4000})
     })
     .catch(error => {
       console.error("Error is: ", error);
+      this.toast.error({detail:"ERROR", summary:'Are your data correct?', sticky:true})
     })
   }
 

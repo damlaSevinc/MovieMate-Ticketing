@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -13,7 +14,8 @@ export class HeaderComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: NgToastService
   ){}
 
   ngOnInit(): void {
@@ -25,5 +27,6 @@ export class HeaderComponent {
   signOut(){
     this.authService.clearToken();
     this.router.navigate(['/home']);
+    this.toast.success({detail:"SUCCESS", summary:'You logged out successfully.', duration:4000})
   }
 }

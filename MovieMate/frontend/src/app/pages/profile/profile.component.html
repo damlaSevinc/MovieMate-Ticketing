@@ -2,13 +2,14 @@
 <div class="container p-5 text-white">
     <div class="row">
         <div class="col-md-3">
-            <p class="text-center mb-5 p-3 border-bottom" > Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
+            <p class="text-center mb-5 p-3 border-bottom"> Welcome {{ loggedInUser?.firstName?.toUpperCase() }} ! </p>
             <ul class="list-group">
                 <li class="list-group-item border-0 bg-black text-white text-center p-3"
-                    routerLink="/profile/personal-info" routerLinkActive="active">
-                    My personal info </li>
+                    routerLink="/profile/my-tickets" routerLinkActive="active"> Your tickets </li>
                 <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"
-                    routerLink="/profile/tickets" routerLinkActive="active"> Your tickets </li>
+                    routerLink="/profile/personal-info" routerLinkActive="active"> My personal info </li>
+                <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"
+                    routerLink="/profile/password-change" routerLinkActive="active"> Password Change </li>
                 <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"> My means of payment
                 </li>
                 <li class="list-group-item border-0 border-top bg-black text-white text-center p-3"> Need help? </li>
@@ -19,6 +20,4 @@
         </div>
     </div>
 </div>
-
-
 <app-footer></app-footer>

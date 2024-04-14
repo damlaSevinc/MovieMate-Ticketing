@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgToastModule } from 'ng-angular-popup';
+import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { NgToastModule } from 'ng-angular-popup';
     ShowtimesComponent,
     CheckoutComponent,
     TicketsComponent,
-    PersonalInfoComponent
+    PersonalInfoComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,

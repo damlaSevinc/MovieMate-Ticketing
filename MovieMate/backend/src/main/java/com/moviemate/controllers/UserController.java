@@ -76,4 +76,13 @@ public class UserController {
         UserDto updatedUserDto = userMapper.toUserDto(existingUser);
         return ResponseEntity.ok(updatedUserDto);
     }
+
+    // Change the user password
+    @PutMapping("/users/{id}/password")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Void> changePassword(
+        @PathVariable("id") Long id, @RequestBody String newPassword) {
+        userService.changePassword(id, newPassword);
+        return ResponseEntity.ok().build();
+    }
 }

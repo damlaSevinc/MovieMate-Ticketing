@@ -72,4 +72,12 @@ public class UserService {
             existingUser.setEmail(updatedUser.getEmail());
             return userRepository.save(existingUser);
     }
+
+    @Transactional
+    public void changePassword(Long userId, String password){
+        User existingUser = userRepository.findById(userId).
+            orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
+            existingUser.setPassword(password);
+            userRepository.save(existingUser);
+    }
 }

@@ -1,20 +1,20 @@
 <div class="container">
-    <div>
-      <h2>Edit your profile</h2>
-      <form (ngSubmit)="submitForm()" autocomplete="off">
-        <div class="row mb-3">
+      <h2 class="p-3 border-bottom text-center">Edit your profile</h2>
+      <form class="p-3" (ngSubmit)="submitForm()" autocomplete="off">
+        <div class="row p-2">
           <label for="firstName" class="col form-label">First Name:</label>
-          <input type="text" class="col form-control" id="firstName" autocomplete="off" [(ngModel)]="loggedInUser!.firstName" name="firstName">
+          <input type="text" class="col form-control" id="firstName" [(ngModel)]="loggedInUser!.firstName" name="firstName">
         </div>
-        <div class="row mb-3">
+        <div class="row p-2">
           <label for="lastName" class="col form-label">Last Name:</label>
-          <input type="text" class="col form-control" id="lastName" autocomplete="off" [(ngModel)]="loggedInUser!.lastName" name="lastName">
+          <input type="text" class="col form-control" id="lastName" [(ngModel)]="loggedInUser!.lastName" name="lastName">
         </div>
-        <div class="row mb-3">
+        <div class="row p-2">
           <label for="email" class="col form-label">Email:</label>
-          <input type="email" class="col form-control" id="email" autocomplete="off"  autofill="off" [(ngModel)]="loggedInUser!.email" name="email">
+          <input type="email" class="col form-control" id="email" [(ngModel)]="loggedInUser!.email" name="email">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="d-flex justify-content-center p-2">
+          <button type="submit" class="btn btn-secondary">Submit</button>
+        </div>
       </form>
-    </div>
-  </div>
+</div>

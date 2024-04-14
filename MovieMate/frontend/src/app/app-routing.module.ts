@@ -8,6 +8,7 @@ import { ShowtimesComponent } from './pages/showtimes/showtimes.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { TicketsComponent } from './pages/profile/tickets/tickets.component';
 import { PersonalInfoComponent } from './pages/profile/personal-info/personal-info.component';
+import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -20,7 +21,8 @@ const routes: Routes = [
     path: 'profile', component: ProfileComponent,
     children: [
       { path: 'personal-info', component: PersonalInfoComponent },
-      { path: 'tickets', component: TicketsComponent }
+      { path: 'my-tickets', component: TicketsComponent },
+      { path: 'password-change', component: PasswordChangeComponent}
     ]
   }
 ];

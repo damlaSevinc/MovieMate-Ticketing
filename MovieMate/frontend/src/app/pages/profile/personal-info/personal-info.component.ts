@@ -21,15 +21,6 @@ export class PersonalInfoComponent {
     this.authService.getLoggedInUserOb().subscribe((User) => {
       this.loggedInUser = User;
     });
-    if (this.loggedInUser) {
-      axios.get(`/users/${this.loggedInUser.id}`)
-        .then(response => {
-          console.log("Profile of the user:", response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
   }
 
   submitForm() {

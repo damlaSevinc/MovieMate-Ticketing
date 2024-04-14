@@ -12,7 +12,7 @@
         </div>
         <div class="col-4 text-right d-flex justify-content-end">
             <a class="text-decoration-none text-white text-nowrap" *ngIf="!loggedInUser" routerLink="/login">Sign In</a>
-            <a class="text-decoration-none text-white text-nowrap p-2" *ngIf="loggedInUser" routerLink="/profile/personal-info">My Profile</a>
+            <a class="text-decoration-none text-white text-nowrap p-2" *ngIf="loggedInUser" routerLink="/profile/my-tickets">My Profile</a>
             <a class="text-decoration-none text-white text-nowrap p-2" *ngIf="loggedInUser" (click)="signOut()">Sign Out</a>
         </div>
     </div>

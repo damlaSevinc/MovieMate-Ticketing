@@ -30,7 +30,7 @@ export class PasswordChangeComponent implements OnInit {
       alert("Passwords do not match");
       return;
     }
-    axios.put(`/users/${this.loggedInUser!.id}/password`, { newPassword: this.newPassword })
+    axios.put(`/users/${this.loggedInUser!.id}/password?newPassword=${this.newPassword}`)
       .then(response => {
         console.log("Password change done");
         this.toast.success({detail:"SUCCESS", summary:'You change your password successfully.', duration:4000})

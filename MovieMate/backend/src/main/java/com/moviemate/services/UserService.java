@@ -77,7 +77,9 @@ public class UserService {
     public void changePassword(Long userId, String password){
         User existingUser = userRepository.findById(userId).
             orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
-            existingUser.setPassword(password);
+            String newPassword = new String(password);
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            existingUser.setPassword(encodedPassword);
             userRepository.save(existingUser);
     }
 }

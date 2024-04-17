@@ -8,18 +8,18 @@
 
     <div class="first-tab" *ngIf="activeTab =='In Theathers'">
         <ul class="row text-white">
-            <li class="col-lg-3 col-md-6 col-sm-6 mb-4" *ngFor="let movie of moviesInTheathers">
+            <li class="col-lg-3 col-md-6 col-sm-6 mb-4 list-unstyled" *ngFor="let movie of moviesInTheathers">
                 <img class="img-fluid" [src]="movie.image" alt="movie image" (click)="getMovieInfo(movie.id)">
                 <h2 (click)="getMovieInfo(movie.id)"> {{ movie.name }} </h2>
                 <a> Released Date: {{ movie.date | date: 'MMM d, y' }} </a>
-                <h4> Get Tickets </h4>
+                <h4 (click)="getShowtimes(movie.id)"> Get Tickets </h4>
             </li>
         </ul>
     </div>
 
     <div class="second-tab" *ngIf="activeTab=='Coming Soon'">
         <ul class="row text-white ">
-            <li class="col-lg-3 col-md-6 col-sm-6 mb-4 " *ngFor="let movie of moviesUpcoming">
+            <li class="col-lg-3 col-md-6 col-sm-6 mb-4 list-unstyled" *ngFor="let movie of moviesUpcoming">
                 <img class="img-fluid" [src]="movie.image" alt="movie image" (click)="getMovieInfo(movie.id)">
                 <h2 (click)="getMovieInfo(movie.id)"> {{ movie.name }} </h2>
                 <a> Opening: {{ movie.date | date: 'MMM d, y' }} </a>

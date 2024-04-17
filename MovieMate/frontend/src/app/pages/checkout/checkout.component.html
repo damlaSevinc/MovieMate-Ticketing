@@ -1,9 +1,9 @@
 <app-header></app-header>
 <div class="container text-white col-md-8 mt-5">
     <div class="row d-flex justify-content-between">
-        <button class="col-md-2" (click)="backToShowtimes()"> Back To Showtimes </button>
+        <button class="col-md-2 rounded-2" (click)="backToShowtimes()"> Back To Showtimes </button>
         <h2 class="col-md-2"> Checkout </h2>
-        <button class="col-md-2" (click)="closeShowtimes()"> Close </button>
+        <button class="col-md-2 rounded-2" (click)="closeShowtimes()"> Close </button>
     </div>
     <div class="row text-center p-5">
         <h5 class="p-2">{{ movie?.name }} | {{ showtime?.session?.startTime | slice: 0:5 }} | {{ selectedDate }}</h5>

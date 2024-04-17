@@ -125,7 +125,7 @@ export class CheckoutComponent implements OnInit{
     axios.post("/tickets", ticket)
       .then(response =>
         { console.log("buy ticket successful");
-        this.router2.navigate(['/profile/tickets']);
+        this.router2.navigate(['/profile/my-tickets']);
         this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000})
       })
       .catch(error =>

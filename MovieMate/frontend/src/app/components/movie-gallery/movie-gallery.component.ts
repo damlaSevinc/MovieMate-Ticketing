@@ -47,4 +47,8 @@ export class MovieGalleryComponent implements OnInit{
   getMovieInfo(movieId: number): void {
     this.router.navigate(['/movie-details', movieId]);
   }
+
+  getShowtimes(movieId: number): void {
+    this.router.navigate(['/showtimes', movieId])
+  }
 }

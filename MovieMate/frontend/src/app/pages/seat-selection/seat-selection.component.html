@@ -1,0 +1,20 @@
+<app-header></app-header>
+<div class="container">
+    <div class="row d-flex justify-content-between">
+        <button class="col-md-2 rounded-2" (click)="backToShowtimes()"> Back to Movie </button>
+        <h2 class="col-md-2"> Showtimes </h2>
+        <button class="col-md-2 rounded-2" (click)="closeSeatSelection()"> Close </button>
+    </div>
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h2>Select Your Seats</h2>
+        <div class="seat-map">
+
+        </div>
+        <button class="btn btn-primary" (click)="goToCheckout()"> Continue </button>
+      </div>
+    </div>
+  </div>
+  <div class="container text-white col-md-8 mt-5">
+</div>
+<app-footer></app-footer>

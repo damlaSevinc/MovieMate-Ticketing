@@ -13,13 +13,13 @@ export class MovieDetailsComponent implements OnInit {
   movie: Movie | null = null;
   movieId = 0;
   constructor(
-    private router: ActivatedRoute,
-    private router2: Router
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.router.params.subscribe(params => {
-      this.movieId = +params['id'];
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.movieId = +params['movieId'];
       // added + operator to coerce the number type, even if JS mostly converts it to number implicitly
       this.getMovieDetails();
     })
@@ -36,6 +36,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getShowtimes(): void {
-    this.router2.navigate(['/showtimes', this.movieId])
+    this.router.navigate(['/showtimes'],
+    { queryParams: { movieId: this.movieId }})
   }
 }

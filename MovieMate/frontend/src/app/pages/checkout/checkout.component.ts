@@ -27,14 +27,14 @@ export class CheckoutComponent implements OnInit{
   orderDate: Date = new Date();
 
   constructor(
-    private router: ActivatedRoute,
-    private router2: Router,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     private authService: AuthService,
     private toast: NgToastService
   ){}
 
   ngOnInit(): void {
-      this.router.params.subscribe(params => {
+      this.activatedRoute.params.subscribe(params => {
         //// another observable alternative:
         // this.movieId = this.router.params.pipe(map((p)=> p['movieId'])
         //// snapshot alternative is static, so it needs to be reload if any params change
@@ -52,11 +52,12 @@ export class CheckoutComponent implements OnInit{
   }
 
   backToShowtimes(){
-    this.router2.navigate(['/showtimes', this.movieId])
+    this.router.navigate(['/showtimes'],
+    { queryParams: { movieId: this.movieId }})
   }
 
   closeShowtimes(){
-    this.router2.navigate(['/home'])
+    this.router.navigate(['/home'])
   }
 
   getMovieDetails(){
@@ -125,7 +126,7 @@ export class CheckoutComponent implements OnInit{
     axios.post("/tickets", ticket)
       .then(response =>
         { console.log("buy ticket successful");
-        this.router2.navigate(['/profile/my-tickets']);
+        this.router.navigate(['/profile/my-tickets']);
         this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000})
       })
       .catch(error =>

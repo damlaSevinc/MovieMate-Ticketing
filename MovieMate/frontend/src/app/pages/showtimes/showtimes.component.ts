@@ -19,27 +19,26 @@ export class ShowtimesComponent implements OnInit {
   selectedDate = 'Today';
 
   constructor(
-    private router: ActivatedRoute,
-    private router2: Router){}
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
-    this.router.params.subscribe(params =>
-      this.movieId = +params['id'])
+    this.activatedRoute.queryParams.subscribe(params =>
+      this.movieId = +params['movieId'])
     this.getShowtimes();
     this.getMovieDetails();
     this.generateDates();
-    }
+  }
 
-  getShowtimes(){
+  getShowtimes() {
     axios.get(`/movies/${this.movieId}/showtimes`)
       .then(response => {
         this.showtimes = response.data
       })
-      .catch(error =>
-        { console.log(error); })
+      .catch(error => { console.log(error); })
   }
 
-  getMovieDetails(){
+  getMovieDetails() {
     axios.get(`/movies/${this.movieId}`)
       .then(response => {
         this.movie = response.data;
@@ -49,32 +48,39 @@ export class ShowtimesComponent implements OnInit {
       })
   }
 
-  setActiveShowtime(showtimeId: number){
+  setActiveShowtime(showtimeId: number) {
     this.activeShowtimeId = showtimeId;
   }
 
-  generateDates(){
+  generateDates() {
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    for(let i=0; i<14; i++){
+    for (let i = 0; i < 14; i++) {
       const optionDate = new Date(tomorrow);
       optionDate.setDate(tomorrow.getDate() + i);
       this.dates.push(optionDate.toISOString().split("T")[0]);
     }
   }
 
-  backToMovieDetail(){
-    this.router2.navigate(['/movie-details', this.movieId])
+  backToMovieDetail() {
+    this.router.navigate(['/movie-details'],
+    { queryParams: { movieId: this.movieId }})
   }
 
-  closeShowtimes(){
-    this.router2.navigate(['/home'])
+  closeShowtimes() {
+    this.router.navigate(['/home'])
   }
 
-  goToCheckout(): void {
-    this.router2.navigate(['/checkout',
-    this.movieId, this.activeShowtimeId, this.selectedDate]);
+  goToSeatSelection() {
+    this.router.navigate(['/seat-selection'],
+      {
+        queryParams: {
+          movieId: this.movieId,
+          showtimeId: this.activeShowtimeId,
+          selectedDate: this.selectedDate
+        }
+      })
   }
 }

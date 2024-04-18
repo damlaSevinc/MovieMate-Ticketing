@@ -45,10 +45,12 @@ export class MovieGalleryComponent implements OnInit{
   }
 
   getMovieInfo(movieId: number): void {
-    this.router.navigate(['/movie-details', movieId]);
+    this.router.navigate(['/movie-details'],
+    { queryParams: { movieId }})
   }
 
   getShowtimes(movieId: number): void {
-    this.router.navigate(['/showtimes', movieId])
+    this.router.navigate(['/showtimes'],
+    { queryParams: { movieId }})
   }
 }

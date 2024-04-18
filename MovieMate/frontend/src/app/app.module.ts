@@ -20,6 +20,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { NgToastModule } from 'ng-angular-popup';
 import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
+import { SeatSelectionComponent } from './pages/seat-selection/seat-selection.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { PasswordChangeComponent } from './pages/profile/password-change/passwor
     CheckoutComponent,
     TicketsComponent,
     PersonalInfoComponent,
-    PasswordChangeComponent
+    PasswordChangeComponent,
+    SeatSelectionComponent
   ],
   imports: [
     BrowserModule,

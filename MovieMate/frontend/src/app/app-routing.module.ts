@@ -9,14 +9,16 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { TicketsComponent } from './pages/profile/tickets/tickets.component';
 import { PersonalInfoComponent } from './pages/profile/personal-info/personal-info.component';
 import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
+import { SeatSelectionComponent } from './pages/seat-selection/seat-selection.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginRegisterComponent },
-  { path: 'movie-details/:id', component: MovieDetailsComponent },
-  { path: 'showtimes/:id', component: ShowtimesComponent },
-  { path: 'checkout/:movieId/:activeShowtimeId/:selectedDate', component: CheckoutComponent },
+  { path: 'movie-details', component: MovieDetailsComponent },
+  { path: 'showtimes', component: ShowtimesComponent },
+  { path: 'seat-selection', component: SeatSelectionComponent},
+  { path: 'checkout', component: CheckoutComponent },
   {
     path: 'profile', component: ProfileComponent,
     children: [

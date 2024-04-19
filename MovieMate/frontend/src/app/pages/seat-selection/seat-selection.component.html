@@ -1,20 +1,22 @@
 <app-header></app-header>
-<div class="container">
-    <div class="row d-flex justify-content-between">
-        <button class="col-md-2 rounded-2" (click)="backToShowtimes()"> Back to Movie </button>
-        <h2 class="col-md-2"> Showtimes </h2>
-        <button class="col-md-2 rounded-2" (click)="closeSeatSelection()"> Close </button>
-    </div>
-    <div class="row">
-      <div class="col-md-8 offset-md-2">
-        <h2>Select Your Seats</h2>
-        <div class="seat-map">
-
+<div class="container text-white col-md-8 mt-5">
+  <div class="row d-flex justify-content-between">
+    <button class="col-md-2 rounded-2" (click)="backToShowtimes()"> Back to Movie </button>
+    <h2 class="col-md-3"> Seat Selection </h2>
+    <button class="col-md-2 rounded-2" (click)="closeSeatSelection()"> Close </button>
+  </div>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="seat-map">
+        <div *ngFor="let row of rows" class="row seat-row"> Row {{row.number}}
+          <div *ngFor="let seat of row.seats" class="col seat" [class.selected]="seat.selected"
+            [class.unavailable]="!seat.available" (click)="toggleSeatSelection(seat)">
+              Seat {{seat.number}}
+          </div>
         </div>
-        <button class="btn btn-primary" (click)="goToCheckout()"> Continue </button>
       </div>
+      <button class="btn btn-primary" (click)="goToCheckout()"> Continue </button>
     </div>
   </div>
-  <div class="container text-white col-md-8 mt-5">
 </div>
 <app-footer></app-footer>

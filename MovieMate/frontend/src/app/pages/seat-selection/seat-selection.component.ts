@@ -52,12 +52,15 @@ export class SeatSelectionComponent implements OnInit {
 
   initializeSeats(){
     const numRows = 5;
-    const numSeatsPerRow = 10;
+    const numSeatsPerRow = 8;
+    const rowLetters = 'ABCDEFGHIJK';
 
     for (let i = 0; i < numRows; i++){
-      const row: Row = { number: i, seats: [] };
-      for (let j = 0; j < numSeatsPerRow; j++) {
-        row.seats.push({ number: `${j}`, selected: false, available: true})
+      const rowLetter = rowLetters[i];
+      const row: Row = { number: i + 1, seats: [] };
+      for (let j = 1; j <= numSeatsPerRow; j++) {
+        const seatNumber = rowLetter + j;
+        row.seats.push({ number: seatNumber, selected: false, available: true})
       }
       this.rows.push(row);
     }
@@ -76,7 +79,7 @@ export class SeatSelectionComponent implements OnInit {
         queryParams: {
           movieId: this.movieId,
           showtimeId: this.showtimeId,
-          selectedDate: this.selectedDate,
+          selectedDate: this.selectedDate
         }
       })
   }

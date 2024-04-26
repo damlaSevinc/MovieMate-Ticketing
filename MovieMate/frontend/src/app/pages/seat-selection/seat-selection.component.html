@@ -2,21 +2,29 @@
 <div class="container text-white col-md-8 mt-5">
   <div class="row d-flex justify-content-between">
     <button class="col-md-2 rounded-2" (click)="backToShowtimes()"> Back to Movie </button>
-    <h2 class="col-md-3"> Seat Selection </h2>
+    <h2 class="col-md-8 text-center"> Seat Selection </h2>
     <button class="col-md-2 rounded-2" (click)="closeSeatSelection()"> Close </button>
   </div>
-  <div class="row">
+  <div class="row py-5">
     <div class="col-md-8 offset-md-2">
-      <div class="seat-map">
-        <div *ngFor="let row of rows" class="row seat-row"> Row {{row.number}}
-          <div *ngFor="let seat of row.seats" class="col seat" [class.selected]="seat.selected"
+      <div class="seat-map border p-5 rounded-5">
+        <div class="row d-flex justify-content-center m-2"> Screen </div>
+        <div *ngFor="let row of rows" class="row seat-row p-2 mx-3"> {{row.number}}. Row
+          <div *ngFor="let seat of row.seats" class="col seat " [class.selected]="seat.selected"
             [class.unavailable]="!seat.available" (click)="toggleSeatSelection(seat)">
-              Seat {{seat.number}}
+            <div class="position-relative">
+              <i class="material-icons seat-icon material-icon-large">chair</i>
+              <span class="position-absolute top-50 start-50 translate-middle seat-number m-2">{{ seat.number }}</span>
+            </div>
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" (click)="goToCheckout()"> Continue </button>
+      <div class="row d-flex justify-content-end p-3">
+        <button class="col-md-2 btn btn-dark" (click)="goToCheckout()"> Continue </button>
+      </div>
     </div>
   </div>
+
+
 </div>
 <app-footer></app-footer>

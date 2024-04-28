@@ -5,4 +5,18 @@
 .seat-number {
     color: pink;
     position: absolute;
+    cursor: pointer;
   }
+
+.position-relative {
+  position: relative;
+}
+
+.seat-unavailable {
+  pointer-events: none;
+}
+
+.seat.selectable.selected {
+  background-color: gray;
+  border-radius: 1rem;
+}

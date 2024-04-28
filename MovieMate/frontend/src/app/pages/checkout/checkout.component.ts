@@ -20,6 +20,7 @@ export class CheckoutComponent implements OnInit{
   selectedDate = '';
   movieId = 0;
   showtimeId = 0;
+  count = 0;
   adultCount = 0;
   childCount = 0;
   sum = 0;
@@ -34,26 +35,29 @@ export class CheckoutComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-      this.activatedRoute.params.subscribe(params => {
-        //// another observable alternative:
-        // this.movieId = this.router.params.pipe(map((p)=> p['movieId'])
-        //// snapshot alternative is static, so it needs to be reload if any params change
-        // this.movieId = this.router.snapshot.params['movieId'];
+      this.activatedRoute.queryParams.subscribe(params => {
       this.movieId = +params['movieId']
-      this.showtimeId = params['activeShowtimeId']
+      this.showtimeId = params['showtimeId']
       this.selectedDate = params['selectedDate']
+      this.count = params ['seatCount']
       });
-      this.getShowtime();
       this.getMovieDetails();
+      this.getShowtime();
       this.totalAmount();
       this.authService.getLoggedInUserOb().subscribe((User) => {
         this.loggedInUser = User;})
 
   }
 
-  backToShowtimes(){
-    this.router.navigate(['/showtimes'],
-    { queryParams: { movieId: this.movieId }})
+  backToSeatSelection(){
+    this.router.navigate(['/seat-selection'],
+    {
+      queryParams: {
+      movieId: this.movieId,
+      showtimeId: this.showtimeId,
+      selectedDate: this.selectedDate,
+    }
+    })
   }
 
   closeShowtimes(){

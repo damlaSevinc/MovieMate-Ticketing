@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import axios from 'axios';
+import { Movie } from 'src/app/models/movie';
+import { Showtime } from 'src/app/models/showtime';
 
 interface Seat {
   number: string;
@@ -22,6 +25,8 @@ export class SeatSelectionComponent implements OnInit {
   showtimeId = 0;
   selectedDate = '';
   rows: Row[] = [];
+  movie: Movie | null = null;
+  showtime: Showtime | null = null;
 
   constructor(
     private activatedRouter: ActivatedRoute,
@@ -35,10 +40,28 @@ export class SeatSelectionComponent implements OnInit {
       this.selectedDate = params['selectedDate']
     }
     );
-    console.log('movieId: ' + this.movieId);
-    console.log('showtimeId: ' + this.showtimeId);
-    console.log('selectedDate: ' + this.selectedDate);
     this.initializeSeats();
+    this.getMovieDetails();
+    this.getShowtime();
+  }
+
+  getMovieDetails() {
+    axios.get(`/movies/${this.movieId}`)
+      .then(response => {
+        this.movie = response.data;
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }
+
+  getShowtime(){
+    axios.get(`/movies/${this.movieId}/showtimes/${this.showtimeId}`)
+      .then(response => {
+        this.showtime = response.data
+      })
+      .catch(error =>
+        { console.log(error); })
   }
 
   backToShowtimes() {
@@ -70,7 +93,21 @@ export class SeatSelectionComponent implements OnInit {
   toggleSeatSelection(seat: Seat): void {
     if (seat.available) {
       seat.selected = !seat.selected;
+      console.log('toggle');
+
     }
+  }
+
+  getSelectedSeatCount(): number{
+    let count = 0;
+    for (const row of this.rows) {
+      for (const seat of row.seats) {
+        if (seat.selected) {
+          count++;
+        }
+      }
+    }
+    return count;
   }
 
   goToCheckout() {
@@ -79,7 +116,8 @@ export class SeatSelectionComponent implements OnInit {
         queryParams: {
           movieId: this.movieId,
           showtimeId: this.showtimeId,
-          selectedDate: this.selectedDate
+          selectedDate: this.selectedDate,
+          seatCount: this.getSelectedSeatCount()
         }
       })
   }

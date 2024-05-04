@@ -12,7 +12,10 @@
             <ul class="col list-unstyled d-flex">
                 <li class="p-3 session-item" *ngFor="let showtime of showtimes"
                     [ngClass]="{'active': showtime.id === activeShowtimeId}" (click)="setActiveShowtime(showtime.id)">
-                    {{ showtime.session.startTime | slice: 0:5 }}
+                    <div>
+                        {{ selectedDate === 'Today' ? (isPastSession(showtime.session.startTime) ? '' :
+                        showtime.session.startTime | slice: 0:5) : showtime.session.startTime | slice: 0:5 }}
+                    </div>
                 </li>
                 <select class="form-select" aria-label="Date select" [(ngModel)]="selectedDate">
                     <option selected> Today </option>

@@ -64,6 +64,13 @@ export class ShowtimesComponent implements OnInit {
     }
   }
 
+  isPastSession(sessionStartTime: string): boolean {
+    let fullTime = `${new Date().toDateString()} ${sessionStartTime}`;
+    let sessionTime =new Date(fullTime);
+    let currentTime = new Date();
+    return currentTime > sessionTime;
+  }
+
   backToMovieDetail() {
     this.router.navigate(['/movie-details'],
     { queryParams: { movieId: this.movieId }})

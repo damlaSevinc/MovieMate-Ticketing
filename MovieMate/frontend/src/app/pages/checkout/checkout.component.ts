@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
+import { Seat } from 'src/app/models/seat';
 import { Showtime } from 'src/app/models/showtime';
 import { Ticket } from 'src/app/models/ticket';
 import { User } from 'src/app/models/user';
@@ -26,6 +27,7 @@ export class CheckoutComponent implements OnInit{
   sum = 0;
   loggedInUser: User | null = null;
   orderDate: Date = new Date();
+  selectedSeats: Seat[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,13 +42,15 @@ export class CheckoutComponent implements OnInit{
       this.showtimeId = params['showtimeId']
       this.selectedDate = params['selectedDate']
       this.count = params ['seatCount']
-      });
+      this.selectedSeats = params['selectedSeats']
+    })
       this.getMovieDetails();
       this.getShowtime();
       this.totalAmount();
       this.authService.getLoggedInUserOb().subscribe((User) => {
         this.loggedInUser = User;})
-
+        console.log(this.selectedSeats);
+        console.log(this.count);
   }
 
   backToSeatSelection(){
@@ -56,6 +60,7 @@ export class CheckoutComponent implements OnInit{
       movieId: this.movieId,
       showtimeId: this.showtimeId,
       selectedDate: this.selectedDate,
+      selectedSeats: this.selectedSeats
     }
     })
   }

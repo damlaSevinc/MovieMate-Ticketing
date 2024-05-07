@@ -2,13 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import axios from 'axios';
 import { Movie } from 'src/app/models/movie';
+import { Seat } from 'src/app/models/seat';
 import { Showtime } from 'src/app/models/showtime';
-
-interface Seat {
-  number: string;
-  selected: boolean;
-  available: boolean;
-}
 
 interface Row {
   number: number;
@@ -111,13 +106,23 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   goToCheckout() {
+    const selectedSeats: Seat[] = [];
+    for (const row of this.rows) {
+      for (const seat of row.seats) {
+        if (seat.selected) {
+          selectedSeats.push(seat);
+        }
+      }
+    }
+    const seatCount: number = selectedSeats.length;
     this.router.navigate(['/checkout'],
       {
         queryParams: {
           movieId: this.movieId,
           showtimeId: this.showtimeId,
           selectedDate: this.selectedDate,
-          seatCount: this.getSelectedSeatCount()
+          seatCount: this.getSelectedSeatCount(),
+          selectedSeats: selectedSeats.map(seat => seat.number).join(',')
         }
       })
   }

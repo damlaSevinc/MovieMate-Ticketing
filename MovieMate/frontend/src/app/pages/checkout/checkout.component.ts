@@ -49,8 +49,6 @@ export class CheckoutComponent implements OnInit{
       this.totalAmount();
       this.authService.getLoggedInUserOb().subscribe((User) => {
         this.loggedInUser = User;})
-        console.log(this.selectedSeats);
-        console.log(this.count);
   }
 
   backToSeatSelection(){

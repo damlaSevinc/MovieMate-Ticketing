@@ -18,11 +18,11 @@
             <p> €11.99</p>
         </div>
         <div class="col-md-3 ">
-            <div><button class="btn btn-dark" (click)="decrementCount('adult')"> - </button> {{ adultCount }}
-                <button class="btn btn-dark" (click)="incrementCount('adult')"> + </button>
+            <div><button [class.custom-disabled]="adultCount + childCount <= 0" class="btn btn-dark" (click)="decrementCount('adult')"> - </button> {{ adultCount }}
+                <button [class.custom-disabled]="adultCount + childCount >= count" class="btn btn-dark" (click)="incrementCount('adult')"> + </button>
             </div>
-            <div><button class="btn btn-dark" (click)="decrementCount('child')">-</button> {{ childCount }}
-                <button class="btn btn-dark" (click)="incrementCount('child')"> + </button>
+            <div><button [class.custom-disabled]="adultCount + childCount <= 0" class="btn btn-dark" (click)="decrementCount('child')">-</button> {{ childCount }}
+                <button [class.custom-disabled]="adultCount + childCount >= count" class="btn btn-dark" (click)="incrementCount('child')"> + </button>
             </div>
         </div>
     </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="row justify-content-end">
         <div class="col-md-4">
-            <button class="btn btn-secondary" (click)="buyTicket()"> Buy </button>
+            <button [class.custom-disabled]="adultCount + childCount !== 2" class="btn btn-secondary" (click)="buyTicket()"> Buy </button>
         </div>
     </div>
 </div>

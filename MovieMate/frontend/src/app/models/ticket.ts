@@ -1,3 +1,4 @@
+import { Seat } from "./seat";
 import { Showtime } from "./showtime";
 import { User } from "./user";
 
@@ -12,4 +13,5 @@ export interface Ticket {
     selectedDate: string;
     orderDate: string;
     isExpanded: boolean;
+    selectedSeats: Seat[];
 }

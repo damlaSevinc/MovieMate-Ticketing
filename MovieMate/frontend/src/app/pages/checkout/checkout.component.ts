@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit{
       this.showtimeId = params['showtimeId']
       this.selectedDate = params['selectedDate']
       this.count = params ['seatCount']
-      this.selectedSeats = params['selectedSeats']
+      this.selectedSeats = params['selectedSeats'].split(',');
     })
       this.getMovieDetails();
       this.getShowtime();
@@ -128,7 +128,8 @@ export class CheckoutComponent implements OnInit{
       paidAmount: this.sum,
       selectedDate: this.selectedDate,
       isExpanded: false,
-      orderDate: this.orderDate.toISOString()
+      orderDate: this.orderDate.toISOString(),
+      selectedSeats: this.selectedSeats
     }
     axios.post("/tickets", ticket)
       .then(response =>

@@ -1,9 +1,15 @@
 package com.moviemate.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -18,7 +24,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long ticketId;
+    private Long orderId;
 
     @ManyToOne
     private User user;
@@ -31,11 +37,16 @@ public class Ticket {
     private Double paidAmount;
     private String selectedDate;
     private String orderDate;
-    private String selectedSeats;
+
+    @ManyToMany
+    @JoinTable(name = "ticket_seats",
+    joinColumns = @JoinColumn(name = "ticket_id"),
+    inverseJoinColumns = @JoinColumn(name = "seat_id"))
+    private Set<Seat> assignedSeats = new HashSet<>();
 
     @PrePersist
     public void generateContractNumber() {
-        this.ticketId = generateTicketNumber();
+        this.orderId = generateTicketNumber();
     }
 
     private Long generateTicketNumber() {

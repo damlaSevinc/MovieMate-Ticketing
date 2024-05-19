@@ -78,7 +78,7 @@ export class SeatSelectionComponent implements OnInit {
       const row: Row = { number: i + 1, seats: [] };
       for (let j = 1; j <= numSeatsPerRow; j++) {
         const seatNumber = rowLetter + j;
-        row.seats.push({ number: seatNumber, selected: false, available: true})
+        row.seats.push({ seatNumber: seatNumber, selected: false, available: true})
       }
       this.rows.push(row);
     }
@@ -122,7 +122,7 @@ export class SeatSelectionComponent implements OnInit {
           showtimeId: this.showtimeId,
           selectedDate: this.selectedDate,
           seatCount: this.getSelectedSeatCount(),
-          selectedSeats: selectedSeats.map(seat => seat.number).join(',')
+          selectedSeats: selectedSeats.map(seat => seat.seatNumber).join(',')
         }
       })
   }

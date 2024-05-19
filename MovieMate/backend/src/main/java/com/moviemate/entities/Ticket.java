@@ -3,6 +3,7 @@ package com.moviemate.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,7 +39,7 @@ public class Ticket {
     private String selectedDate;
     private String orderDate;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "ticket_seats",
     joinColumns = @JoinColumn(name = "ticket_id"),
     inverseJoinColumns = @JoinColumn(name = "seat_id"))

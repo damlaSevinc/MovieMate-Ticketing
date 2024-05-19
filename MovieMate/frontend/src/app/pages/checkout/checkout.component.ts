@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit{
   sum = 0;
   loggedInUser: User | null = null;
   orderDate: Date = new Date();
-  selectedSeats: Seat[] = [];
+  assignedSeats: Seat[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,7 +42,7 @@ export class CheckoutComponent implements OnInit{
       this.showtimeId = params['showtimeId']
       this.selectedDate = params['selectedDate']
       this.count = params ['seatCount']
-      this.selectedSeats = params['selectedSeats'].split(',');
+      this.assignedSeats = params['selectedSeats'].split(',');
     })
       this.getMovieDetails();
       this.getShowtime();
@@ -58,7 +58,7 @@ export class CheckoutComponent implements OnInit{
       movieId: this.movieId,
       showtimeId: this.showtimeId,
       selectedDate: this.selectedDate,
-      selectedSeats: this.selectedSeats
+      selectedSeats: this.assignedSeats
     }
     })
   }
@@ -119,8 +119,8 @@ export class CheckoutComponent implements OnInit{
 
   buyTicket(): void {
     const ticket: Ticket = {
-      id: 0, // will be defined on the backend side
-      ticketId: 0, // will be defined on the backend side
+      // id: 0, // will be defined on the backend side
+      // orderId: 0, // will be defined on the backend side
       user: this.loggedInUser!,
       showtime: this.showtime!,
       adultCount: this.adultCount,
@@ -129,8 +129,9 @@ export class CheckoutComponent implements OnInit{
       selectedDate: this.selectedDate,
       isExpanded: false,
       orderDate: this.orderDate.toISOString(),
-      selectedSeats: this.selectedSeats
+      assignedSeats: this.assignedSeats
     }
+    console.log("ticket before buy: ", ticket);
     axios.post("/tickets", ticket)
       .then(response =>
         { console.log("buy ticket successful");

@@ -4,7 +4,6 @@ out/
 target/
 
 # Ignore IDE/Editor specific files
-.vscode/
 .idea/
 *.iml
 

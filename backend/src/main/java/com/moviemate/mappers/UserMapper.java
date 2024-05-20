@@ -10,6 +10,7 @@ import com.moviemate.entities.User;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "token", ignore = true)
     UserDto toUserDto(User user);
 
     // It maps the new signUpUser data to the User entity

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
@@ -9,9 +9,10 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './personal-info.component.html',
   styleUrls: ['./personal-info.component.scss']
 })
-export class PersonalInfoComponent {
+export class PersonalInfoComponent implements OnInit {
 
-  loggedInUser: User | null = null;
+  @Input() loggedInUser: User | null = null;
+
   constructor(
     private authService: AuthService,
     private toast: NgToastService

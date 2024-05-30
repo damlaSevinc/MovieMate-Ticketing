@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import axios from 'axios';
 import { Ticket } from 'src/app/models/ticket';
 import { User } from 'src/app/models/user';
@@ -9,8 +9,9 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './tickets.component.html',
   styleUrls: ['./tickets.component.scss']
 })
-export class TicketsComponent {
-  loggedInUser: User | null = null;
+export class TicketsComponent implements OnInit {
+  @Input() loggedInUser: User | null = null;
+
   userTickets: Ticket[] = [];
   selectedSortingOption: string = 'Newest';
   constructor(
@@ -20,7 +21,7 @@ export class TicketsComponent {
   ngOnInit(): void {
     this.authService.getLoggedInUserOb().subscribe((User) => {
       this.loggedInUser = User;
-        this.getNewestTickets();
+      this.getNewestTickets();
     });
   }
 

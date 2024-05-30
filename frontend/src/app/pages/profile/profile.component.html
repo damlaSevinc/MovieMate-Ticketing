@@ -16,7 +16,11 @@
             </ul>
         </div>
         <div class="col-md-9 d-flex align-items-center justify-content-center">
-            <router-outlet></router-outlet>
+            <!-- <router-outlet></router-outlet> -->
+            <ng-container *ngIf="loggedInUser as user">
+                <app-personal-info *ngIf="isPersonalInfo" [loggedInUser]="user"></app-personal-info>
+                <app-tickets *ngIf="isMyTickets" [loggedInUser]="user"></app-tickets>
+            </ng-container>
         </div>
     </div>
 </div>

@@ -1,27 +1,104 @@
-# MovieMate
+# MovieMate Ticketing
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.4.
+Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you set up and run the project on your local machine.
 
-## Development server
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [Clone the Repository](#1-clone-the-repository)
+  - [Install Dependencies](#2-install-the-dependencies)
+  - [Set Up the Database](#3-set-up-the-database)
+    - [Using Docker](#using-docker)
+    - [Connecting to MySQL in Docker with MySQL Workbench](#connecting-to-mysql-in-docker-with-mysql-workbench)
+    - [Import the Backup File](#import-the-backup-file)
+  - [Set Up Environment Variables](#4-set-up-environment-variables)
+  - [Running the Project](#5-running-the-project)
+    - [Start the Backend Server](#start-the-backend-server)
+    - [Start the Frontend Server](#start-the-frontend-server)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Prerequisites
 
-## Code scaffolding
+Before you begin, make sure you have the following software installed on your machine:
+- **Node.js** (https://nodejs.org/)
+- **npm** (https://www.npmjs.com/)
+- **Angular CLI** (https://angular.io/cli)
+- **MySQL** (https://www.mysql.com/)
+- **Java JDK** (https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- **Maven** (https://maven.apache.org/)
+- **Git** (https://git-scm.com/)
+- **Docker Desktop** (https://www.docker.com/products/docker-desktop)
+- **MySQL Workbench** (https://www.mysql.com/products/workbench/) (optional)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/damlaSevinc/MovieMate-Ticketing.git
+    cd MovieMate-Ticketing
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+2. **Install the dependencies**:
+   ```bash
+    cd frontend
+    npm install
+    ```
 
-## Running unit tests
+3. **Set up the database**:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    ### Using Docker:
+    - **Pull the MySQL Docker Image**:
+    ```bash
+    docker pull mysql:latest
+    ```
+    - **Run the MySQL Docker Container**:
+    ```bash
+    docker run --name movie_mate -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=movie_mate -e MYSQL_USER=movie_mate_user -e MYSQL_PASSWORD=movie_mate_pass -d mysql:latest
+    ```
 
-## Running end-to-end tests
+    ### Connecting to MySQL Server in Docker (optional with MySQL Workbench):
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    - **If you use Workbench, launch MySQLWorkbench and set up a new connection**:
+        - **Hostname**: `localhost` or `127.0.0.1`
+        - **Port**: `3306`
+        - **Username**: `movie_mate_user`
+        - **Password**: `movie_mate_pass`
 
-## Further help
+    - **Test the connection**:
+        - Click on the `Test Connection` button to ensure the connection is successful
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+    - **Import the Backup File**
+        - Run the following command in your terminal to import the from the schema and data
+        ```bash
+         docker exec -i movie_mate_mysql mysql -u movie_mate_user -p movie_mate_pass movie_mate < db/backup.sql
+        ```
+        - Or import through MySQLWorkbench using the following path `db/backup.sql`
+
+    - **Verify Import**
+        - Check your MySQL Server to ensure the database has been populated with the necessary tables and data
+
+4. **Set up environment variables**:
+    - Review `application.yml` file located in the `backend/src/main/resources` directory
+    - Ensure it contains the following database credentials for your local setup
+    ```yaml
+    spring.datasource.url=jdbc:mysql://localhost:3306/movie_mate
+    spring.datasource.username=movie_mate_user
+    spring.datasource.password=movie_mate_pass
+    ```
+    - Replace `movie_mate_user` and `movie_mate_pass` with your MySQL username and password if necessary
+
+5. **Running the project**:
+    - **Start the backend server**:
+    ```bash
+    cd backend
+    mvn spring-boot:run
+    ```
+    - **Start the frontend server**:
+    ```bash
+    cd frontend
+    ng serve -o
+    ```
+    Or run:
+    ```bash
+    ng serve
+    ```
+    Then navigate to `http://localhost:4200/` in your browser.

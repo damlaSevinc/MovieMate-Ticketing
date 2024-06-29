@@ -3,6 +3,7 @@
 Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you set up and run the project on your local machine.
 
 ## Table of Contents
+- [Functionalities](#functionalities)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
   - [Clone the Repository](#1-clone-the-repository)
@@ -15,6 +16,9 @@ Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you s
   - [Running the Project](#5-running-the-project)
     - [Start the Backend Server](#start-the-backend-server)
     - [Start the Frontend Server](#start-the-frontend-server)
+
+## Functionalities
+![Sign In](frontend/src/assets/sign_in.mov)
 
 ## Prerequisites
 

@@ -41,10 +41,15 @@ export class LoginRegisterComponent implements OnInit{
       password : this.password
     })
     .then(response => {
+      this.authService.setLoggedInUser(response.data);
+      this.authService.setToken(response.data.token);
+      this.router.navigate(['/home']);
+      this.toast.success({detail:"SUCCESS", summary:'Registered successfully.', duration:4000})
       console.log('response is: ', response.data);
     })
     .catch(error => {
       console.error('Error: ', error);
+      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000})
     });
   }
 
@@ -61,7 +66,7 @@ export class LoginRegisterComponent implements OnInit{
     })
     .catch(error => {
       console.error("Error is: ", error);
-      this.toast.error({detail:"ERROR", summary:'Are your data correct?', sticky:true})
+      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000})
     })
   }
 

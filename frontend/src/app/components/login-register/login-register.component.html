@@ -11,29 +11,17 @@
             <form (ngSubmit)="registerUser()" #signupForm="ngForm">
                 <div class="top-row">
                     <div class="field-wrap">
-                        <label>
-                            First Name <span class="req">*</span>
-                        </label>
-                        <input type="text" name="firstName" [(ngModel)]="firstName" required/>
+                        <input type="text" name="firstName" [(ngModel)]="firstName" required placeholder="Enter your name"/>
                     </div>
                     <div class="field-wrap">
-                        <label>
-                            Last Name <span class="req">*</span>
-                        </label>
-                        <input type="text" name="lastName" [(ngModel)]="lastName" required/>
+                        <input type="text" name="lastName" [(ngModel)]="lastName" required placeholder="Enter your last name"/>
                     </div>
                 </div>
                 <div class="field-wrap">
-                    <label>
-                        Email Address<span class="req">*</span>
-                    </label>
-                    <input type="email" name="email" [(ngModel)]="email" required/>
+                    <input type="email" name="email" [(ngModel)]="email" required placeholder="Enter your email *"/>
                 </div>
                 <div class="field-wrap">
-                    <label>
-                        Set A Password<span class="req">*</span>
-                    </label>
-                    <input type="password" name="password" [(ngModel)]="password" required autocomplete="off"/>
+                    <input type="password" name="password" [(ngModel)]="password" required autocomplete="off" placeholder="Set a password *"/>
                 </div>
                 <button type="submit" class="button button-block">Get Started</button>
             </form>
@@ -43,16 +31,10 @@
             <h1>Welcome Back</h1>
             <form (ngSubmit)="loginUser()" method="post">
                 <div class="field-wrap">
-                    <label>
-                        Email Address <span class="req">*</span>
-                    </label>
-                    <input type="email" name="email" [(ngModel)]="email" required autocomplete="off"/>
+                    <input type="email" name="email" [(ngModel)]="email" required autocomplete="off" placeholder="Enter your email *"/>
                 </div>
                 <div class="field-wrap">
-                    <label>
-                        Password <span class="req">*</span>
-                    </label>
-                    <input type="password" name="password" [(ngModel)]="password" autocomplete="off"/>
+                    <input type="password" name="password" [(ngModel)]="password" autocomplete="off" placeholder="Enter your password *"/>
                 </div>
                 <button class="button button-block">Log In</button>
             </form>

@@ -27,6 +27,6 @@ export class HeaderComponent implements OnInit {
   signOut(){
     this.authService.clearToken();
     this.router.navigate(['/home']);
-    this.toast.success({detail:"SUCCESS", summary:'You logged out successfully.', duration:4000})
+    this.toast.success({detail:"SUCCESS", summary:'You logged out successfully.', duration:4000, position:'bottomRight'})
   }
 }

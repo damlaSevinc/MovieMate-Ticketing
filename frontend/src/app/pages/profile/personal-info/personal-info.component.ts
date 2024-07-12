@@ -33,11 +33,11 @@ export class PersonalInfoComponent implements OnInit {
     console.log("formdata: ", formData);
     axios.put(`/users/${this.loggedInUser!.id}`, formData)
       .then(response => {
-        this.toast.success({detail:"SUCCESS", summary:'You edited your info successfully.', duration:4000})
+        this.toast.success({detail:"SUCCESS", summary:'You edited your info successfully.', duration:4000, position:'bottomRight'})
       })
       .catch(error => {
       console.error(error);
-      this.toast.error({detail:"ERROR", summary:'An error occured during edit.', sticky:true})
+      this.toast.error({detail:"ERROR", summary:'An error occured during edit.', duration:4000, position:'bottomRight'})
       })
   }
 

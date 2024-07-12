@@ -33,7 +33,7 @@ export class PasswordChangeComponent implements OnInit {
     axios.put(`/users/${this.loggedInUser!.id}/password?newPassword=${this.newPassword}`)
       .then(response => {
         console.log("Password change done");
-        this.toast.success({detail:"SUCCESS", summary:'You change your password successfully.', duration:4000})
+        this.toast.success({detail:"SUCCESS", summary:'You change your password successfully.', duration:4000, position:'bottomRight'})
       })
       .catch(error => {
         console.error('Error:', error);

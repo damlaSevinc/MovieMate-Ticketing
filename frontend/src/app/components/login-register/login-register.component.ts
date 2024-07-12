@@ -44,12 +44,12 @@ export class LoginRegisterComponent implements OnInit{
       this.authService.setLoggedInUser(response.data);
       this.authService.setToken(response.data.token);
       this.router.navigate(['/home']);
-      this.toast.success({detail:"SUCCESS", summary:'Registered successfully.', duration:4000})
+      this.toast.success({detail:"SUCCESS", summary:'Registered successfully.', duration:4000, position:'bottomRight'})
       console.log('response is: ', response.data);
     })
     .catch(error => {
       console.error('Error: ', error);
-      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000})
+      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000, position:'bottomRight'})
     });
   }
 
@@ -62,11 +62,11 @@ export class LoginRegisterComponent implements OnInit{
       this.authService.setLoggedInUser(response.data);
       this.authService.setToken(response.data.token);
       this.router.navigate(['/home']);
-      this.toast.success({detail:"SUCCESS", summary:'Logged in successfully.', duration:4000})
+      this.toast.success({detail:"SUCCESS", summary:'Logged in successfully.', duration:4000, position:'bottomRight'})
     })
     .catch(error => {
       console.error("Error is: ", error);
-      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000})
+      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000, position:'bottomRight'})
     })
   }
 

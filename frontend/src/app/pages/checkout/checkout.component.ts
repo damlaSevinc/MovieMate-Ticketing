@@ -136,10 +136,10 @@ export class CheckoutComponent implements OnInit{
       .then(response =>
         { console.log("buy ticket successful");
         this.router.navigate(['/profile/my-tickets']);
-        this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000})
+        this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000, position:'bottomRight'})
       })
       .catch(error =>
         { console.error(error); });
-        this.toast.error({detail:"ERROR", summary:'An error occured during payment.', sticky:true})
+        this.toast.error({detail:"ERROR", summary:'An error occured during payment.', duration:4000, position:'bottomRight'})
   }
 }

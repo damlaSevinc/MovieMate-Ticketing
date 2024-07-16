@@ -18,6 +18,8 @@ Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you s
     - [Start the Frontend Server](#start-the-frontend-server)
 
 ## Functionalities
+
+![Register](frontend/src/assets/register.gif)
 ![Sign In](frontend/src/assets/sign_in.gif)
 
 ## Prerequisites

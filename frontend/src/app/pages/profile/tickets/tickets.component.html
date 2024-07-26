@@ -27,21 +27,12 @@
                 <button class="col-md-1 btn btn-link text-white" (click)="toggleExpand(ticket)"> Details </button>
             </div>
             <div class="row p-3 text-center" *ngIf="ticket.isExpanded">
-                <div class="col-md-3"> Showtime: {{ ticket.showtime.session.startTime | slice: 0:5 }}
+                <div class="col-md-4"> Showtime: {{ ticket.showtime.session.startTime | slice: 0:5 }}
                     {{ ticket.selectedDate | date: 'MMM d, y' }} </div>
-                <!-- <div *ngFor="let ticket of userTickets"> Seatss:
-                    <div *ngFor="let seat of ticket.assignedSeats">
-                        {{ seat.seatNumber }}
-                    </div>
-                </div> -->
-                <div class="col-md-3"> Seats:
-                    <ng-container *ngFor="let ticket of userTickets">
-                        <ng-container *ngFor="let seat of ticket.assignedSeats">
-                            {{ seat.seatNumber }}
-                        </ng-container>
-                    </ng-container>
+                <div class="col-md-4"> Seats:
+                    {{ getSeatNumbers(ticket.assignedSeats) }}
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     {{ ticket.adultCount !==0 ? ticket.adultCount + ' Adult ' : ''}}
                     {{ ticket.childCount !==0 ? ticket.childCount + (ticket.childCount >1 ? ' Children ' : ' Child '): ''}}
                 </div>

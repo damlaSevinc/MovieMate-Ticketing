@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,14 +26,16 @@ public class Seat implements Serializable {
 
     private String seatNumber;
 
-    @ManyToMany(mappedBy = "assignedSeats")
+    // Using JsonIgnore helps to prevent infinite recursion in JSON serialization
+    @ManyToMany(mappedBy = "assignedSeats", fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Ticket> tickets = new HashSet<>();
 
     // Default constructor for JPA
     public Seat() {}
 
     // Constructor for deserialization
+    // To fix parse error: no String-argument constructor/factory method to deserialize from String value ('D4')]
     public Seat(String seatNumber) {
         this.seatNumber = seatNumber;
-    }
-}
+    }}

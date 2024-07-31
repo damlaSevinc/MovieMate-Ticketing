@@ -34,6 +34,7 @@ export class MovieGalleryComponent implements OnInit{
           const movieDate = new Date(this.movies[i].date);
           if(movieDate < currentDate){
             this.moviesInTheathers.push(this.movies[i]);
+            this.moviesInTheathers.sort(this.sortMovies).reverse();
           } else {
             this.moviesUpcoming.push(this.movies[i]);
           }
@@ -52,5 +53,15 @@ export class MovieGalleryComponent implements OnInit{
   getShowtimes(movieId: number): void {
     this.router.navigate(['/showtimes'],
     { queryParams: { movieId }})
+  }
+
+  sortMovies(movie1: Movie, movie2: Movie) {
+    if(movie1.date < movie2.date){
+      return -1;
+    }
+    if(movie1.date > movie2.date){
+      return 1;
+    }
+    return 0;
   }
 }

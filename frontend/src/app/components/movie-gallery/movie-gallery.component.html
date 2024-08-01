@@ -1,7 +1,7 @@
 <div class="container p-3">
 
     <ul class="d-flex list-unstyled text-secondary">
-        <li class="p-2" [class.active]="activeTab =='In Theathers'" (click)="changeTab('In Theathers')"> In Theathers
+        <li class="p-2 mx-4" [class.active]="activeTab =='In Theathers'" (click)="changeTab('In Theathers')"> In Theathers
         </li>
         <li class="p-2" [class.active]="activeTab =='Coming Soon'" (click)="changeTab('Coming Soon')"> Coming Soon </li>
     </ul>
@@ -10,9 +10,15 @@
         <ul class="row text-white">
             <li class="col-lg-3 col-md-6 col-sm-6 mb-4 list-unstyled" *ngFor="let movie of moviesInTheathers">
                 <img class="img-fluid" [src]="movie.image" alt="movie image" (click)="getMovieInfo(movie.id)">
-                <h2 (click)="getMovieInfo(movie.id)"> {{ movie.name }} </h2>
-                <a> Released Date: {{ movie.date | date: 'MMM d, y' }} </a>
-                <h4 (click)="getShowtimes(movie.id)"> Get Tickets </h4>
+                <div class="d-flex justify-content-center text-center p-2 ">
+                    <h2 (click)="getMovieInfo(movie.id)"> {{ movie.name }} </h2>
+                </div>
+                <div class="d-flex justify-content-center ">
+                    <a> Released Date: {{ movie.date | date: 'MMM d, y' }} </a>
+                </div>
+                <div class="d-flex justify-content-center bg-dark m-2 p-2 rounded">
+                    <h4 (click)="getShowtimes(movie.id)"> Get Tickets </h4>
+                </div>
             </li>
         </ul>
     </div>

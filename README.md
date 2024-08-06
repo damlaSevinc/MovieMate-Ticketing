@@ -21,6 +21,7 @@ Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you s
 
 ![Register](frontend/src/assets/register.gif)
 ![Sign In](frontend/src/assets/sign_in.gif)
+![Tickets](frontend/src/assets/profile_tickets.gif)
 
 ## Prerequisites
 

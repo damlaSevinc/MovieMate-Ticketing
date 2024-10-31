@@ -17,3 +17,6 @@ backend/build/
 # Ignore frontend related files (assuming frontend code is in the `frontend` directory)
 frontend/node_modules/
 frontend/dist/
+
+# Ignore TODO file
+TODO.md

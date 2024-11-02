@@ -17,6 +17,7 @@ Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you s
   - [Running the Project](#running-the-project)
     - [Start the Backend Server](#start-the-backend-server)
     - [Start the Frontend Server](#start-the-frontend-server)
+- [License](#license)
 
 ## Functionalities
 
@@ -132,3 +133,8 @@ ng serve
 ```
 
 Then navigate to `http://localhost:4200/` in your browser.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```

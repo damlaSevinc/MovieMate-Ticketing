@@ -38,6 +38,7 @@ export class SeatSelectionComponent implements OnInit {
     this.initializeSeats();
     this.getMovieDetails();
     this.getShowtime();
+    this.getAvailableSeats();
   }
 
   getMovieDetails() {
@@ -53,10 +54,24 @@ export class SeatSelectionComponent implements OnInit {
   getShowtime(){
     axios.get(`/movies/${this.movieId}/showtimes/${this.showtimeId}`)
       .then(response => {
-        this.showtime = response.data
+        this.showtime = response.data;
+        this.getAvailableSeats();
       })
       .catch(error =>
         { console.log(error); })
+  }
+
+  // to check whether the seats are available or not for the selected session
+  getAvailableSeats(){
+
+    const selectedShowtimeId: number = this.showtimeId
+    const selectedDate: string = this.selectedDate;
+    console.log("selectedShowtime and Date: " + selectedShowtimeId + selectedDate);
+    axios.get(`/seats`, { params: { selectedShowtimeId, selectedDate } })
+      .then(response => {
+        const assignedSeats: string[] = response.data;
+        console.log("assigned seats: " + assignedSeats);
+      })
   }
 
   backToShowtimes() {

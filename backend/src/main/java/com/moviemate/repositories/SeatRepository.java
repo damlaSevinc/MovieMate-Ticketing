@@ -16,4 +16,6 @@ public interface SeatRepository extends JpaRepository<Seat, Long>{
 
     Set<Seat> findByTicketsIn(List<Ticket> userTickets);
 
+    List<Seat> findByTicketsId(Long ticketId);
+
 }

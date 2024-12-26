@@ -30,9 +30,4 @@ public class MovieService {
         }
         throw new AppException("movie doesn't exist", HttpStatus.BAD_REQUEST);
     }
-
-    public int testCompare(int v1, int v2){
-        if(v1> v2) return 1;
-        return -1;
-    }
 }

@@ -13,3 +13,11 @@ spring:
 
 jwt:
   secret: MY_SUPER_STRONG_JWT_SECRET!123
+
+logging:
+  level:
+    org:
+     springframework:
+      web: DEBUG
+    com:
+     moviemate: DEBUG

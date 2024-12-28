@@ -47,7 +47,7 @@ public class UserController {
     // Login as an existing user
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-        public ResponseEntity<UserDto> loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
+    public ResponseEntity<UserDto> loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
         UserDto loggedInUser = userService.login(loginCredentialsDto);
         String token = jwtService.createToken(loggedInUser);
         loggedInUser.setToken(token);
@@ -56,7 +56,8 @@ public class UserController {
 
     // Get the loggedIn user by userId
     @GetMapping("/users/{id}")
-    public UserDto getUserProfileById(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto getUserProfileById(@PathVariable Long id) {
         System.out.println("userid from decoded token is: " + id);
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {

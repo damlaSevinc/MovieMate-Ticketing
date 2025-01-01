@@ -21,14 +21,14 @@ public class ShowtimeController {
 
     @GetMapping("/movies/{id}/showtimes")
     @ResponseStatus(HttpStatus.OK)
-    public List<Showtime> getAllShowtimes(@PathVariable("id") Long movieId){
+    public List<Showtime> getAllShowtimes(@PathVariable Long movieId){
         List<Showtime> showtimes = showtimeService.getShowtimesByMovieId(movieId);
         return showtimes;
     }
 
     @GetMapping("/movies/{movieId}/showtimes/{showtimeId}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Showtime> getShowtimeById(@PathVariable("movieId") Long movieId, @PathVariable("showtimeId") Long showtimeId){
+    public Optional<Showtime> getShowtimeById(@PathVariable Long movieId, @PathVariable Long showtimeId){
         Optional<Showtime> showtime = showtimeService.getShowtimeByShowtimeId(showtimeId);
         return showtime;
     }

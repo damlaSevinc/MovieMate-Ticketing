@@ -73,7 +73,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserDto> updateUser(
-        @PathVariable("id") Long id, @RequestBody User user) {
+        @PathVariable Long id, @RequestBody User user) {
         User existingUser = userService.updateUser(id, user);
         UserDto updatedUserDto = userMapper.toUserDto(existingUser);
         return ResponseEntity.ok(updatedUserDto);
@@ -83,7 +83,7 @@ public class UserController {
     @PutMapping("/users/{id}/password")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Void> changePassword(
-        @PathVariable("id") Long id, @RequestParam("newPassword") String password) {
+        @PathVariable Long id, @RequestParam("newPassword") String password) {
         userService.changePassword(id, password);
         return ResponseEntity.ok().build();
     }

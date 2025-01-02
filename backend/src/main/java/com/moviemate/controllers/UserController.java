@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +19,7 @@ import com.moviemate.configs.JwtService;
 import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
+import com.moviemate.dtos.UserUpdateRequestDto;
 import com.moviemate.entities.User;
 import com.moviemate.exceptions.AppException;
 import com.moviemate.mappers.UserMapper;
@@ -70,13 +72,11 @@ public class UserController {
     }
 
     // Edit the existing user's info
-    @PutMapping("/users/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserDto> updateUser(
-        @PathVariable Long id, @RequestBody User user) {
-        User existingUser = userService.updateUser(id, user);
-        UserDto updatedUserDto = userMapper.toUserDto(existingUser);
-        return ResponseEntity.ok(updatedUserDto);
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<String> updateUser(
+        @PathVariable Long id, @RequestBody UserUpdateRequestDto updateRequestDto){
+            userService.updateUser(id, updateRequestDto);
+            return ResponseEntity.ok("User updated successfully");
     }
 
     // Change the user password

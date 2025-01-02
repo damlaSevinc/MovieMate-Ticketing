@@ -31,7 +31,7 @@ export class PersonalInfoComponent implements OnInit {
       email: this.loggedInUser!.email
     }
     console.log("formdata: ", formData);
-    axios.put(`/users/${this.loggedInUser!.id}`, formData)
+    axios.patch(`/users/${this.loggedInUser!.id}`, formData)
       .then(response => {
         this.toast.success({detail:"SUCCESS", summary:'You edited your info successfully.', duration:4000, position:'bottomRight'})
       })

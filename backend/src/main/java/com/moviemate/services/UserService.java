@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
+import com.moviemate.dtos.UserUpdateRequestDto;
 import com.moviemate.entities.User;
 import com.moviemate.exceptions.AppException;
 import com.moviemate.mappers.UserMapper;
@@ -64,12 +65,12 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Long userId, User updatedUser){
-        User existingUser = userRepository.findById(userId).
-            orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
-            existingUser.setFirstName(updatedUser.getFirstName());
-            existingUser.setLastName(updatedUser.getLastName());
-            existingUser.setEmail(updatedUser.getEmail());
+    public User updateUser(Long userId, UserUpdateRequestDto updateRequestDto){
+        User existingUser = userRepository.findById(userId)
+            .orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
+            existingUser.setFirstName(updateRequestDto.getFirstName());
+            existingUser.setLastName(updateRequestDto.getLastName());
+            existingUser.setEmail(updateRequestDto.getEmail());
             return userRepository.save(existingUser);
     }
 

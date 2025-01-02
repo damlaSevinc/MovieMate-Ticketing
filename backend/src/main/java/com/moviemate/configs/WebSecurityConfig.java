@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/users/**", "/tickets/**", "/seats" ).permitAll()
                 .requestMatchers(HttpMethod.GET, "/movies", "/movies/*", "/movies/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/users/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/users/**").permitAll()
                 .anyRequest().authenticated());
             return http.build();
     }

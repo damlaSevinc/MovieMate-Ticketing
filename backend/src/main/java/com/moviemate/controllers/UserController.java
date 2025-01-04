@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.moviemate.configs.JwtService;
 import com.moviemate.dtos.LoginCredentialsDto;
+import com.moviemate.dtos.PasswordChangeDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
 import com.moviemate.dtos.UserUpdateRequestDto;
@@ -25,6 +24,8 @@ import com.moviemate.exceptions.AppException;
 import com.moviemate.mappers.UserMapper;
 import com.moviemate.repositories.UserRepository;
 import com.moviemate.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class UserController {
@@ -80,11 +81,11 @@ public class UserController {
     }
 
     // Change the user password
-    @PutMapping("/users/{id}/password")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Void> changePassword(
-        @PathVariable Long id, @RequestParam("newPassword") String password) {
-        userService.changePassword(id, password);
-        return ResponseEntity.ok().build();
-    }
+    @PatchMapping("users/{id}/password")
+    public ResponseEntity<String> updatePassword(
+        @PathVariable Long id,
+        @Valid @RequestBody PasswordChangeDto passwordChangeDto){
+            userService.changePassword(id, passwordChangeDto);
+            return ResponseEntity.ok("Password updated successfully");
+        }
 }

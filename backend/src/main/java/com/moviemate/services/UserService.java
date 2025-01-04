@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.moviemate.dtos.LoginCredentialsDto;
+import com.moviemate.dtos.PasswordChangeDto;
 import com.moviemate.dtos.SignUpDto;
 import com.moviemate.dtos.UserDto;
 import com.moviemate.dtos.UserUpdateRequestDto;
@@ -74,13 +75,13 @@ public class UserService {
             return userRepository.save(existingUser);
     }
 
-    @Transactional
-    public void changePassword(Long userId, String password){
+    public void changePassword(Long userId, PasswordChangeDto passwordChangeDto){
         User existingUser = userRepository.findById(userId).
             orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
-            String newPassword = new String(password);
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            existingUser.setPassword(encodedPassword);
-            userRepository.save(existingUser);
+        if(!passwordEncoder.matches(passwordChangeDto.getOldPassword(), existingUser.getPassword())){
+            throw new AppException("Old password is incorrect", HttpStatus.UNAUTHORIZED);
+        }
+        existingUser.setPassword(passwordEncoder.encode(passwordChangeDto.getNewPassword()));
+        userRepository.save(existingUser);
     }
 }

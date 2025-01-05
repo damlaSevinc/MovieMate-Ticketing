@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PasswordChangeComponent implements OnInit {
 
   loggedInUser: User | null = null;
+  oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
 
@@ -25,18 +26,38 @@ export class PasswordChangeComponent implements OnInit {
       this.loggedInUser = User;
     });
   }
-  saveNewPassword() {
+
+  checkPasswordMatch(): boolean {
     if (this.newPassword !== this.confirmPassword) {
-      alert("Passwords do not match");
+      this.toast.warning({ detail: "WARN", summary: 'Passwords do not match', duration: 4000, position: 'bottomRight' })
+      return false;
+    }
+    return true;
+  }
+
+  saveNewPassword() {
+    if (!this.loggedInUser) {
+      this.toast.error({ detail: "ERROR", summary: "User not logged in. Cannot change password.", duration: 4000, position: 'bottomRight' });
       return;
     }
-    axios.put(`/users/${this.loggedInUser!.id}/password?newPassword=${this.newPassword}`)
+    if (!this.checkPasswordMatch()) {
+      return;
+    }
+    axios.patch(`/users/${this.loggedInUser!.id}/password`, {
+      oldPassword: this.oldPassword,
+      newPassword: this.newPassword
+    })
       .then(response => {
         console.log("Password change done");
-        this.toast.success({detail:"SUCCESS", summary:'You change your password successfully.', duration:4000, position:'bottomRight'})
+        this.toast.success({ detail: "SUCCESS", summary: "You change your password successfully.", duration: 4000, position: 'bottomRight' })
       })
       .catch(error => {
         console.error('Error:', error);
+        if (error.response) {
+          this.toast.warning({ detail: "ERROR", summary: error.response.data, duration: 4000, position: 'bottomRight' });
+        } else {
+          this.toast.error({ detail: "ERROR", summary: "An unexpected error occurred. Please try again.", duration: 4000, position: 'bottomRight' });
+        }
       });
   }
 }

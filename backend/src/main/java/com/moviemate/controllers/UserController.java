@@ -75,17 +75,21 @@ public class UserController {
     // Edit the existing user's info
     @PatchMapping("/users/{id}")
     public ResponseEntity<String> updateUser(
-        @PathVariable Long id, @RequestBody UserUpdateRequestDto updateRequestDto){
-            userService.updateUser(id, updateRequestDto);
-            return ResponseEntity.ok("User updated successfully");
+            @PathVariable Long id, @RequestBody UserUpdateRequestDto updateRequestDto) {
+        userService.updateUser(id, updateRequestDto);
+        return ResponseEntity.ok("User updated successfully");
     }
 
     // Change the user password
     @PatchMapping("users/{id}/password")
     public ResponseEntity<String> updatePassword(
-        @PathVariable Long id,
-        @Valid @RequestBody PasswordChangeDto passwordChangeDto){
+            @PathVariable Long id,
+            @Valid @RequestBody PasswordChangeDto passwordChangeDto) {
+        try {
             userService.changePassword(id, passwordChangeDto);
             return ResponseEntity.ok("Password updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
+    }
 }

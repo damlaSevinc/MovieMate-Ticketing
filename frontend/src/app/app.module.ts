@@ -21,6 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgToastModule } from 'ng-angular-popup';
 import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
 import { SeatSelectionComponent } from './pages/seat-selection/seat-selection.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SeatSelectionComponent } from './pages/seat-selection/seat-selection.co
     BrowserAnimationsModule,
     MatMenuModule,
     MatButtonModule,
-    NgToastModule
+    NgToastModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

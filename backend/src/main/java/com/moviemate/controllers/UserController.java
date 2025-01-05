@@ -75,9 +75,14 @@ public class UserController {
     // Edit the existing user's info
     @PatchMapping("/users/{id}")
     public ResponseEntity<String> updateUser(
-            @PathVariable Long id, @RequestBody UserUpdateRequestDto updateRequestDto) {
-        userService.updateUser(id, updateRequestDto);
-        return ResponseEntity.ok("User updated successfully");
+            @PathVariable Long id,
+            @RequestBody UserUpdateRequestDto updateRequestDto) {
+        try {
+            userService.updateUser(id, updateRequestDto);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     // Change the user password
@@ -88,8 +93,14 @@ public class UserController {
         try {
             userService.changePassword(id, passwordChangeDto);
             return ResponseEntity.ok("Password updated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        } catch (AppException e) {
+            if (e.getHttpStatus() == HttpStatus.BAD_REQUEST) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            } else if (e.getHttpStatus() == HttpStatus.UNAUTHORIZED) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+            }
         }
     }
 }

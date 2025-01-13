@@ -23,7 +23,7 @@ public class WebSecurityConfig {
             .cors(cors -> {
                 cors.configurationSource(corsConfigurationSource());
             })
-            .csrf().disable()
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((request) -> request
                 .requestMatchers(HttpMethod.POST, "/login", "/register", "/tickets").permitAll()
                 .requestMatchers(HttpMethod.GET, "/users/**", "/tickets/**", "/seats" ).permitAll()

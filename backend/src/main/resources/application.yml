@@ -17,7 +17,7 @@ jwt:
 logging:
   level:
     org:
-     springframework:
-      web: DEBUG
+      springframework:
+        web: DEBUG
     com:
-     moviemate: DEBUG
+      moviemate: DEBUG

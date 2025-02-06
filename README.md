@@ -134,7 +134,13 @@ ng serve
 
 Then navigate to `http://localhost:4200/` in your browser.
 
+### Testing the application
+
+```bash
+cd backend
+mvn test
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```

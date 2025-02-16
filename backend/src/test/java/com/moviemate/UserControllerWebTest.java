@@ -17,10 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,19 +47,19 @@ public class UserControllerWebTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Mock
+    @MockitoBean
     private UserService userService;
 
-    @Mock
+    @MockitoBean
     private JwtService jwtService;
 
-    @Mock
+    @MockitoBean
     private UserRepository userRepository;
 
-    @Mock
+    @MockitoBean
     private UserMapper userMapper;
 
-    @Mock
+    @MockitoBean
     private PasswordEncoder passwordEncoder;
 
     @Test

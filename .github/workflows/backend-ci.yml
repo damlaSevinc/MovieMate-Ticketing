@@ -38,12 +38,16 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          for i in `seq 1 30`; do
+          for i in `seq 1 60`; do
             mysqladmin ping -h localhost --silent && echo Success && exit 0
             echo -n .
             sleep 1
           done
           echo Failed waiting for MySQL && exit 1
+
+      - name: Print MySQL Logs
+        if: failure()
+        run: docker logs $(docker ps -q --filter ancestor=mysql:latest)
 
       - name: Test with Maven
         run: mvn test

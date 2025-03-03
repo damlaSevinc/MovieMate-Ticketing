@@ -24,7 +24,7 @@ jobs:
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -h localhost"
+          --health-cmd="mysqladmin ping -h 127.0.0.1"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -38,8 +38,8 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          for i in `seq 1 60`; do
-            mysqladmin ping -h localhost --silent && echo Success && exit 0
+          for i in `seq 1 90`; do
+            mysqladmin ping -h 127.0.0.1 --silent && echo Success && exit 0
             echo -n .
             sleep 1
           done
@@ -47,7 +47,13 @@ jobs:
 
       - name: Print MySQL Logs
         if: failure()
-        run: docker logs $(docker ps -q --filter ancestor=mysql:latest)
+        run: |
+          CONTAINER_ID=$(docker ps -q --filter ancestor=mysql:latest)
+          if [ -n "$CONTAINER_ID" ]; then
+            docker logs $CONTAINER_ID
+          else
+            echo "MySQL container not found"
+          fi
 
       - name: Test with Maven
         run: mvn test

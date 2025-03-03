@@ -1,7 +1,7 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/movie_mate
+    url: jdbc:mysql://127.0.0.1:3307/movie_mate
     username: movie_mate_user
     password: movie_mate_pass
   jpa:

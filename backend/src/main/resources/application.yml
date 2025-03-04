@@ -1,9 +1,10 @@
 spring:
+  config:
+    import: optional:file:./config/.env.properties
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3307/movie_mate
-    username: movie_mate_user
-    password: movie_mate_pass
+    url: jdbc:mysql://localhost:3307/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update

@@ -24,12 +24,19 @@ jobs:
         ports:
           - 3307:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1"
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --user=${{ secrets.MYSQL_USER }} --password=${{ secrets.MYSQL_PASSWORD }}"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
     steps:
+      - name: Debug Secrets (Check if they exist)
+        run: |
+          if [ -z "${{ secrets.MYSQL_USER }}" ]; then echo "❌ MYSQL_USER is missing!"; exit 1; fi
+          if [ -z "${{ secrets.MYSQL_PASSWORD }}" ]; then echo "❌ MYSQL_PASSWORD is missing!"; exit 1; fi
+          if [ -z "${{ secrets.MYSQL_DATABASE }}" ]; then echo "❌ MYSQL_DATABASE is missing!"; exit 1; fi
+        shell: bash
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -38,22 +45,20 @@ jobs:
 
       - name: Wait for MySQL to be ready
         run: |
-          for i in `seq 1 90`; do
-            mysqladmin ping -h 127.0.0.1 --silent && echo Success && exit 0
-            echo -n .
-            sleep 1
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 --user=${{ secrets.MYSQL_USER }} --password=${{ secrets.MYSQL_PASSWORD }} --silent; then
+              echo "✅ MySQL is up!"
+              exit 0
+            fi
+              echo -n "."
+              sleep 2
           done
-          echo Failed waiting for MySQL && exit 1
+          echo "❌ MySQL did not start in time."
+          exit 1
 
-      - name: Print MySQL Logs
+      - name: Print MySQL Logs if Failure
         if: failure()
-        run: |
-          CONTAINER_ID=$(docker ps -q --filter ancestor=mysql:latest)
-          if [ -n "$CONTAINER_ID" ]; then
-            docker logs $CONTAINER_ID
-          else
-            echo "MySQL container not found"
-          fi
+        run: cat /var/log/mysql/error.log || echo "No MySQL logs found"
 
       - name: Test with Maven
         run: mvn test

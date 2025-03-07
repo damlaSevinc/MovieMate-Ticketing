@@ -38,8 +38,12 @@ jobs:
       - name: Install MySQL Client
         run: apt-get update && apt-get install -y mysql-client
 
-      - name: Debug MySQL process
-        run: ps aux | grep mysql
+      - name: Wait for MySQL service to be ready
+        run: |
+          until mysqladmin ping -h mysql --silent; do
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
 
       - name: Wait for MySQL to be ready
         run: |

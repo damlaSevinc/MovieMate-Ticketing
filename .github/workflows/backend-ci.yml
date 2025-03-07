@@ -45,19 +45,6 @@ jobs:
             sleep 2
           done
 
-      - name: Wait for MySQL to be ready
-        run: |
-          for i in {1..60}; do
-            if mysqladmin ping -h mysql --user=${{ secrets.MYSQL_USER }} --password=${{ secrets.MYSQL_PASSWORD }} --silent; then
-              echo "✅ MySQL is up!"
-              exit 0
-            fi
-              echo -n "."
-              sleep 2
-          done
-          echo "❌ MySQL did not start in time."
-          exit 1
-
       - name: Print MySQL Logs if Failure
         if: failure()
         run: cat /var/log/mysql/error.log || echo "No MySQL logs found"

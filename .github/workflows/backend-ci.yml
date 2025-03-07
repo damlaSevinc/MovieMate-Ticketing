@@ -22,12 +22,7 @@ jobs:
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         ports:
-          - 3307:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
+          - 3306:3306
 
     steps:
       - name: Debug Secrets (Check if they exist)
@@ -49,7 +44,7 @@ jobs:
       - name: Wait for MySQL to be ready
         run: |
           for i in {1..60}; do
-            if mysqladmin ping -h 127.0.0.1 --user=${{ secrets.MYSQL_USER }} --password=${{ secrets.MYSQL_PASSWORD }} --silent; then
+            if mysqladmin ping -h mysql --user=${{ secrets.MYSQL_USER }} --password=${{ secrets.MYSQL_PASSWORD }} --silent; then
               echo "✅ MySQL is up!"
               exit 0
             fi

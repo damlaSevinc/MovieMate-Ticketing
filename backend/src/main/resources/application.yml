@@ -12,6 +12,10 @@ spring:
     url: jdbc:mysql://localhost:3307/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
 
 ---
 spring:
@@ -22,6 +26,10 @@ spring:
     url: jdbc:mysql://mysql:3306/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
 
 jwt:
   secret: MY_SUPER_STRONG_JWT_SECRET!123

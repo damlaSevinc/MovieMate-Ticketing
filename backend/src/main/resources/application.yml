@@ -1,16 +1,27 @@
 spring:
+  profiles:
+    active: local
+
+---
+spring:
   config:
+    activate:
+      on-profile: local
     import: optional:file:./config/.env.properties
   datasource:
-    url: jdbc:mysql://127.0.0.1:3307/${DB_NAME}
+    url: jdbc:mysql://localhost:3307/${DB_NAME}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+
+---
+spring:
+  config:
+    activate:
+      on-profile: ci
+  datasource:
+    url: jdbc:mysql://mysql:3306/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
 jwt:
   secret: MY_SUPER_STRONG_JWT_SECRET!123

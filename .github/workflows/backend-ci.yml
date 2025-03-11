@@ -17,6 +17,7 @@ jobs:
       mysql:
         image: mysql:latest
         env:
+          SPRING_PROFILES_ACTIVE: ci
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}

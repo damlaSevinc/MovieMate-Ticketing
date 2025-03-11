@@ -12,12 +12,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.moviemate.dtos.UserDto;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
-    @Autowired
-    private JwtConfig jwtConfig;
+    private final JwtConfig jwtConfig;
 
     // private Algorithm jwtAlgorithm;
     private JWTVerifier jwtVerifier;

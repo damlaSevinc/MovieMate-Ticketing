@@ -13,11 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: maven:3.9-eclipse-temurin-17
+    env:
+      SPRING_PROFILES_ACTIVE: ci
     services:
       mysql:
         image: mysql:latest
         env:
-          SPRING_PROFILES_ACTIVE: ci
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
           MYSQL_USER: ${{ secrets.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}

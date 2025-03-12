@@ -34,6 +34,9 @@ jobs:
           if [ -z "${{ secrets.MYSQL_USER }}" ]; then echo "❌ MYSQL_USER is missing!"; exit 1; fi
           if [ -z "${{ secrets.MYSQL_PASSWORD }}" ]; then echo "❌ MYSQL_PASSWORD is missing!"; exit 1; fi
           if [ -z "${{ secrets.MYSQL_DATABASE }}" ]; then echo "❌ MYSQL_DATABASE is missing!"; exit 1; fi
+          echo "MYSQL_USER=${MYSQL_USER}"
+          echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+          echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
         shell: bash
 
       - name: Checkout Code

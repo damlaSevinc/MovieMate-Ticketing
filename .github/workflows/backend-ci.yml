@@ -25,18 +25,38 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
         ports:
           - 3306:3306
 
     steps:
       - name: Debug Secrets (Check if they exist)
         run: |
-          if [ -z "${{ secrets.MYSQL_USER }}" ]; then echo "❌ MYSQL_USER is missing!"; exit 1; fi
-          if [ -z "${{ secrets.MYSQL_PASSWORD }}" ]; then echo "❌ MYSQL_PASSWORD is missing!"; exit 1; fi
-          if [ -z "${{ secrets.MYSQL_DATABASE }}" ]; then echo "❌ MYSQL_DATABASE is missing!"; exit 1; fi
+          echo "Checking if secrets exist..."
+          [[ -z "${{ secrets.MYSQL_USER }}" ]] && echo "❌ MYSQL_USER is missing!" && exit 1
+          [[ -z "${{ secrets.MYSQL_PASSWORD }}" ]] && echo "❌ MYSQL_PASSWORD is missing!" && exit 1
+          [[ -z "${{ secrets.MYSQL_DATABASE }}" ]] && echo "❌ MYSQL_DATABASE is missing!" && exit 1
+          echo "✅ Secrets are available"
+
           echo "MYSQL_USER=${MYSQL_USER}"
-          echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+          echo "MYSQL_PASSWORD length=${#MYSQL_PASSWORD}"
           echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
+
+          echo "Checking running containers..."
+          docker ps -a
+        shell: bash
+
+      - name: Debug MySQL Service Variables
+        run: |
+          docker exec $(docker ps -q --filter ancestor=mysql:latest) env | grep MYSQL
+        shell: bash
+
+      - name: Test MySQL Connection
+        run: |
+          docker run --rm --network=host mysql:latest \
+          mysql -h 127.0.0.1 -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
         shell: bash
 
       - name: Checkout Code

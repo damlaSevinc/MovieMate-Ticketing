@@ -23,7 +23,7 @@ spring:
     activate:
       on-profile: ci
   datasource:
-    url: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}
+    url: jdbc:mysql://127.0.0.1:3306/${MYSQL_DATABASE}
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
   jpa:

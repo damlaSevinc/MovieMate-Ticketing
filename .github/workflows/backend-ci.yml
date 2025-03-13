@@ -45,14 +45,8 @@ jobs:
           echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
         shell: bash
 
-      - name: Debug MySQL Service Variables
-        run: |
-          docker exec $(docker ps -q --filter ancestor=mysql:latest) env | grep MYSQL
-        shell: bash
-
       - name: Test MySQL Connection
         run: |
-          docker run --rm --network=host mysql:latest \
           mysql -h mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
         shell: bash
 

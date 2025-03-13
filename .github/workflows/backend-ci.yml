@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: maven:3.9-eclipse-temurin-17
-    env:
-      SPRING_PROFILES_ACTIVE: ci
-      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      env:
+        SPRING_PROFILES_ACTIVE: ci
+        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        MYSQL_USER: ${{ secrets.MYSQL_USER }}
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+        MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
 
     services:
       mysql:
@@ -43,9 +43,6 @@ jobs:
           echo "MYSQL_USER=${MYSQL_USER}"
           echo "MYSQL_PASSWORD length=${#MYSQL_PASSWORD}"
           echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
-
-          echo "Checking running containers..."
-          docker ps -a
         shell: bash
 
       - name: Debug MySQL Service Variables
@@ -56,7 +53,7 @@ jobs:
       - name: Test MySQL Connection
         run: |
           docker run --rm --network=host mysql:latest \
-          mysql -h 127.0.0.1 -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
+          mysql -h mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
         shell: bash
 
       - name: Checkout Code

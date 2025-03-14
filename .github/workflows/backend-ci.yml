@@ -32,6 +32,14 @@ jobs:
           - 3306:3306
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install MySQL Client
+        run: |
+          apt-get update && apt-get install -y mysql-client
+        shell: bash
+
       - name: Debug Secrets (Check if they exist)
         run: |
           echo "Checking if secrets exist..."
@@ -45,23 +53,17 @@ jobs:
           echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
         shell: bash
 
-      - name: Test MySQL Connection
-        run: |
-          mysql -h mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
-        shell: bash
-
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Install MySQL Client
-        run: apt-get update && apt-get install -y mysql-client
-
       - name: Wait for MySQL service to be ready
         run: |
           until mysqladmin ping -h mysql --silent; do
             echo "Waiting for MySQL..."
             sleep 2
           done
+
+      - name: Test MySQL Connection
+        run: |
+          mysql -h mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
+        shell: bash
 
       - name: Print MySQL Logs if Failure
         if: failure()

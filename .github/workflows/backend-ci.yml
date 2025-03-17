@@ -40,19 +40,6 @@ jobs:
           apt-get update && apt-get install -y mysql-client
         shell: bash
 
-      - name: Debug Secrets (Check if they exist)
-        run: |
-          echo "Checking if secrets exist..."
-          [[ -z "${{ secrets.MYSQL_USER }}" ]] && echo "❌ MYSQL_USER is missing!" && exit 1
-          [[ -z "${{ secrets.MYSQL_PASSWORD }}" ]] && echo "❌ MYSQL_PASSWORD is missing!" && exit 1
-          [[ -z "${{ secrets.MYSQL_DATABASE }}" ]] && echo "❌ MYSQL_DATABASE is missing!" && exit 1
-          echo "✅ Secrets are available"
-
-          echo "MYSQL_USER=${MYSQL_USER}"
-          echo "MYSQL_PASSWORD length=${#MYSQL_PASSWORD}"
-          echo "MYSQL_DATABASE=${MYSQL_DATABASE}"
-        shell: bash
-
       - name: Wait for MySQL service to be ready
         run: |
           until mysqladmin ping -h mysql --silent; do
@@ -64,10 +51,6 @@ jobs:
         run: |
           mysql -h mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -e "SHOW DATABASES;"
         shell: bash
-
-      - name: Print MySQL Logs if Failure
-        if: failure()
-        run: cat /var/log/mysql/error.log || echo "No MySQL logs found"
 
       - name: Test with Maven
         run: mvn test
@@ -82,6 +65,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: test
+    env:
+      SPRING_PROFILES_ACTIVE: ci
+      MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+    working-directory: ./backend
 
     steps:
       - name: Download Tested Code

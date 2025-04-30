@@ -17,6 +17,8 @@ Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you s
   - [Running the Project](#running-the-project)
     - [Start the Backend Server](#start-the-backend-server)
     - [Start the Frontend Server](#start-the-frontend-server)
+- [API Documentation](#api-documentation)
+- [Testing the Application](#testing-the-application)
 - [License](#license)
 
 ## Functionalities
@@ -133,6 +135,10 @@ ng serve
 ```
 
 Then navigate to `http://localhost:4200/` in your browser.
+
+### API Documentation
+
+For full API details, see [API_Documentation.md](API_Documentation.md).
 
 ### Testing the application
 

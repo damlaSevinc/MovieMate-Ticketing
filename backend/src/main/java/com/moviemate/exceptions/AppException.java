@@ -2,7 +2,10 @@ package com.moviemate.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class AppException extends RuntimeException{
+import lombok.Getter;
+
+@Getter
+public class AppException extends RuntimeException {
     private final HttpStatus httpStatus;
 
     public AppException(String message, HttpStatus httpStatus) {
@@ -10,7 +13,4 @@ public class AppException extends RuntimeException{
         this.httpStatus = httpStatus;
     }
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
 }

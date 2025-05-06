@@ -1,7 +1,6 @@
 package com.moviemate.services;
 
 import java.nio.CharBuffer;
-import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,57 +27,46 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-
-    public UserDto register(SignUpDto signupDto){
-
-        // I check, if the user already exists in the database. If it does, throws an exception
-        Optional<User> oUser = userRepository.findByEmail(signupDto.email());
-        if (oUser.isPresent()){
-            throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
-        }
-
-        // If the user doesn't exist, I create the new user on the database within the hashed password
+    public UserDto register(SignUpDto signupDto) {
+        userRepository.findByEmail(signupDto.email())
+                .ifPresent(user -> {
+                    throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
+                });
         User user = userMapper.signUpToUser(signupDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signupDto.password())));
         User savedUser = userRepository.save(user);
-
-        // I return the created user as Dto due to security concerns
         return userMapper.toUserDto(savedUser);
     }
 
-    public UserDto login(LoginCredentialsDto loginCredentialsDto){
-
-        // I check, if the user doesn't exist in the database
-        Optional<User> oUser = userRepository.findByEmail(loginCredentialsDto.email());
-        if (!oUser.isPresent()){
-            throw new AppException("There is no such a user", HttpStatus.BAD_REQUEST);
+    public UserDto login(LoginCredentialsDto loginCredentialsDto) {
+        User user = userRepository.findByEmail(loginCredentialsDto.email())
+                .orElseThrow(() -> new AppException("User not found", HttpStatus.BAD_REQUEST));
+        if (!passwordEncoder.matches(new String(loginCredentialsDto.password()), user.getPassword())) {
+            throw new AppException("Password is incorrect", HttpStatus.UNAUTHORIZED);
         }
+        return userMapper.toUserDto(user);
+    }
 
-        // If the user exists, compare two passwords if they match
-        User user = oUser.get();
-        String providedPassword = new String(loginCredentialsDto.password());
-        if (passwordEncoder.matches(providedPassword, user.getPassword())){
-            return userMapper.toUserDto(user);
-        }
-
-        // If the user exists, but the password is wrong
-        throw new AppException("password is wrong", HttpStatus.UNAUTHORIZED);
+    public UserDto getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new AppException("User not found with id: " + id, HttpStatus.NOT_FOUND));
+        return userMapper.toUserDto(user);
     }
 
     @Transactional
-    public User updateUser(Long userId, UserUpdateRequestDto updateRequestDto){
+    public User updateUser(Long userId, UserUpdateRequestDto updateRequestDto) {
         User existingUser = userRepository.findById(userId)
-            .orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
-            existingUser.setFirstName(updateRequestDto.getFirstName());
-            existingUser.setLastName(updateRequestDto.getLastName());
-            existingUser.setEmail(updateRequestDto.getEmail());
-            return userRepository.save(existingUser);
+                .orElseThrow(() -> new AppException("User not found", HttpStatus.BAD_REQUEST));
+        existingUser.setFirstName(updateRequestDto.getFirstName());
+        existingUser.setLastName(updateRequestDto.getLastName());
+        existingUser.setEmail(updateRequestDto.getEmail());
+        return userRepository.save(existingUser);
     }
 
-    public void changePassword(Long userId, PasswordChangeDto passwordChangeDto){
-        User existingUser = userRepository.findById(userId).
-            orElseThrow(() -> new AppException("There is no such a user", HttpStatus.BAD_REQUEST));
-        if(!passwordEncoder.matches(passwordChangeDto.getOldPassword(), existingUser.getPassword())){
+    public void changePassword(Long userId, PasswordChangeDto passwordChangeDto) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new AppException("User not found", HttpStatus.BAD_REQUEST));
+        if (!passwordEncoder.matches(passwordChangeDto.getOldPassword(), existingUser.getPassword())) {
             throw new AppException("Old password is incorrect", HttpStatus.UNAUTHORIZED);
         }
         existingUser.setPassword(passwordEncoder.encode(passwordChangeDto.getNewPassword()));

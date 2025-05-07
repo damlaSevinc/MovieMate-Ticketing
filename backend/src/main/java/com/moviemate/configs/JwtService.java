@@ -2,14 +2,13 @@ package com.moviemate.configs;
 
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWTVerifier;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.moviemate.dtos.UserDto;
+import com.moviemate.entities.User;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class JwtService {
 
     private final JwtConfig jwtConfig;
-
-    // private Algorithm jwtAlgorithm;
     private JWTVerifier jwtVerifier;
 
     @PostConstruct
@@ -32,7 +29,7 @@ public class JwtService {
         return jwtVerifier.verify(token);
     }
 
-    public String createToken(UserDto user) {
+    public String createToken(User user) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + 360000000);
 

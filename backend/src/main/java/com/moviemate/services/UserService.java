@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.moviemate.configs.JwtService;
+import com.moviemate.dtos.AuthResponse;
 import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.PasswordChangeDto;
 import com.moviemate.dtos.SignUpDto;
@@ -26,25 +28,35 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final JwtService jwtService;
 
-    public UserDto register(SignUpDto signupDto) {
+    public AuthResponse register(SignUpDto signupDto) {
         userRepository.findByEmail(signupDto.email())
                 .ifPresent(user -> {
                     throw new AppException("User already exists", HttpStatus.BAD_REQUEST);
                 });
         User user = userMapper.signUpToUser(signupDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signupDto.password())));
+        String token = jwtService.createToken(user);
         User savedUser = userRepository.save(user);
-        return userMapper.toUserDto(savedUser);
+        return AuthResponse.builder()
+                .token(token)
+                .user(userMapper.toUserDto(savedUser))
+                .build();
     }
 
-    public UserDto login(LoginCredentialsDto loginCredentialsDto) {
+    public AuthResponse login(LoginCredentialsDto loginCredentialsDto) {
         User user = userRepository.findByEmail(loginCredentialsDto.email())
                 .orElseThrow(() -> new AppException("User not found", HttpStatus.BAD_REQUEST));
         if (!passwordEncoder.matches(new String(loginCredentialsDto.password()), user.getPassword())) {
             throw new AppException("Password is incorrect", HttpStatus.UNAUTHORIZED);
         }
-        return userMapper.toUserDto(user);
+        UserDto userDto = userMapper.toUserDto(user);
+        String token = jwtService.createToken(user);
+        return AuthResponse.builder()
+                .token(token)
+                .user(userDto)
+                .build();
     }
 
     public UserDto getUserById(Long id) {

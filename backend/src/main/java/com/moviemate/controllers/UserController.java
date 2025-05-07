@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.moviemate.configs.JwtService;
+import com.moviemate.dtos.AuthResponse;
 import com.moviemate.dtos.LoginCredentialsDto;
 import com.moviemate.dtos.PasswordChangeDto;
 import com.moviemate.dtos.SignUpDto;
@@ -26,21 +26,16 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService userService;
-    private final JwtService jwtService;
 
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public UserDto registerUser(@RequestBody SignUpDto user) {
-        return userService.register(user);
+    public ResponseEntity<AuthResponse> registerUser(@RequestBody SignUpDto user) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(user));
     }
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserDto> loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
-        UserDto loggedInUser = userService.login(loginCredentialsDto);
-        String token = jwtService.createToken(loggedInUser);
-        loggedInUser.setToken(token);
-        return ResponseEntity.ok(loggedInUser);
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginCredentialsDto loginCredentialsDto) {
+        return ResponseEntity.ok(userService.login(loginCredentialsDto));
     }
 
     @GetMapping("/users/{id}")

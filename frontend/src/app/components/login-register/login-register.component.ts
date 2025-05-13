@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -10,15 +9,13 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './login-register.component.html',
   styleUrls: ['./login-register.component.scss']
 })
-export class LoginRegisterComponent implements OnInit{
+export class LoginRegisterComponent implements OnInit {
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private toast: NgToastService
-  ){
-    axios.defaults.baseURL = 'http://localhost:8080/';
-  }
+  ) { }
 
   loggedInUser: User | null = null;
   activeTab = 'login';
@@ -28,46 +25,51 @@ export class LoginRegisterComponent implements OnInit{
   password = '';
 
   ngOnInit(): void {
-      this.authService.getLoggedInUserOb().subscribe((user) => {
-        this.loggedInUser = user;
-      })
+    this.authService.getLoggedInUserOb().subscribe((user) => {
+      this.loggedInUser = user;
+    })
   }
 
-  registerUser = () => {
-    axios.post('/register', {
+  async handleAuth(
+    action: 'login' | 'register',
+    payload: Partial<User> | { email: string, password: string }
+  ): Promise<void> {
+    try {
+      const authResponse =
+        action === 'login'
+          ? payload.email && payload.password
+            ? await this.authService.login(payload.email, payload.password)
+            : Promise.reject(new Error('Email and password are required'))
+          : await this.authService.register(payload as Partial<User>);
+      if (authResponse) {
+        await this.router.navigate(['/home']);
+        this.toast.success({ detail: "SUCCESS", summary: `${action === 'login' ? 'Logged in' : 'Registered'} successfully.`, duration: 4000, position: 'bottomRight' });
+      }
+    } catch (error) {
+      this.handleError(error, action);
+    }
+  }
+
+
+  async register(): Promise<void> {
+    const userInfo: Partial<User> = {
       firstName: this.firstName,
       lastName: this.lastName,
-      email : this.email,
-      password : this.password
-    })
-    .then(response => {
-      this.authService.setLoggedInUser(response.data);
-      this.authService.setToken(response.data.token);
-      this.router.navigate(['/home']);
-      this.toast.success({detail:"SUCCESS", summary:'Registered successfully.', duration:4000, position:'bottomRight'})
-      console.log('response is: ', response.data);
-    })
-    .catch(error => {
-      console.error('Error: ', error);
-      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000, position:'bottomRight'})
-    });
+      email: this.email,
+      password: this.password,
+    };
+    await this.handleAuth('register', userInfo);
   }
 
-  loginUser = () => {
-    axios.post('/login', {
-      email : this.email,
-      password : this.password
-    })
-    .then(response => {
-      this.authService.setLoggedInUser(response.data);
-      this.authService.setToken(response.data.token);
-      this.router.navigate(['/home']);
-      this.toast.success({detail:"SUCCESS", summary:'Logged in successfully.', duration:4000, position:'bottomRight'})
-    })
-    .catch(error => {
-      console.error("Error is: ", error);
-      this.toast.error({detail:"ERROR", summary:'Are your data correct?', duration:4000, position:'bottomRight'})
-    })
+  async login(): Promise<void> {
+    const loginData = { email: this.email, password: this.password };
+    await this.handleAuth('login', loginData);
   }
+
+  private handleError(error: unknown, action: 'login' | 'register'): void {
+    console.error(`Error during ${action}:`, error);
+    this.toast.error({ detail: 'ERROR', summary: `Failed to ${action}. Please try again.`, duration: 4000, position: 'bottomRight' });
+  }
+
 
 }

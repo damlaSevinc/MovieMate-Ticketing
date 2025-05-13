@@ -37,8 +37,8 @@ public class UserService {
                 });
         User user = userMapper.signUpToUser(signupDto);
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(signupDto.password())));
-        String token = jwtService.createToken(user);
         User savedUser = userRepository.save(user);
+        String token = jwtService.createToken(user);
         return AuthResponse.builder()
                 .token(token)
                 .user(userMapper.toUserDto(savedUser))

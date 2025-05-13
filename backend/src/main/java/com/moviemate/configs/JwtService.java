@@ -22,23 +22,23 @@ public class JwtService {
 
     @PostConstruct
     public void configureJwtAlgorithm() {
-
+        if (jwtConfig.jwtSecret == null || jwtConfig.jwtSecret.isEmpty()) {
+            throw new IllegalArgumentException("JWT secret cannot be null or empty");
+        }
+        Algorithm jwtAlgorithm = Algorithm.HMAC512(jwtConfig.jwtSecret);
+        jwtVerifier = JWT.require(jwtAlgorithm).build();
     }
-
     public DecodedJWT verifyToken(String token){
         return jwtVerifier.verify(token);
     }
 
     public String createToken(User user) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + 360000000);
-
-        Algorithm jwtAlgorithm = Algorithm.HMAC512(jwtConfig.jwtSecret);
-        jwtVerifier = JWT.require(jwtAlgorithm).build();
+        Date validity = new Date(now.getTime() + jwtConfig.jwtExpiration);
 
         return JWT.create()
                 .withSubject(user.getId().toString())
                 .withExpiresAt(validity)
-                .sign(jwtAlgorithm);
-    }
+                .sign(Algorithm.HMAC512(jwtConfig.jwtSecret));
+            }
 }

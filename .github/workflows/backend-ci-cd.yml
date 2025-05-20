@@ -143,7 +143,7 @@ jobs:
 
       - name: Upload artifact to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i aws_key.pem movie-mate-0.0.1-SNAPSHOT.jar ec2-user@y16.171.226.91:/home/ec2-user/app.jar
+          scp -o StrictHostKeyChecking=no -i aws_key.pem movie-mate-0.0.1-SNAPSHOT.jar ec2-user@16.171.226.91:/home/ec2-user/app.jar
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
 

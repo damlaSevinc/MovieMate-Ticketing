@@ -23,9 +23,9 @@ jwt:
 spring:
   config:
     activate:
-      on-profile: ci
+      on-profile: prod
   datasource:
-    url: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
   jpa:
@@ -35,7 +35,17 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000
-
+---
+spring:
+  config:
+    activate:
+      on-profile: no-db
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
 
 logging:
   level:

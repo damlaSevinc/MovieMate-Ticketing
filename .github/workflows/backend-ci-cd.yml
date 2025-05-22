@@ -150,7 +150,7 @@ jobs:
 
       - name: SSH and restart app
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/aws_key.pem ec2-user@16.171.226.91 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i aws_key.pem ec2-user@16.171.226.91 << 'EOF'
             pkill -f 'java -jar' || true
             nohup java -jar /home/ec2-user/movie-mate-0.0.1-SNAPSHOT.jar --spring.profiles.active=no-db > output.log 2>&1 &
           EOF

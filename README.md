@@ -89,13 +89,13 @@ docker run --name movie_mate -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=movie
 
 #### Import the Backup File
 
-- Run the following command in your terminal to import the from the schema and data
+- Run the following command in your terminal to import the schema and data
 
 ```bash
 docker exec -i movie_mate_mysql mysql -u movie_mate_user -p movie_mate_pass movie_mate < db/backup.sql
 ```
 
-- Or import through MySQLWorkbench using the following path `db/backup.sql`
+- Or import through MySQL Workbench using the following path `db/backup.sql`
 
 - **Verify Import**: Check your MySQL Server to ensure the database has been populated with the necessary tables and data
 
@@ -147,6 +147,11 @@ cd backend
 mvn test
 ```
 
+## TODO
+
+Deploy the project on an AWS instance.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+

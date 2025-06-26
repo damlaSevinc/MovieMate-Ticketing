@@ -119,8 +119,6 @@ export class CheckoutComponent implements OnInit{
 
   buyTicket(): void {
     const ticket: Ticket = {
-      // id: 0, // will be defined on the backend side
-      // orderId: 0, // will be defined on the backend side
       user: this.loggedInUser!,
       showtime: this.showtime!,
       adultCount: this.adultCount,

@@ -61,7 +61,6 @@ export class SeatSelectionComponent implements OnInit {
         { console.log(error); })
   }
 
-  // to check whether the seats are available or not for the selected session
   getAvailableSeats(){
 
     const selectedShowtimeId: number = this.showtimeId

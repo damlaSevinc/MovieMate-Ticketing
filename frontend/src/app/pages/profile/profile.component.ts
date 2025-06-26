@@ -24,11 +24,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getLoggedInUserOb().subscribe((User) => {
       this.loggedInUser = User;
-      this.isDataLoaded = true; // Set the flag when data is loaded
-      this.updateFlagsBasedOnRoute(); // Update flags after data is loaded
+      this.isDataLoaded = true;
+      this.updateFlagsBasedOnRoute();
     });
-
-    // Listen to route changes and update flags accordingly
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateFlagsBasedOnRoute();
@@ -37,11 +35,8 @@ export class ProfileComponent implements OnInit {
   }
 
   updateFlagsBasedOnRoute(): void {
-    // Only update flags if data is loaded
     if (this.isDataLoaded) {
       const currentRoute = this.route.firstChild?.snapshot.routeConfig?.path;
-
-      // Based on the current route, set the corresponding flag to true
       this.isPersonalInfo = currentRoute === 'personal-info';
       this.isMyTickets = currentRoute === 'my-tickets';
       this.isPasswordChange = currentRoute === 'password-change';

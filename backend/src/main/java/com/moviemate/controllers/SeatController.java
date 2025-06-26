@@ -23,20 +23,13 @@ public class SeatController {
     @Autowired
     private TicketRepository ticketRepository;
 
-    // Get all assigned seat numbers for the selected showtime
     @GetMapping("/seats")
     public List<String> getAssignedSeatsForSelectedShowtime(
         @RequestParam Long selectedShowtimeId,
         @RequestParam String selectedDate) {
             String formattedDate = DateConversionUtil.convertDate(selectedDate);
-
-            // Get all tickets for the selected date
             List<Ticket> ticketsSelectedDate = ticketRepository.findBySelectedDate(formattedDate);
-
-            // Create a list to store all assigned seats
             List<String> allAssignedSeats = new ArrayList<>();
-
-            // Iterate through all tickets for the selected date
             for(Ticket ticket : ticketsSelectedDate) {
                 List<Seat> seats = seatRepository.findByTicketsId(ticket.getId());
                 for(Seat seat : seats) {

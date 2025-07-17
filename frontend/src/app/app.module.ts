@@ -22,6 +22,8 @@ import { NgToastModule } from 'ng-angular-popup';
 import { PasswordChangeComponent } from './pages/profile/password-change/password-change.component';
 import { SeatSelectionComponent } from './pages/seat-selection/seat-selection.component';
 import { RouterModule } from '@angular/router';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from './interceptors/ErrorInterceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { RouterModule } from '@angular/router';
     NgToastModule,
     RouterModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

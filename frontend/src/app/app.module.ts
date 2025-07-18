@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-extraneous-class */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -58,3 +59,4 @@ import { ErrorInterceptor } from './interceptors/ErrorInterceptor';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+/* eslint-enable @typescript-eslint/no-extraneous-class */

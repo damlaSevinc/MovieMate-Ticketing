@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { jwtDecode } from 'jwt-decode';
-import axios from 'axios';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { AuthResponse } from '../models/authResponse';
 import { NgToastService } from 'ng-angular-popup';
 
@@ -15,9 +15,9 @@ export class AuthService {
   private loggedInUserSubject = new BehaviorSubject<User | null>(null);
 
   constructor(
-    private toast: NgToastService
+    private toast: NgToastService,
+    private http: HttpClient
   ) {
-    axios.defaults.baseURL = 'http://localhost:8080/';
     void this.initializeUserFromToken();
   }
 
@@ -54,16 +54,10 @@ export class AuthService {
     if (!this.loggedInUser && token) {
       try {
         const decodedToken = jwtDecode(token);
-        if (decodedToken.sub === undefined) return null;
-        await axios.get(`/users/${decodedToken.sub}`)
-          .then(response => {
-            if (response.data) {
-              this.loggedInUser = response.data as User;
-              this.loggedInUserSubject.next(this.loggedInUser);
-            } else {
-              throw new Error('Unexpected response format');
-            }
-          })
+        if (typeof decodedToken !== 'object' || !('sub' in decodedToken)) return null;
+        const user = await firstValueFrom(this.http.get<User>(`/users/${(decodedToken).sub}`));
+        this.loggedInUser = user;
+        this.loggedInUserSubject.next(this.loggedInUser);
       } catch (error) {
         console.error(`Failed to decode token: ${String(error)}`);
       }
@@ -81,45 +75,22 @@ export class AuthService {
 
   async register(userInfo: Partial<User | null>): Promise<AuthResponse | null> {
     try {
-      const response = await axios.post('/register', userInfo);
-      const data = response.data as AuthResponse;
+      const data = await firstValueFrom(this.http.post<AuthResponse>('/register', userInfo));
       this.setLoggedInUser(data.user);
       this.setToken(data.token);
       return data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 400) {
-          this.toast.error({ detail: "ERROR", summary: 'User already exists.', duration: 4000, position: 'bottomRight' });
-        } else {
-          this.toast.error({ detail: "ERROR", summary: 'An unexpected error occurred.', duration: 4000, position: 'bottomRight' });
-        }
-      } else {
-        this.toast.error({ detail: "ERROR", summary: 'Network error or unexpected issue.', duration: 4000, position: 'bottomRight' });
-      }
       return null;
     }
   }
 
   async login(email: string, password: string): Promise<AuthResponse | null> {
     try {
-      const response = await axios.post('/login', { email, password });
-      const data = response.data as AuthResponse;
+      const data = await firstValueFrom(this.http.post<AuthResponse>('/login', { email, password }));
       this.setLoggedInUser(data.user);
       this.setToken(data.token);
-      console.log("token:", data.token);
       return data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 400) {
-          this.toast.error({ detail: "ERROR", summary: 'Invalid credentials.', duration: 4000, position: 'bottomRight' });
-        } else if (error.response?.status === 401) {
-          this.toast.error({ detail: "ERROR", summary: 'Unauthorized. Incorrect password.', duration: 4000, position: 'bottomRight' });
-        } else {
-          this.toast.error({ detail: "ERROR", summary: 'Login failed. Please try again.', duration: 4000, position: 'bottomRight' });
-        }
-      } else {
-        this.toast.error({ detail: "ERROR", summary: 'An unexpected error occurred.', duration: 4000, position: 'bottomRight' });
-      }
       return null;
     }
   }

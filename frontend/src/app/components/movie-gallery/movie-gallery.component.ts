@@ -1,65 +1,75 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import axios from 'axios';
+import { HttpClient } from '@angular/common/http';
 import { Movie } from 'src/app/models/movie';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-movie-gallery',
   templateUrl: './movie-gallery.component.html',
   styleUrls: ['./movie-gallery.component.scss']
 })
-export class MovieGalleryComponent implements OnInit{
+export class MovieGalleryComponent implements OnInit {
 
   constructor(
-    private router: Router
-  ){}
+    private router: Router,
+    private http: HttpClient,
+    private toast: NgToastService
+  ) { }
+
   movies: Movie[] = [];
   moviesInTheathers: Movie[] = [];
   moviesUpcoming: Movie[] = [];
-  activeTab = "In Theathers"; // initial active tab
+  activeTab = "In Theathers";
 
   ngOnInit(): void {
-      this.getMovies();
+    this.getMovies();
   }
-  changeTab(tabName: string){
+
+  changeTab(tabName: string) {
     this.activeTab = tabName;
   }
 
-  getMovies = () => {
-    axios.get('/movies')
-      .then((response) => {
-        this.movies = response.data;
+  getMovies() {
+    this.http.get<Movie[]>('/movies').subscribe({
+      next: (movies) => {
+        this.movies = movies;
         const currentDate = new Date();
-        for(let i = 0; i<this.movies.length; i++){
-          const movieDate = new Date(this.movies[i].date);
-          if(movieDate < currentDate){
-            this.moviesInTheathers.push(this.movies[i]);
+        for (const movie of this.movies) {
+          const movieDate = new Date(movie.date);
+          if (movieDate < currentDate) {
+            this.moviesInTheathers.push(movie);
             this.moviesInTheathers.sort(this.sortMovies).reverse();
           } else {
-            this.moviesUpcoming.push(this.movies[i]);
+            this.moviesUpcoming.push(movie);
           }
         }
-      })
-      .catch(error => {
-        console.error('Error: ', error);
-      })
+      },
+      error: (error) => {
+        console.error('Error fetching movies:', error);
+      }
+    });
   }
 
-  getMovieInfo(movieId: number): void {
-    this.router.navigate(['/movie-details'],
-    { queryParams: { movieId }})
+  async getMovieInfo(movieId: number): Promise<void> {
+    const success = await this.router.navigate(['/movie-details'], { queryParams: { movieId } })
+    if (!success) {
+      this.toast.error({ detail: 'ERROR', summary: 'Failed to navigate to movie info.', duration: 4000 });
+    }
   }
 
-  getShowtimes(movieId: number): void {
-    this.router.navigate(['/showtimes'],
-    { queryParams: { movieId }})
+  async getShowtimes(movieId: number): Promise<void> {
+    const success = await this.router.navigate(['/showtimes'], { queryParams: { movieId } })
+    if (!success) {
+      this.toast.error({ detail: 'ERROR', summary: 'Failed to navigate to showtimes.', duration: 4000 });
+    }
   }
 
-  sortMovies(movie1: Movie, movie2: Movie) {
-    if(movie1.date < movie2.date){
+  sortMovies = (movie1: Movie, movie2: Movie): number => {
+    if (movie1.date < movie2.date) {
       return -1;
     }
-    if(movie1.date > movie2.date){
+    if (movie1.date > movie2.date) {
       return 1;
     }
     return 0;

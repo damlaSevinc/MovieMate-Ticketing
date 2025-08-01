@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
 import { Seat } from 'src/app/models/seat';
@@ -14,7 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
-export class CheckoutComponent implements OnInit{
+export class CheckoutComponent implements OnInit {
 
   movie: Movie | null = null;
   showtime: Showtime | null = null;
@@ -33,69 +33,76 @@ export class CheckoutComponent implements OnInit{
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private toast: NgToastService
-  ){}
+    private toast: NgToastService,
+    private http: HttpClient
+  ) { }
 
   ngOnInit(): void {
-      this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       this.movieId = +params['movieId']
       this.showtimeId = params['showtimeId']
       this.selectedDate = params['selectedDate']
-      this.count = params ['seatCount']
+      this.count = params['seatCount']
       this.assignedSeats = params['selectedSeats'].split(',');
     })
-      this.getMovieDetails();
-      this.getShowtime();
-      this.totalAmount();
-      this.authService.getLoggedInUserOb().subscribe((User) => {
-        this.loggedInUser = User;})
-  }
-
-  backToSeatSelection(){
-    this.router.navigate(['/seat-selection'],
-    {
-      queryParams: {
-      movieId: this.movieId,
-      showtimeId: this.showtimeId,
-      selectedDate: this.selectedDate,
-      selectedSeats: this.assignedSeats
-    }
+    this.getMovieDetails();
+    this.getShowtime();
+    this.totalAmount();
+    this.authService.getLoggedInUserOb().subscribe((User) => {
+      this.loggedInUser = User;
     })
   }
 
-  closeShowtimes(){
+  backToSeatSelection() {
+    this.router.navigate(['/seat-selection'],
+      {
+        queryParams: {
+          movieId: this.movieId,
+          showtimeId: this.showtimeId,
+          selectedDate: this.selectedDate,
+          selectedSeats: this.assignedSeats
+        }
+      })
+  }
+
+  closeShowtimes() {
     this.router.navigate(['/home'])
   }
 
-  getMovieDetails(){
-    axios.get(`/movies/${this.movieId}`)
-      .then(response => {
-        this.movie = response.data;
-      })
-      .catch(error => {
+  getMovieDetails() {
+    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+      next: (movie: Movie) => {
+        this.movie = movie
+      },
+      error: (error) => {
         console.error(error);
-      })
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch movie.', duration: 4000 });
+      }
+    })
   }
 
-  getShowtime(){
-    axios.get(`/movies/${this.movieId}/showtimes/${this.showtimeId}`)
-      .then(response => {
-        this.showtime = response.data
-      })
-      .catch(error =>
-        { console.log(error); })
+  getShowtime() {
+    this.http.get<Showtime>(`/movies/${this.movieId}/showtimes/${this.showtimeId}`).subscribe({
+      next: (showtime: Showtime) => {
+        this.showtime = showtime
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch showtime.', duration: 4000 });
+      }
+    })
   }
 
-  decrementCount(countType: 'adult' | 'child'): void{
-    if(countType === 'adult'){
-      if(this.adultCount == 0){
+  decrementCount(countType: 'adult' | 'child'): void {
+    if (countType === 'adult') {
+      if (this.adultCount == 0) {
         this.totalAmount();
         return;
       }
       this.adultCount--;
       this.totalAmount();
-    } else if (countType === 'child'){
-      if(this.childCount === 0){
+    } else if (countType === 'child') {
+      if (this.childCount === 0) {
         return;
       }
       this.childCount--;
@@ -103,18 +110,18 @@ export class CheckoutComponent implements OnInit{
     }
   }
 
-  incrementCount(countType: 'adult' | 'child'): void{
-    if(countType === 'adult'){
+  incrementCount(countType: 'adult' | 'child'): void {
+    if (countType === 'adult') {
       this.adultCount++;
       this.totalAmount();
-    } else if (countType === 'child'){
+    } else if (countType === 'child') {
       this.childCount++;
       this.totalAmount();
     }
   }
 
   totalAmount(): void {
-    this.sum = this.adultCount*15.99 + this.childCount*11.99
+    this.sum = this.adultCount * 15.99 + this.childCount * 11.99
   }
 
   buyTicket(): void {
@@ -130,14 +137,16 @@ export class CheckoutComponent implements OnInit{
       assignedSeats: this.assignedSeats
     }
     console.log("ticket before buy: ", ticket);
-    axios.post("/tickets", ticket)
-      .then(response =>
-        { console.log("buy ticket successful");
+    this.http.post("/tickets", ticket).subscribe({
+      next: () => {
+        console.log("buy ticket successful");
         this.router.navigate(['/profile/my-tickets']);
-        this.toast.success({detail:"SUCCESS", summary:'You bought the ticket successfully.', duration:4000, position:'bottomRight'})
-      })
-      .catch(error =>
-        { console.error(error); });
-        this.toast.error({detail:"ERROR", summary:'An error occured during payment.', duration:4000, position:'bottomRight'})
+        this.toast.success({ detail: "SUCCESS", summary: 'You bought the ticket successfully.', duration: 4000, position: 'bottomRight' })
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: "ERROR", summary: 'An error occured during payment.', duration: 4000, position: 'bottomRight' })
+      }
+    });
   }
 }

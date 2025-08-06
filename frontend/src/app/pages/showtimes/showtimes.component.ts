@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
 import { Showtime } from 'src/app/models/showtime';
 
@@ -20,7 +21,9 @@ export class ShowtimesComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private http: HttpClient,
+    private toast: NgToastService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params =>
@@ -31,21 +34,23 @@ export class ShowtimesComponent implements OnInit {
   }
 
   getShowtimes() {
-    axios.get(`/movies/${this.movieId}/showtimes`)
-      .then(response => {
-        this.showtimes = response.data
-      })
-      .catch(error => { console.log(error); })
+    this.http.get<Showtime[]>(`/movies/${this.movieId}/showtimes`).subscribe({
+      next: (showtimes: Showtime[]) => this.showtimes = showtimes,
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch showtimes.', duration: 4000 });
+      }
+    })
   }
 
   getMovieDetails() {
-    axios.get(`/movies/${this.movieId}`)
-      .then(response => {
-        this.movie = response.data;
-      })
-      .catch(error => {
+    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+      next: (movie: Movie) => this.movie = movie,
+      error: (error) => {
         console.error(error);
-      })
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch movie.', duration: 4000 });
+      }
+    })
   }
 
   setActiveShowtime(showtimeId: number) {
@@ -66,14 +71,14 @@ export class ShowtimesComponent implements OnInit {
 
   isPastSession(sessionStartTime: string): boolean {
     let fullTime = `${new Date().toDateString()} ${sessionStartTime}`;
-    let sessionTime =new Date(fullTime);
+    let sessionTime = new Date(fullTime);
     let currentTime = new Date();
     return currentTime > sessionTime;
   }
 
   backToMovieDetail() {
     this.router.navigate(['/movie-details'],
-    { queryParams: { movieId: this.movieId }})
+      { queryParams: { movieId: this.movieId } })
   }
 
   closeShowtimes() {

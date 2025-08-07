@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
 
@@ -16,6 +16,7 @@ export class MovieDetailsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private http: HttpClient,
     private toast: NgToastService
   ) { }
 
@@ -23,21 +24,21 @@ export class MovieDetailsComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       const id = Number(params['movieId'] ?? 0);
       this.movieId = isFinite(id) && id > 0 ? id : 0;
-      void this.getMovieDetails();
+      this.getMovieDetails();
     })
   }
 
-  async getMovieDetails() {
-    try {
-      const response = await axios.get(`/movies/${String(this.movieId)}`);
-      this.movie = response.data as Movie;
-    } catch (error) {
-      console.error(error);
-      this.toast.error({detail: 'ERROR', summary: 'Failed to fetch movie details.', duration: 4000});
-    }
+  getMovieDetails() {
+    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
+      next: (movie: Movie) => this.movie = movie,
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch movie details.', duration: 4000 });
+      }
+    })
   }
 
   getShowtimes() {
-    void this.router.navigate(['/showtimes'], { queryParams: { movieId: this.movieId }});
+    void this.router.navigate(['/showtimes'], { queryParams: { movieId: this.movieId } });
   }
 }

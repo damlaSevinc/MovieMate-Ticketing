@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,6 +18,7 @@ export class PasswordChangeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private http: HttpClient,
     private toast: NgToastService
   ) { }
 
@@ -43,21 +44,18 @@ export class PasswordChangeComponent implements OnInit {
     if (!this.checkPasswordMatch()) {
       return;
     }
-    axios.patch(`/users/${this.loggedInUser!.id}/password`, {
-      oldPassword: this.oldPassword,
-      newPassword: this.newPassword
-    })
-      .then(response => {
-        console.log("Password change done");
+
+    this.http.patch<void>(`/users/${this.loggedInUser.id}/password`, { oldPassword: this.oldPassword, newPassword: this.newPassword }).subscribe({
+      next: () => {
         this.toast.success({ detail: "SUCCESS", summary: "You change your password successfully.", duration: 4000, position: 'bottomRight' })
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        if (error.response) {
-          this.toast.warning({ detail: "ERROR", summary: error.response.data, duration: 4000, position: 'bottomRight' });
-        } else {
-          this.toast.error({ detail: "ERROR", summary: "An unexpected error occurred. Please try again.", duration: 4000, position: 'bottomRight' });
+      },
+      error: (error) => {
+        console.error(error);
+        if (error.error) {
+          this.toast.warning({ detail: "ERROR", summary: error.error, duration: 4000, position: 'bottomRight' });
         }
-      });
+        this.toast.error({ detail: "ERROR", summary: "An unexpected error occurred. Please try again.", duration: 4000, position: 'bottomRight' });
+      }
+    })
   }
 }

@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import axios from 'axios';
 import { NgToastService } from 'ng-angular-popup';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -15,30 +15,32 @@ export class PersonalInfoComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private http: HttpClient,
     private toast: NgToastService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.getLoggedInUserOb().subscribe((User) => {
       this.loggedInUser = User;
     });
   }
 
   submitForm() {
+    if (!this.loggedInUser) return;
     const formData = {
-      firstName: this.loggedInUser!.firstName,
-      lastName: this.loggedInUser!.lastName,
-      email: this.loggedInUser!.email
+      firstName: this.loggedInUser.firstName,
+      lastName: this.loggedInUser.lastName,
+      email: this.loggedInUser.email
     }
-    console.log("formdata: ", formData);
-    axios.patch(`/users/${this.loggedInUser!.id}`, formData)
-      .then(response => {
-        this.toast.success({detail:"SUCCESS", summary:'You edited your info successfully.', duration:4000, position:'bottomRight'})
-      })
-      .catch(error => {
-      console.error(error);
-      this.toast.error({detail:"ERROR", summary:'An error occured during edit.', duration:4000, position:'bottomRight'})
-      })
+    this.http.patch<void>(`/users/${this.loggedInUser.id}`, formData).subscribe({
+      next: () => {
+        this.toast.success({ detail: "SUCCESS", summary: 'You edited your info successfully.', duration: 4000, position: 'bottomRight' })
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: "ERROR", summary: 'An error occured during edit.', duration: 4000, position: 'bottomRight' })
+      }
+    })
   }
 
 }

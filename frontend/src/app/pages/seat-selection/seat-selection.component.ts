@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { Movie } from 'src/app/models/movie';
 import { Seat } from 'src/app/models/seat';
 import { Showtime } from 'src/app/models/showtime';
@@ -22,10 +23,13 @@ export class SeatSelectionComponent implements OnInit {
   rows: Row[] = [];
   movie: Movie | null = null;
   showtime: Showtime | null = null;
+  assignedSeats: string[] = [];
 
   constructor(
     private activatedRouter: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private http: HttpClient,
+    private toast: NgToastService
   ) { }
 
   ngOnInit() {
@@ -42,57 +46,60 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getMovieDetails() {
-    axios.get(`/movies/${this.movieId}`)
-      .then(response => {
-        this.movie = response.data;
-      })
-      .catch(error => {
+    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+      next: (movie: Movie) => this.movie = movie,
+      error: (error) => {
         console.error(error);
-      })
+        this.toast.error({ detail: "ERROR", summary: "Failed to fetch movie details.", duration: 4000 });
+      }
+    })
   }
 
-  getShowtime(){
-    axios.get(`/movies/${this.movieId}/showtimes/${this.showtimeId}`)
-      .then(response => {
-        this.showtime = response.data;
+  getShowtime() {
+    this.http.get<Showtime>(`/movies/${this.movieId}/showtimes/${this.showtimeId}`).subscribe({
+      next: (showtime: Showtime) => {
+        this.showtime = showtime;
         this.getAvailableSeats();
-      })
-      .catch(error =>
-        { console.log(error); })
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: "ERROR", summary: "Failed to fetch showtimes.", duration: 4000 });
+      }
+    })
   }
 
-  getAvailableSeats(){
-
+  getAvailableSeats() {
     const selectedShowtimeId: number = this.showtimeId
     const selectedDate: string = this.selectedDate;
-    console.log("selectedShowtime and Date: " + selectedShowtimeId + selectedDate);
-    axios.get(`/seats`, { params: { selectedShowtimeId, selectedDate } })
-      .then(response => {
-        const assignedSeats: string[] = response.data;
-        console.log("assigned seats: " + assignedSeats);
-      })
+    this.http.get<Seat[]>(`/seats`, { params: { selectedShowtimeId, selectedDate } }).subscribe({
+      next: (assignedSeats: string[]) => this.assignedSeats = assignedSeats,
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: "ERROR", summary: "Failed to fetch assigned seats.", duration: 4000 });
+      }
+    })
   }
 
   backToShowtimes() {
     this.router.navigate(['/showtimes'],
-    { queryParams: { movieId: this.movieId }})
+      { queryParams: { movieId: this.movieId } })
   }
 
   closeSeatSelection() {
     this.router.navigate(['/home'])
   }
 
-  initializeSeats(){
+  initializeSeats() {
     const numRows = 5;
     const numSeatsPerRow = 8;
     const rowLetters = 'ABCDEFGHIJK';
 
-    for (let i = 0; i < numRows; i++){
+    for (let i = 0; i < numRows; i++) {
       const rowLetter = rowLetters[i];
       const row: Row = { number: i + 1, seats: [] };
       for (let j = 1; j <= numSeatsPerRow; j++) {
         const seatNumber = rowLetter + j;
-        row.seats.push({ seatNumber: seatNumber, selected: false, available: true})
+        row.seats.push({ seatNumber: seatNumber, selected: false, available: true })
       }
       this.rows.push(row);
     }
@@ -107,7 +114,7 @@ export class SeatSelectionComponent implements OnInit {
     }
   }
 
-  getSelectedSeatCount(): number{
+  getSelectedSeatCount(): number {
     let count = 0;
     for (const row of this.rows) {
       for (const seat of row.seats) {

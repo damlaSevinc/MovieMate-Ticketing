@@ -1,5 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import axios from 'axios';
+import { NgToastService } from 'ng-angular-popup';
 import { Seat } from 'src/app/models/seat';
 import { Ticket } from 'src/app/models/ticket';
 import { User } from 'src/app/models/user';
@@ -16,10 +17,12 @@ export class TicketsComponent implements OnInit {
   userTickets: Ticket[] = [];
   selectedSortingOption: string = 'Newest';
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient,
+    private toast: NgToastService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.getLoggedInUserOb().subscribe((User) => {
       this.loggedInUser = User;
       this.getNewestTickets();
@@ -32,33 +35,43 @@ export class TicketsComponent implements OnInit {
 
   selectSortingOption(option: string): void {
     this.selectedSortingOption = option;
-    if (option == 'Newest'){
+    if (option == 'Newest') {
       this.getNewestTickets();
     } else {
       this.getOldestTickets();
     }
   }
 
-  getNewestTickets(){
-    axios.get(`/users/${this.loggedInUser!.id}/tickets/desc`)
-    .then(response =>
-      this.userTickets = response.data.map((ticket: Ticket) => {
-        ticket.assignedSeats = this.sortSeats(ticket.assignedSeats);
-        return ticket;
-      }))
-    .catch(error =>
-      { console.error(error); })
+  getNewestTickets() {
+    if (!this.loggedInUser) return;
+    this.http.get<Ticket[]>(`/users/${this.loggedInUser.id}/tickets/desc`).subscribe({
+      next: (tickets: Ticket[]) => {
+        this.userTickets = tickets.map(ticket => ({
+          ...ticket,
+          assignedSeats: this.sortSeats(ticket.assignedSeats)
+        }));
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch newest tickets.', duration: 4000 });
+      }
+    })
   }
 
-  getOldestTickets(){
-    axios.get(`/users/${this.loggedInUser!.id}/tickets/asc`)
-    .then(response =>
-      this.userTickets = response.data.map((ticket: Ticket) => {
-        ticket.assignedSeats = this.sortSeats(ticket.assignedSeats);
-        return ticket;
-      }))
-    .catch(error =>
-      { console.error(error); })
+  getOldestTickets() {
+    if (!this.loggedInUser) return;
+    this.http.get<Ticket[]>(`/users/${this.loggedInUser.id}/tickets/asc`).subscribe({
+      next: (tickets: Ticket[]) => {
+        this.userTickets = tickets.map(ticket => ({
+          ...ticket,
+          assignedSeats: this.sortSeats(ticket.assignedSeats)
+        }));
+      },
+      error: (error) => {
+        console.error(error);
+        this.toast.error({ detail: 'ERROR', summary: 'Failed to fetch oldest tickets.', duration: 4000 });
+      }
+    })
   }
 
   sortSeats(seats: Seat[]): Seat[] {

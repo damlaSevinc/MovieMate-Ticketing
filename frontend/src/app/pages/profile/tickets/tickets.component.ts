@@ -15,7 +15,7 @@ export class TicketsComponent implements OnInit {
   @Input() loggedInUser: User | null = null;
 
   userTickets: Ticket[] = [];
-  selectedSortingOption: string = 'Newest';
+  selectedSortingOption = 'Newest';
   constructor(
     private authService: AuthService,
     private http: HttpClient,
@@ -29,11 +29,11 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  toggleExpand(ticket: Ticket): void {
+  toggleExpand(ticket: Ticket) {
     ticket.isExpanded = !ticket.isExpanded;
   }
 
-  selectSortingOption(option: string): void {
+  selectSortingOption(option: string) {
     this.selectedSortingOption = option;
     if (option == 'Newest') {
       this.getNewestTickets();
@@ -44,7 +44,7 @@ export class TicketsComponent implements OnInit {
 
   getNewestTickets() {
     if (!this.loggedInUser) return;
-    this.http.get<Ticket[]>(`/users/${this.loggedInUser.id}/tickets/desc`).subscribe({
+    this.http.get<Ticket[]>(`/users/${String(this.loggedInUser.id)}/tickets/desc`).subscribe({
       next: (tickets: Ticket[]) => {
         this.userTickets = tickets.map(ticket => ({
           ...ticket,
@@ -60,7 +60,7 @@ export class TicketsComponent implements OnInit {
 
   getOldestTickets() {
     if (!this.loggedInUser) return;
-    this.http.get<Ticket[]>(`/users/${this.loggedInUser.id}/tickets/asc`).subscribe({
+    this.http.get<Ticket[]>(`/users/${String(this.loggedInUser.id)}/tickets/asc`).subscribe({
       next: (tickets: Ticket[]) => {
         this.userTickets = tickets.map(ticket => ({
           ...ticket,

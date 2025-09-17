@@ -23,7 +23,7 @@ export class SeatSelectionComponent implements OnInit {
   rows: Row[] = [];
   movie: Movie | null = null;
   showtime: Showtime | null = null;
-  assignedSeats: string[] = [];
+  assignedSeats: Seat[] = [];
 
   constructor(
     private activatedRouter: ActivatedRoute,
@@ -34,9 +34,9 @@ export class SeatSelectionComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRouter.queryParams.subscribe(params => {
-      this.movieId = params['movieId'];
-      this.showtimeId = params['showtimeId'];
-      this.selectedDate = params['selectedDate']
+      this.movieId = Number(params['movieId']);
+      this.showtimeId = Number(params['showtimeId']);
+      this.selectedDate = String(params['selectedDate']);
     }
     );
     this.initializeSeats();
@@ -46,7 +46,7 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
       next: (movie: Movie) => this.movie = movie,
       error: (error) => {
         console.error(error);
@@ -56,7 +56,7 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getShowtime() {
-    this.http.get<Showtime>(`/movies/${this.movieId}/showtimes/${this.showtimeId}`).subscribe({
+    this.http.get<Showtime>(`/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
       next: (showtime: Showtime) => {
         this.showtime = showtime;
         this.getAvailableSeats();
@@ -72,7 +72,7 @@ export class SeatSelectionComponent implements OnInit {
     const selectedShowtimeId: number = this.showtimeId
     const selectedDate: string = this.selectedDate;
     this.http.get<Seat[]>(`/seats`, { params: { selectedShowtimeId, selectedDate } }).subscribe({
-      next: (assignedSeats: string[]) => this.assignedSeats = assignedSeats,
+      next: (assignedSeats: Seat[]) => this.assignedSeats = assignedSeats,
       error: (error) => {
         console.error(error);
         this.toast.error({ detail: "ERROR", summary: "Failed to fetch assigned seats.", duration: 4000 });
@@ -81,12 +81,12 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   backToShowtimes() {
-    this.router.navigate(['/showtimes'],
+    void this.router.navigate(['/showtimes'],
       { queryParams: { movieId: this.movieId } })
   }
 
   closeSeatSelection() {
-    this.router.navigate(['/home'])
+    void this.router.navigate(['/home'])
   }
 
   initializeSeats() {
@@ -98,7 +98,7 @@ export class SeatSelectionComponent implements OnInit {
       const rowLetter = rowLetters[i];
       const row: Row = { number: i + 1, seats: [] };
       for (let j = 1; j <= numSeatsPerRow; j++) {
-        const seatNumber = rowLetter + j;
+        const seatNumber = rowLetter + String(j);
         row.seats.push({ seatNumber: seatNumber, selected: false, available: true })
       }
       this.rows.push(row);
@@ -135,8 +135,7 @@ export class SeatSelectionComponent implements OnInit {
         }
       }
     }
-    const seatCount: number = selectedSeats.length;
-    this.router.navigate(['/checkout'],
+    void this.router.navigate(['/checkout'],
       {
         queryParams: {
           movieId: this.movieId,

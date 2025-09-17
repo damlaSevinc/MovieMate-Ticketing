@@ -28,6 +28,8 @@ export class CheckoutComponent implements OnInit {
   loggedInUser: User | null = null;
   orderDate: Date = new Date();
   assignedSeats: Seat[] = [];
+  adultPrice = 15.99;
+  childPrice = 11.99;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,13 +39,22 @@ export class CheckoutComponent implements OnInit {
     private http: HttpClient
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.movieId = +params['movieId']
-      this.showtimeId = params['showtimeId']
-      this.selectedDate = params['selectedDate']
-      this.count = params['seatCount']
-      this.assignedSeats = params['selectedSeats'].split(',');
+      this.movieId = +params['movieId'];
+      this.showtimeId = Number(params['showtimeId'] ?? 0);
+      this.selectedDate = String(params['selectedDate'] ?? 0);
+      this.count = Number(params['seatCount'] ?? 0);
+      const selectedSeatsParam: unknown = params['selectedSeats'];
+      if (typeof selectedSeatsParam === 'string' && selectedSeatsParam.length > 0) {
+        this.assignedSeats = selectedSeatsParam.split(',').map(seatNumber => ({
+          seatNumber,
+          selected: false,
+          available: true
+        }));
+      } else {
+        this.assignedSeats = [];
+      }
     })
     this.getMovieDetails();
     this.getShowtime();
@@ -54,7 +65,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   backToSeatSelection() {
-    this.router.navigate(['/seat-selection'],
+    void this.router.navigate(['/seat-selection'],
       {
         queryParams: {
           movieId: this.movieId,
@@ -66,11 +77,11 @@ export class CheckoutComponent implements OnInit {
   }
 
   closeShowtimes() {
-    this.router.navigate(['/home'])
+    void this.router.navigate(['/home'])
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
       next: (movie: Movie) => {
         this.movie = movie
       },
@@ -82,7 +93,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getShowtime() {
-    this.http.get<Showtime>(`/movies/${this.movieId}/showtimes/${this.showtimeId}`).subscribe({
+    this.http.get<Showtime>(`/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
       next: (showtime: Showtime) => {
         this.showtime = showtime
       },
@@ -93,7 +104,7 @@ export class CheckoutComponent implements OnInit {
     })
   }
 
-  decrementCount(countType: 'adult' | 'child'): void {
+  decrementCount(countType: 'adult' | 'child') {
     if (countType === 'adult') {
       if (this.adultCount == 0) {
         this.totalAmount();
@@ -101,7 +112,7 @@ export class CheckoutComponent implements OnInit {
       }
       this.adultCount--;
       this.totalAmount();
-    } else if (countType === 'child') {
+    } else {
       if (this.childCount === 0) {
         return;
       }
@@ -110,24 +121,25 @@ export class CheckoutComponent implements OnInit {
     }
   }
 
-  incrementCount(countType: 'adult' | 'child'): void {
+  incrementCount(countType: 'adult' | 'child') {
     if (countType === 'adult') {
       this.adultCount++;
       this.totalAmount();
-    } else if (countType === 'child') {
+    } else {
       this.childCount++;
       this.totalAmount();
     }
   }
 
   totalAmount(): void {
-    this.sum = this.adultCount * 15.99 + this.childCount * 11.99
+    this.sum = this.adultCount * this.adultPrice + this.childCount * this.childPrice;
   }
 
   buyTicket(): void {
+    if(!this.loggedInUser || !this.showtime) return;
     const ticket: Ticket = {
-      user: this.loggedInUser!,
-      showtime: this.showtime!,
+      user: this.loggedInUser,
+      showtime: this.showtime,
       adultCount: this.adultCount,
       childCount: this.childCount,
       paidAmount: this.sum,
@@ -136,15 +148,16 @@ export class CheckoutComponent implements OnInit {
       orderDate: this.orderDate.toISOString(),
       assignedSeats: this.assignedSeats
     }
-    console.log("ticket before buy: ", ticket);
     this.http.post("/tickets", ticket).subscribe({
       next: () => {
         console.log("buy ticket successful");
-        this.router.navigate(['/profile/my-tickets']);
+        void this.router.navigate(['/profile/my-tickets']);
         this.toast.success({ detail: "SUCCESS", summary: 'You bought the ticket successfully.', duration: 4000, position: 'bottomRight' })
       },
-      error: (error) => {
-        console.error(error);
+      error: (error: unknown) => {
+        if (typeof error === 'object' && error != null) {
+          console.error(error);
+        }
         this.toast.error({ detail: "ERROR", summary: 'An error occured during payment.', duration: 4000, position: 'bottomRight' })
       }
     });

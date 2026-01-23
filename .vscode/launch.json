@@ -7,7 +7,8 @@
       "name": "MovieMateApplication",
       "request": "launch",
       "mainClass": "com.moviemate.MovieMateApplication",
-      "projectName": "movie-mate"
+      "projectName": "movie-mate",
+      "cwd": "${workspaceFolder}/backend"
     },
     {
       "name": "Debug Angular (ng serve)",

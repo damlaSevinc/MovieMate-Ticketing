@@ -1,4 +1,5 @@
 {
     "terminal.integrated.defaultProfile.osx": "fish",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "java.autobuild.enabled": false
 }

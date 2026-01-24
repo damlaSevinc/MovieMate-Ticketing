@@ -15,6 +15,9 @@
 	<description>MovieMateTicketing</description>
 	<properties>
 		<java.version>17</java.version>
+		<org.mapstruct.version>1.6.3</org.mapstruct.version>
+		<org.projectlombok.version>1.18.32</org.projectlombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,11 +57,13 @@
     	<dependency>
         	<groupId>org.mapstruct</groupId>
         	<artifactId>mapstruct</artifactId>
-        	<version>1.6.3</version>
+        	<version>${org.mapstruct.version}</version>
     	</dependency>
     	<dependency>
         	<groupId>org.projectlombok</groupId>
         	<artifactId>lombok</artifactId>
+        	<version>${org.projectlombok.version}</version>
+        	<scope>provided</scope>
     	</dependency>
 		<dependency>
 		    <groupId>com.auth0</groupId>
@@ -74,17 +79,6 @@
 	        <groupId>jakarta.validation</groupId>
 	        <artifactId>jakarta.validation-api</artifactId>
 	    </dependency>
-		<dependency>
-    		<groupId>org.mapstruct</groupId>
-    		<artifactId>mapstruct-processor</artifactId>
-    		<version>1.6.3</version>
-    		<scope>provided</scope>
-		</dependency>
-		<dependency>
-    		<groupId>org.projectlombok</groupId>
-    		<artifactId>lombok-mapstruct-binding</artifactId>
-    		<version>0.2.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -102,22 +96,26 @@
     			<artifactId>maven-compiler-plugin</artifactId>
     			<configuration>
         			<annotationProcessorPaths>
-            			<path>
-                			<groupId>org.mapstruct</groupId>
-                			<artifactId>mapstruct-processor</artifactId>
-			                <version>1.6.3</version>
-            			</path>
+        				<!-- IMPORTANT: Lombok MUST come before MapStruct -->
 			            <path>
                 			<groupId>org.projectlombok</groupId>
                 			<artifactId>lombok</artifactId>
-            			    <version>1.18.32</version>
+            			    <version>${org.projectlombok.version}</version>
             			</path>
 					    <path>
                 			<groupId>org.projectlombok</groupId>
                 			<artifactId>lombok-mapstruct-binding</artifactId>
-                			<version>0.2.0</version>
+                			<version>${lombok-mapstruct-binding.version}</version>
+            			</path>
+            			<path>
+                			<groupId>org.mapstruct</groupId>
+                			<artifactId>mapstruct-processor</artifactId>
+			                <version>${org.mapstruct.version}</version>
             			</path>
         			</annotationProcessorPaths>
+        			<compilerArgs>
+        				<arg>-Amapstruct.defaultComponentModel=spring</arg>
+        			</compilerArgs>
     			</configuration>
 			</plugin>
 		</plugins>

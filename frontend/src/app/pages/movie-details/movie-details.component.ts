@@ -29,7 +29,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
+    this.http.get<Movie>(`/api/movies/${String(this.movieId)}`).subscribe({
       next: (movie: Movie) => this.movie = movie,
       error: (error) => {
         console.error(error);

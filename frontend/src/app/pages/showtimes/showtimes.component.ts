@@ -34,7 +34,7 @@ export class ShowtimesComponent implements OnInit {
   }
 
   getShowtimes() {
-    this.http.get<Showtime[]>(`/movies/${this.movieId}/showtimes`).subscribe({
+    this.http.get<Showtime[]>(`/api/movies/${this.movieId}/showtimes`).subscribe({
       next: (showtimes: Showtime[]) => this.showtimes = showtimes,
       error: (error) => {
         console.error(error);
@@ -44,7 +44,7 @@ export class ShowtimesComponent implements OnInit {
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${this.movieId}`).subscribe({
+    this.http.get<Movie>(`/api/movies/${this.movieId}`).subscribe({
       next: (movie: Movie) => this.movie = movie,
       error: (error) => {
         console.error(error);

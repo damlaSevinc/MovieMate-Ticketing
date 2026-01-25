@@ -45,7 +45,7 @@ export class PasswordChangeComponent implements OnInit {
       return;
     }
 
-    this.http.patch<void>(`/users/${this.loggedInUser.id}/password`, { oldPassword: this.oldPassword, newPassword: this.newPassword }).subscribe({
+    this.http.patch<void>(`/api/users/${this.loggedInUser.id}/password`, { oldPassword: this.oldPassword, newPassword: this.newPassword }).subscribe({
       next: () => {
         this.toast.success({ detail: "SUCCESS", summary: "You change your password successfully.", duration: 4000, position: 'bottomRight' })
       },

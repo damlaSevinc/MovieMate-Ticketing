@@ -74,7 +74,7 @@ public class UserControllerWebTest {
 
                 when(userService.register(any(SignUpDto.class))).thenReturn(authResponse);
 
-                mockMvc.perform(post("/register")
+                mockMvc.perform(post("/api/register")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(signUpDto)))
                                 .andExpect(status().isCreated())
@@ -94,7 +94,7 @@ public class UserControllerWebTest {
 
                 when(userService.login(any(LoginCredentialsDto.class))).thenReturn(authResponse);
 
-                mockMvc.perform(post("/login")
+                mockMvc.perform(post("/api/login")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(loginCredentialsDto)))
                                 .andDo(result -> {
@@ -113,7 +113,7 @@ public class UserControllerWebTest {
 
                 when(userService.getUserById(userId)).thenReturn(userDto);
 
-                mockMvc.perform(get("/users/{id}", userId))
+                mockMvc.perform(get("/api/users/{id}", userId))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.id").value(userDto.getId()));
         }
@@ -127,7 +127,7 @@ public class UserControllerWebTest {
 
                 when(userService.updateUser(eq(userId), any(UserUpdateRequestDto.class))).thenReturn(updatedUser);
 
-                mockMvc.perform(patch("/users/{id}", userId)
+                mockMvc.perform(patch("/api/users/{id}", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(updateRequest)))
                                 .andExpect(status().isOk())
@@ -143,7 +143,7 @@ public class UserControllerWebTest {
                 when(userService.updateUser(eq(userId), any(UserUpdateRequestDto.class)))
                                 .thenThrow(new AppException("User not found", HttpStatus.BAD_REQUEST));
 
-                mockMvc.perform(patch("/users/{id}", userId)
+                mockMvc.perform(patch("/api/users/{id}", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(updateRequest)))
                                 .andExpect(status().isBadRequest())
@@ -162,7 +162,7 @@ public class UserControllerWebTest {
                 when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
                 when(passwordEncoder.matches("correctOldPassword", existingUser.getPassword())).thenReturn(true);
 
-                mockMvc.perform(patch("/users/{id}/password", userId)
+                mockMvc.perform(patch("/api/users/{id}/password", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(passwordChangeDto)))
                                 .andExpect(status().isOk())
@@ -177,7 +177,7 @@ public class UserControllerWebTest {
                 doThrow(new AppException("User not found", HttpStatus.BAD_REQUEST))
                                 .when(userService).changePassword(eq(userId), any(PasswordChangeDto.class));
 
-                mockMvc.perform(patch("/users/{id}/password", userId)
+                mockMvc.perform(patch("/api/users/{id}/password", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(passwordChangeDto)))
                                 .andExpect(status().isBadRequest())
@@ -194,7 +194,7 @@ public class UserControllerWebTest {
                 doThrow(new AppException("Old password is incorrect", HttpStatus.UNAUTHORIZED))
                                 .when(userService).changePassword(eq(userId), any(PasswordChangeDto.class));
 
-                mockMvc.perform(patch("/users/{id}/password", userId)
+                mockMvc.perform(patch("/api/users/{id}/password", userId)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(passwordChangeDto)))
                                 .andExpect(status().isUnauthorized())

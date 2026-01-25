@@ -81,7 +81,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
+    this.http.get<Movie>(`/api/movies/${String(this.movieId)}`).subscribe({
       next: (movie: Movie) => {
         this.movie = movie
       },
@@ -93,7 +93,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   getShowtime() {
-    this.http.get<Showtime>(`/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
+    this.http.get<Showtime>(`/api/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
       next: (showtime: Showtime) => {
         this.showtime = showtime
       },
@@ -148,7 +148,7 @@ export class CheckoutComponent implements OnInit {
       orderDate: this.orderDate.toISOString(),
       assignedSeats: this.assignedSeats
     }
-    this.http.post("/tickets", ticket).subscribe({
+    this.http.post("/api/tickets", ticket).subscribe({
       next: () => {
         console.log("buy ticket successful");
         void this.router.navigate(['/profile/my-tickets']);

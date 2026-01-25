@@ -34,7 +34,7 @@ public class MovieControllerWebTest {
     public void moviesShouldReturnAllMovies() throws Exception {
         List<Movie> movies = Arrays.asList(new Movie(), new Movie());
         when(movieService.getAllMovies()).thenReturn(movies);
-        mockMvc.perform(get("/movies")
+        mockMvc.perform(get("/api/movies")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
@@ -45,7 +45,7 @@ public class MovieControllerWebTest {
         Movie movie = new Movie();
         movie.setId(2L);
         when(movieService.getMovieDetailsById(movie.getId())).thenReturn(movie);
-        mockMvc.perform(get("/movies/{id}", movie.getId())
+        mockMvc.perform(get("/api/movies/{id}", movie.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(movie.getId()));

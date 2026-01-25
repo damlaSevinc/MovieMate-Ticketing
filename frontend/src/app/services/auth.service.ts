@@ -55,7 +55,7 @@ export class AuthService {
       try {
         const decodedToken = jwtDecode(token);
         if (typeof decodedToken !== 'object' || !('sub' in decodedToken)) return null;
-        const user = await firstValueFrom(this.http.get<User>(`/users/${(decodedToken).sub}`));
+        const user = await firstValueFrom(this.http.get<User>(`/api/users/${(decodedToken).sub}`));
         this.loggedInUser = user;
         this.loggedInUserSubject.next(this.loggedInUser);
       } catch (error) {
@@ -75,7 +75,7 @@ export class AuthService {
 
   async register(userInfo: Partial<User | null>): Promise<AuthResponse | null> {
     try {
-      const data = await firstValueFrom(this.http.post<AuthResponse>('/register', userInfo));
+      const data = await firstValueFrom(this.http.post<AuthResponse>('/api/register', userInfo));
       this.setLoggedInUser(data.user);
       this.setToken(data.token);
       return data;
@@ -86,7 +86,7 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<AuthResponse | null> {
     try {
-      const data = await firstValueFrom(this.http.post<AuthResponse>('/login', { email, password }));
+      const data = await firstValueFrom(this.http.post<AuthResponse>('/api/login', { email, password }));
       this.setLoggedInUser(data.user);
       this.setToken(data.token);
       return data;

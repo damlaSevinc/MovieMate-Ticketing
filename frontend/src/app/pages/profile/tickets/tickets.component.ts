@@ -44,7 +44,7 @@ export class TicketsComponent implements OnInit {
 
   getNewestTickets() {
     if (!this.loggedInUser) return;
-    this.http.get<Ticket[]>(`/users/${String(this.loggedInUser.id)}/tickets/desc`).subscribe({
+    this.http.get<Ticket[]>(`/api/users/${String(this.loggedInUser.id)}/tickets/desc`).subscribe({
       next: (tickets: Ticket[]) => {
         this.userTickets = tickets.map(ticket => ({
           ...ticket,
@@ -60,7 +60,7 @@ export class TicketsComponent implements OnInit {
 
   getOldestTickets() {
     if (!this.loggedInUser) return;
-    this.http.get<Ticket[]>(`/users/${String(this.loggedInUser.id)}/tickets/asc`).subscribe({
+    this.http.get<Ticket[]>(`/api/users/${String(this.loggedInUser.id)}/tickets/asc`).subscribe({
       next: (tickets: Ticket[]) => {
         this.userTickets = tickets.map(ticket => ({
           ...ticket,

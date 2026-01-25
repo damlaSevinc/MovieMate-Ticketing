@@ -46,7 +46,7 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getMovieDetails() {
-    this.http.get<Movie>(`/movies/${String(this.movieId)}`).subscribe({
+    this.http.get<Movie>(`/api/movies/${String(this.movieId)}`).subscribe({
       next: (movie: Movie) => this.movie = movie,
       error: (error) => {
         console.error(error);
@@ -56,7 +56,7 @@ export class SeatSelectionComponent implements OnInit {
   }
 
   getShowtime() {
-    this.http.get<Showtime>(`/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
+    this.http.get<Showtime>(`/api/movies/${String(this.movieId)}/showtimes/${String(this.showtimeId)}`).subscribe({
       next: (showtime: Showtime) => {
         this.showtime = showtime;
         this.getAvailableSeats();
@@ -71,7 +71,7 @@ export class SeatSelectionComponent implements OnInit {
   getAvailableSeats() {
     const selectedShowtimeId: number = this.showtimeId
     const selectedDate: string = this.selectedDate;
-    this.http.get<Seat[]>(`/seats`, { params: { selectedShowtimeId, selectedDate } }).subscribe({
+    this.http.get<Seat[]>(`/api/seats`, { params: { selectedShowtimeId, selectedDate } }).subscribe({
       next: (assignedSeats: Seat[]) => this.assignedSeats = assignedSeats,
       error: (error) => {
         console.error(error);

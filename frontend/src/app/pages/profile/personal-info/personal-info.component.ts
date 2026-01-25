@@ -32,7 +32,7 @@ export class PersonalInfoComponent implements OnInit {
       lastName: this.loggedInUser.lastName,
       email: this.loggedInUser.email
     }
-    this.http.patch<void>(`/users/${this.loggedInUser.id}`, formData).subscribe({
+    this.http.patch<void>(`/api/users/${this.loggedInUser.id}`, formData).subscribe({
       next: () => {
         this.toast.success({ detail: "SUCCESS", summary: 'You edited your info successfully.', duration: 4000, position: 'bottomRight' })
       },

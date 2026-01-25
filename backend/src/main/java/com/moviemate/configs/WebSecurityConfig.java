@@ -25,11 +25,11 @@ public class WebSecurityConfig {
             })
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((request) -> request
-                .requestMatchers(HttpMethod.POST, "/login", "/register", "/tickets").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/**", "/tickets/**", "/seats" ).permitAll()
-                .requestMatchers(HttpMethod.GET, "/movies", "/movies/*", "/movies/**").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/users/**").permitAll()
-                .requestMatchers(HttpMethod.PATCH, "/users/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/login", "/api/register", "/api/tickets").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/**", "/api/tickets/**", "/api/seats" ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/movies", "/api/movies/*", "/api/movies/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/users/**").permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/api/users/**").permitAll()
                 .anyRequest().authenticated());
             return http.build();
     }

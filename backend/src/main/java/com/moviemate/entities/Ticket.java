@@ -16,10 +16,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "tickets")
+@EqualsAndHashCode(of = "id")
 public class Ticket {
 
     @Id

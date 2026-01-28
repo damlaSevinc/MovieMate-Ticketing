@@ -7,10 +7,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name="showtimes")
+@EqualsAndHashCode(of = "id")
 public class Showtime {
 
     @Id

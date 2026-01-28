@@ -14,10 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
 @Table(name = "seats")
+@EqualsAndHashCode(of = "id")
 public class Seat implements Serializable {
 
     @Id

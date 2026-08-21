@@ -2,6 +2,9 @@
 
 Welcome to the Fullstack MovieMate Ticketing Project! This guide will help you set up and run the project on your local machine.
 
+> 🚧 No live demo at the moment. AWS free tier expired, migrating to
+> Oracle Cloud. Fully functional locally (see setup instructions / GIFs).
+
 ## Table of Contents
 
 - [Functionalities](#functionalities)
